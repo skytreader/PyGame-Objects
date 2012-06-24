@@ -32,46 +32,42 @@ class GameLoop:
 	
 	def __init__(self, loop_events, game_configurations):
 		self.__loop_events = loop_events
-		self.__pygame_object = self.__loop_events.get_pygame_object()
 		self.__clock_rate = game_configurations.clock_rate
 		self.__window_size = game_configurations.window_size
 		self.__window_title = game_configurations.window_title
 	
 	def go(self):
-		self.__pygame_object.init()
+		pygame.init()
 		window = self.__loop_events.invoke_window(self.__window_size)
 		window.fill(WHITE)
-		self.__pygame_object.display.set_caption(self.__window_title)
-		clock = self.__pygame_object.time.Clock()
+		pygame.display.set_caption(self.__window_title)
+		clock = pygame.time.Clock()
 		loop_control = True
 		
 		while loop_control and self.__loop_events.loop_invariant():
 			clock.tick(self.__clock_rate)
-			for event in self.__pygame_object.event.get():
-				if event.type == self.__pygame_object.QUIT:
+			for event in pygame.event.get():
+				if event.type == pygame.QUIT:
 					loop_control = False
 			
 			self.__loop_events.loop_event()
-			self.__pygame_object.display.flip()
+			pygame.display.flip()
 		
-		self.__pygame_object.quit()
+		pygame.quit()
 	
 class GameLoopEvents(object):
 	"""
 	Encapsulates the stuff that happens inside a game loop.
 	"""
 	
-	def __init__(self, pygame_object):
-		self.__pygame_object = pygame_object
+	def __init__(self):
+		pass
 	
 	def loop_invariant(self):
 		"""
 		Condition to check that keeps the game loop going.
 		"""
 		pass
-	
-	def get_pygame_object(self):
-		return self.__pygame_object
 	
 	def invoke_window(self, window_size):
 		"""

@@ -7,12 +7,15 @@ import gameloop
 import pygame
 import random
 
+"""
+A simple demo of using the framework that randomly draws
+gray circles on a white canvas.
+"""
+
 class GrayCircle(GameLoopEvents):
 	
 	def __init__(self):
-		pygame_obj = pygame
-		super(GrayCircle, self).__init__(pygame_obj)
-		self.__pygame_object = pygame_obj
+		super(GrayCircle, self).__init__()
 		self.__limit = 100
 		self.__count = 0
 	
@@ -20,13 +23,13 @@ class GrayCircle(GameLoopEvents):
 		return self.__count < self.__limit
 	
 	def invoke_window(self, window_size):
-		self.__window = self.__pygame_object.display.set_mode(window_size)
+		self.__window = pygame.display.set_mode(window_size)
 		return self.__window
 	
 	def loop_event(self):
 		x = random.randint(0, 500)
 		y = random.randint(0, 500)
-		self.__pygame_object.draw.circle(self.__window, [218, 218, 218], [x, y], 50, 2)
+		pygame.draw.circle(self.__window, [218, 218, 218], [x, y], 50, 2)
 		self.__count += 1
 
 gc_object = GrayCircle()
