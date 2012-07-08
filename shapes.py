@@ -1,6 +1,11 @@
 #! usr/bin/python2
 
-class PointShape:
+from gameloop import Colors
+from drawable import Drawable
+
+import pygame
+
+class PointShape(Drawable):
 	"""
 	Defines closed figures as a collection of Points. It is
 	possible to define a circle using this class though it
@@ -11,38 +16,76 @@ class PointShape:
 	connected to the first point.
 	"""
 	
-	def __init__(self):
-		self.__point_list = []
+	def __init__(self, point_list = [], color = Colors.BLACK):
+		"""
+		Create a PointShape with no points.
+		"""
+		self.__point_list = point_list
+		self.__color = color
 	
 	def add_point(self, p):
-		self.__point_list.append(p)
+		"""
+		Add a point to the point list. This will change how this
+		PointShape is drawn.
+		"""
+		self.point_list.append(p)
 	
 	def translate(self, dx, dy):
-		incr_xs = map(lambda p: Point(p.get_x() + dx, p.get_y()), self.__point_list)
-		incr_ys = map(lambda p: Point(p.get_x(), p.get_y() + dy), incr_xs)
-		self.__point_list = incr_ys
+		"""
+		Translates this PointShape by dx pixels on the x axis and by
+		dy pixels on the y axis.
+		"""
+		incr_xs = map(lambda p: Point(p.x + dx, p.y), self.point_list)
+		incr_ys = map(lambda p: Point(p.x, p.y + dy), incr_xs)
+		self.point_list = incr_ys
 	
-	def get_point_list(self):
+	@property
+	def point_list(self):
 		return self.__point_list
 	
-	def set_point_list(self, point_list):
+	@point_list.setter
+	def point_list(self, point_list):
+		"""
+		TODO: Is this a good idea? The whole PointShape may change?
+		"""
 		self.__point_list = point_list
+	
+	def draw(self, screen):
+		"""
+		Shapes with only one point is not a shape and so is
+		not drawn.
 		
+		Shapes with no point do not exist and so are not drawn.
+		"""
+		limit = len(self.point_list) - 1
+		i = 0
+		
+		while i < limit:
+			point0 = self.point_list[i]
+			point1 = self.point_list[i + 1]
+			
+			pygame.draw.line(screen, self.__color, point0.get_list(), point1.get_list())
+			
+			i += 1
+		
+		if limit > 0:
+			# Since we end at limit - 1, limit should now hold the index
+			# to the last point in the point list
+			pygame.draw.line(screen, self.__color, self.point_list[limit], self.point_list[0])
+	
 	def __eq__(self, other_shape):
 		"""
 		Two PointShapes are equal if and only if their point_lists
 		are exactly the same.
 		"""
 		i = 0
-		limit = len(other_shape.__point_list)
+		limit = len(other_shape.point_list)
 		
-		if limit != len(self.__point_list):
+		if limit != len(self.point_list):
 			return False
 		
 		while i < limit:
-			if not self.__point_list[i].__eq__(other_shape.__point_list[i]):
-				print str(self.__point_list[i])
-				print str(other_shape.__point_list[i])
+			if not self.point_list[i].__eq__(other_shape.point_list[i]):
 				return False
 			
 			i += 1
@@ -52,7 +95,7 @@ class PointShape:
 	def __str__(self):
 		stringed = "PointShape: ["
 		
-		for point in self.__point_list:
+		for point in self.point_list:
 			stringed += " " + str(point)
 		
 		return stringed + " ]"
@@ -67,11 +110,16 @@ class Point:
 		self.__x = x
 		self.__y = y
 	
-	def get_x(self):
+	@property
+	def x(self):
 		return self.__x
 	
-	def get_y(self):
+	@property
+	def y(self):
 		return self.__y
+	
+	def get_list(self):
+		return [self.__x, self.__y]
 	
 	def __eq__(self, other_point):
 		return self.__x == other_point.__x and self.__y == other_point.__y
