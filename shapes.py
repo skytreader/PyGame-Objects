@@ -16,11 +16,14 @@ class PointShape(Drawable):
 	connected to the first point.
 	"""
 	
-	def __init__(self, point_list = [], color = Colors.BLACK):
+	def __init__(self, point_list = None, color = Colors.BLACK):
 		"""
 		Create a PointShape with no points.
 		"""
-		self.__point_list = point_list
+		if point_list is None:
+			self.__point_list = []
+		else:
+			self.__point_list = point_list
 		self.__color = color
 	
 	def add_point(self, p):
@@ -119,10 +122,10 @@ class Point:
 		return self.__y
 	
 	def get_list(self):
-		return [self.__x, self.__y]
+		return [self.x, self.y]
 	
 	def __eq__(self, other_point):
-		return self.__x == other_point.__x and self.__y == other_point.__y
+		return self.x == other_point.x and self.y == other_point.y
 	
 	def __str__(self):
-		return "(" + str(self.__x) + ", " + str(self.__y) + ")"
+		return "(" + str(self.x) + ", " + str(self.y) + ")"
