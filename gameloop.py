@@ -67,7 +67,7 @@ class GameLoop:
 		"""
 		pygame.init()
 		window = self.__loop_events.invoke_window(self.__window_size)
-		window.fill(WHITE)
+		window.fill(Colors.WHITE)
 		pygame.display.set_caption(self.__window_title)
 		clock = pygame.time.Clock()
 		loop_control = True
@@ -85,8 +85,7 @@ class GameLoop:
 	
 class GameLoopEvents(object):
 	"""
-	Encapsulates the stuff that happens inside a game loop. Override
-	_every_ method in this class.
+	Encapsulates the stuff that happens inside a game loop.
 	"""
 	
 	def __init__(self):
@@ -95,15 +94,29 @@ class GameLoopEvents(object):
 	def loop_invariant(self):
 		"""
 		Condition to check that keeps the game loop going.
+		
+		By default this returns True.
 		"""
-		pass
+		return True
 	
 	def invoke_window(self, window_size):
 		"""
 		Create a PyGame window and return it so that the GameLoop
 		can access it too.
+		
+		The basic code for creating and returning a window is already
+		written. Override this only when you need extra set-up. Extensions
+		of this class can access the created window via the accessor, window.
 		"""
-		pass
+		self.__window = pygame.display.set_mode(window_size)
+		return self.__window
+	
+	@property
+	def window(self):
+		"""
+		RED ALERT! Call this only after calling invoke_window
+		"""
+		return self.__window
 	
 	def loop_event(self):
 		"""

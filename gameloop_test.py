@@ -22,14 +22,10 @@ class GrayCircle(GameLoopEvents):
 	def loop_invariant(self):
 		return self.__count < self.__limit
 	
-	def invoke_window(self, window_size):
-		self.__window = pygame.display.set_mode(window_size)
-		return self.__window
-	
 	def loop_event(self):
 		x = random.randint(0, 500)
 		y = random.randint(0, 500)
-		pygame.draw.circle(self.__window, [218, 218, 218], [x, y], 50, 2)
+		pygame.draw.circle(self.window, [218, 218, 218], [x, y], 50, 2)
 		self.__count += 1
 
 gc_object = GrayCircle()

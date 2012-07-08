@@ -13,6 +13,3 @@ class RectangleShape(GameLoopEvents):
 	
 	def loop_invariant(self):
 		return True
-	
-	def invoke_window(self, window):
-		
