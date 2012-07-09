@@ -7,8 +7,8 @@ Classes in core encapsulate what happens in a game loop.
 
 Usage
   (1) Configure your program by creating a GameConfig instance.
-  (2) Extend GameLoopEvents. Note that you need to override _every_
-      method of that class.
+  (2) Extend GameLoopEvents. Note what methods you need to override
+      from that class.
   (3) Create a GameLoop object by passing a GameConfig instance and
       an instance of your GameLoopEvents object. Call go() .
   (4) Have fun!

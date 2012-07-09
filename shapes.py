@@ -5,6 +5,21 @@ from drawable import Drawable
 
 import pygame
 
+"""
+Encapsulates closed-figure objects you can draw on screen.
+
+Sample Usage (see also: drawing_shapes_test.py):
+  (1) Extend GameLoopEvents (core.py). Create an instance
+      of PointShape. Note that the shape is defined by the
+      Points you put in this object.
+  (2) In the loop_event of your GameLoopEvents extension, call
+      the draw method of your PointShape object.
+      
+      (Note that a GameLoopEvent object can pass self.window for
+      the screen argument to draw.)
+  (3) Have fun!
+"""
+
 class PointShape(Drawable):
 	"""
 	Defines closed figures as a collection of Points. It is
@@ -59,6 +74,9 @@ class PointShape(Drawable):
 		not drawn.
 		
 		Shapes with no point do not exist and so are not drawn.
+		
+		@param screen
+			The window to which we draw this PointShape.
 		"""
 		limit = len(self.point_list) - 1
 		i = 0
@@ -74,7 +92,7 @@ class PointShape(Drawable):
 		if limit > 0:
 			# Since we end at limit - 1, limit should now hold the index
 			# to the last point in the point list
-			pygame.draw.line(screen, self.__color, self.point_list[limit], self.point_list[0])
+			pygame.draw.line(screen, self.__color, self.point_list[limit].get_list(), self.point_list[0].get_list())
 	
 	def __eq__(self, other_shape):
 		"""
