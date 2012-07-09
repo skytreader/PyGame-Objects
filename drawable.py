@@ -1,6 +1,6 @@
 #! usr/bin/python2
 
-class Drawable:
+class Drawable(object):
 	"""
 	All classes that represent something that can be
 	drawn on a PyGame screen canvas should extend this

@@ -1,8 +1,8 @@
 #! usr/bin/python2
 
-from gameloop import GameLoopEvents
-from gameloop import GameLoop
-from gameloop import GameConfig
+from core import GameLoopEvents
+from core import GameLoop
+from core import GameConfig
 import gameloop
 import pygame
 import random

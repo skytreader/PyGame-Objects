@@ -1,6 +1,6 @@
 #! usr/bin/python2
 
-from gameloop import Colors
+from core import Colors
 from drawable import Drawable
 
 import pygame

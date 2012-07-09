@@ -3,7 +3,7 @@
 import pygame
 
 """
-This encapsulates what happens in a game loop.
+Classes in core encapsulate what happens in a game loop.
 
 Usage
   (1) Configure your program by creating a GameConfig instance.
