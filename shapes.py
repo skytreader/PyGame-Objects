@@ -35,6 +35,10 @@ class PointShape(Drawable):
 		"""
 		Create a PointShape with no points.
 		"""
+		#Wonder what will happen if I call the super constructor
+		#being that the super class got no constructor?
+		super(PointShape, self).__init__()
+		
 		if point_list is None:
 			self.__point_list = []
 		else:
@@ -120,7 +124,53 @@ class PointShape(Drawable):
 			stringed += " " + str(point)
 		
 		return stringed + " ]"
+
+class CollisionBox(Collidable):
+	"""
+	A CollisionBox defines an area for collision for PointShapes.
+	CollisionBoxes implement naive collision detection [VALDEZ, PyCon
+	Ph 2012]
 	
+	A CollisionBox is defined by its upper left and lower right points.
+	"""
+	
+	def __init__(self, upper_left = None, lower_right = None):
+		super(CollisionBox, self).__init__()
+		self.__upper_left = upper_left
+		self.__lower_right = lower_right
+	
+	@property
+	def upper_left(self):
+		return self.__upper_left
+	
+	@property
+	def lower_right(self):
+		return self.__lower_right
+	
+	@upper_left.setter
+	def upper_left(self, point):
+		self.__upper_left = point
+	
+	@lower_right.setter
+	def lower_right(self, point):
+		self.__lower_right = point
+	
+	@property
+	def width(self):
+		return self.lower_right.x - self.upper_left.x
+	
+	@property
+	def height(self):
+		return self.lower_right.y - self.upper_left.y
+	
+	def has_collided(another_box):
+		"""
+		TODO
+		"""
+		return self.upper_left.x + self.width > another_box.upper_left.x and \
+			self.upper_left.x < another_box.upper_left.x + another_box.width and \
+			self.upper_left.y + self.height > another_box.y and \
+			self.upper_left.y < another_box.upper_left.y + another_box.height
 	
 class Point:
 	"""
