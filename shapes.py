@@ -162,7 +162,7 @@ class CollisionBox(Collidable):
 	
 	@property
 	def height(self):
-		return self.lower_right.y - self.upper_left.y
+		return self.upper_left.y - self.lower_right.y
 	
 	def has_collided(self, another_box):
 		"""
