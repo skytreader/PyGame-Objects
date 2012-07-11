@@ -2,6 +2,7 @@
 
 from core import Colors
 from drawable import Drawable
+from collidable import Collidable
 
 import pygame
 
@@ -163,13 +164,13 @@ class CollisionBox(Collidable):
 	def height(self):
 		return self.lower_right.y - self.upper_left.y
 	
-	def has_collided(another_box):
+	def has_collided(self, another_box):
 		"""
 		TODO
 		"""
 		return self.upper_left.x + self.width > another_box.upper_left.x and \
 			self.upper_left.x < another_box.upper_left.x + another_box.width and \
-			self.upper_left.y + self.height > another_box.y and \
+			self.upper_left.y + self.height > another_box.upper_left.y and \
 			self.upper_left.y < another_box.upper_left.y + another_box.height
 	
 class Point:

@@ -2,6 +2,7 @@
 
 from shapes import PointShape
 from shapes import Point
+from shapes import CollisionBox
 import unittest
 
 class shapes_tests(unittest.TestCase):
@@ -30,6 +31,24 @@ class shapes_tests(unittest.TestCase):
 		lazy_pointshape.point_list = pl
 		self.assertTrue(pl == lazy_pointshape.point_list)
 
+class collisionbox_tests(unittest.TestCase):
+	
+	def setUp(self):
+		pass
+	
+	def test_has_collided(self):
+		mario = CollisionBox(Point(0, 50), Point(10, 0))
+		bowser = CollisionBox(Point(100, 40), Point(150, 0))
+		self.assertTrue(not mario.has_collided(bowser))
+		self.assertTrue(not bowser.has_collided(mario))
+		
+		bowser_colliding = CollisionBox(Point(9, 40), Point(141, 0))
+		self.assertTrue(mario.has_collided(bowser_colliding))
+		self.assertTrue(bowser_colliding.has_collided(mario))
+
 if __name__ == "__main__":
 	tests = unittest.TestLoader().loadTestsFromTestCase(shapes_tests)
+	unittest.TextTestRunner(verbosity=2).run(tests)
+	
+	tests = unittest.TestLoader().loadTestsFromTestCase(collisionbox_tests)
 	unittest.TextTestRunner(verbosity=2).run(tests)

@@ -1,6 +1,6 @@
 #! usr/bin/python2
 
-class Collidable:
+class Collidable(object):
 	"""
 	Represents a game object that can collide with
 	other game objects.
