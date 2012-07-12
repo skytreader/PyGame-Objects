@@ -1,4 +1,4 @@
-#! usr/bin/python2
+#! usr/bin/env python
 
 from core import Colors
 from drawable import Drawable
