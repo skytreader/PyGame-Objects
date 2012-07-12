@@ -40,18 +40,62 @@ class PointShape(Drawable):
 		#being that the super class got no constructor?
 		super(PointShape, self).__init__()
 		
-		if point_list is None:
+		# This box does not exist anywhere in the visible screen
+		self.__collision_box = CollisionBox(Point(-1,-1), Point(-1,-1))
+		
+		if point_list is None or point_list == []:
 			self.__point_list = []
 		else:
 			self.__point_list = point_list
+			self.__set_box()
+			
 		self.__color = color
 	
 	def add_point(self, p):
 		"""
 		Add a point to the point list. This will change how this
-		PointShape is drawn.
+		PointShape is drawn. Also adjusts collision_box when necessary.
 		"""
 		self.point_list.append(p)
+		
+		max_x = self.collision_box.lower_right.x
+		max_y = self.collision_box.lower_right.y
+		min_x = self.collision_box.upper_left.x
+		min_y = self.collision_box.upper_left.y
+		
+		if p.x > max_x:
+			self.collision_box.lower_right.x = p.x
+		elif p.x < min_x:
+			self.collision_box.upper_left.x = p.x
+		
+		if p.y > max_y:
+			self.collision_box.lower_right.y = p.y
+		elif p.y < min_y:
+			self.collision_box.upper_left.y = p.y
+	
+	def __set_box(self):
+		"""
+		Sets the collision_box property of this object.
+		
+		Call this after everytime __point_list is set (through constructor,
+		point_list setter, etc.) or modified (through add_point, etc.)
+		"""
+		x_list = map(lambda point: point.x, self.point_list)
+		y_list = map(lambda point: point.y, self.point_list)
+		
+		min_x = min(x_list)
+		min_y = min(y_list)
+		max_x = max(x_list)
+		max_y = max(y_list)
+		
+		box_upper_left = Point(min_x, min_y)
+		box_lower_right = Point(max_x, max_y)
+		
+		self.__collision_box = CollisionBox(box_upper_left, box_lower_right)
+	
+	@property
+	def collision_box(self):
+		return self.__collision_box
 	
 	def translate(self, dx, dy):
 		"""
@@ -72,6 +116,7 @@ class PointShape(Drawable):
 		TODO: Is this a good idea? The whole PointShape may change?
 		"""
 		self.__point_list = point_list
+		self.__set_box()
 	
 	def draw(self, screen):
 		"""
@@ -166,12 +211,21 @@ class CollisionBox(Collidable):
 	
 	def has_collided(self, another_box):
 		"""
-		TODO
+		Simple test is two boxes (in the rectangular sense of the word)
+		intersect.
 		"""
 		return self.upper_left.x + self.width > another_box.upper_left.x and \
 			self.upper_left.x < another_box.upper_left.x + another_box.width and \
 			self.upper_left.y + self.height > another_box.upper_left.y and \
 			self.upper_left.y < another_box.upper_left.y + another_box.height
+	
+	def __eq__(self, another_box):
+		"""
+		Two collision boxes are equal if and only if their upper left
+		and lower right points are equal.
+		"""
+		return self.upper_left.__eq__(another_box.upper_left) and \
+			self.lower_right.__eq__(another_box.lower_right)
 	
 class Point:
 	"""
@@ -189,6 +243,14 @@ class Point:
 	@property
 	def y(self):
 		return self.__y
+	
+	@x.setter
+	def x(self, new_x):
+		self.__x = new_x
+	
+	@y.setter
+	def y(self, new_y):
+		self.__y = new_y
 	
 	def get_list(self):
 		return [self.x, self.y]
