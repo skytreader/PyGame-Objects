@@ -150,9 +150,9 @@ class PointShape(Drawable):
 		height_scale = float(new_height) / old_height
 		
 		# Scale the x
-		self.point_list = map(lambda point: point.x = point.x * width_scale, self.point_list)
+		self.point_list = map(lambda point: point.x = int(point.x * width_scale), self.point_list)
 		# Scale the y
-		self.point_list = map(lambda point: point.y = point.y * height_scale, self.point_list)
+		self.point_list = map(lambda point: point.y = int(point.y * height_scale), self.point_list)
 	
 	def __eq__(self, other_shape):
 		"""
