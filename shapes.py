@@ -144,6 +144,16 @@ class PointShape(Drawable):
 			# to the last point in the point list
 			pygame.draw.line(screen, self.__color, self.point_list[limit].get_list(), self.point_list[0].get_list())
 	
+	def set_scale(self, new_width, new_height, old_width, old_height):
+		# TODO: Recall that Python 2.x does _integer division_
+		width_scale = float(new_width) / old_width
+		height_scale = float(new_height) / old_height
+		
+		# Scale the x
+		self.point_list = map(lambda point: point.x = point.x * width_scale, self.point_list)
+		# Scale the y
+		self.point_list = map(lambda point: point.y = point.y * height_scale, self.point_list)
+	
 	def __eq__(self, other_shape):
 		"""
 		Two PointShapes are equal if and only if their point_lists

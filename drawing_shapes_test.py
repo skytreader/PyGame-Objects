@@ -20,8 +20,8 @@ class RandomDrawing(GameLoopEvents):
 	an arrow-like object! :))
 	"""
 	
-	def __init__(self):
-		super(RandomDrawing, self).__init__()
+	def __init__(self, config):
+		super(RandomDrawing, self).__init__(config)
 		self.__ps = PointShape()
 		self.__ps.add_point(Point(3, 5))
 		self.__ps.add_point(Point(15, 25))
@@ -37,9 +37,9 @@ class RandomDrawing(GameLoopEvents):
 		self.__ps.translate(10, 10)
 
 if __name__ == "__main__":
-	rect = RandomDrawing()
 	gconfig = GameConfig()
 	gconfig.clock_rate = 10
 	gconfig.window_size = [500, 500]
-	gl = GameLoop(rect, gconfig)
+	rect = RandomDrawing(gconfig)
+	gl = GameLoop(rect)
 	gl.go()

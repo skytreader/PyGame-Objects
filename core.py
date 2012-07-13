@@ -52,8 +52,9 @@ class GameLoop:
 	A basic PyGame Game Loop
 	"""
 	
-	def __init__(self, loop_events, game_configurations):
+	def __init__(self, loop_events):
 		self.__loop_events = loop_events
+		game_configurations = loop_events.config
 		self.__clock_rate = game_configurations.clock_rate
 		self.__window_size = game_configurations.window_size
 		self.__window_title = game_configurations.window_title
@@ -88,8 +89,12 @@ class GameLoopEvents(object):
 	Encapsulates the stuff that happens inside a game loop.
 	"""
 	
-	def __init__(self):
-		pass
+	def __init__(self, config):
+		self.__config = config
+	
+	@property
+	def config(self):
+		return self.__config
 	
 	def loop_invariant(self):
 		"""

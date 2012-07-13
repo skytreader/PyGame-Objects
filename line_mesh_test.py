@@ -19,8 +19,8 @@ class LineMesh(GameLoopEvents):
 	I want a 500x500 window!
 	"""
 	
-	def __init__(self):
-		super(LineMesh, self).__init__()
+	def __init__(self, config):
+		super(LineMesh, self).__init__(config)
 		self.__limit = 200
 		self.__count = 0
 		
@@ -36,10 +36,10 @@ class LineMesh(GameLoopEvents):
 		
 		self.__count += 1
 
-ms = LineMesh()
 config = GameConfig()
 config.window_size = [500, 500]
 config.clock_rate = 10
 config.window_title = "Line Mesh"
-game_loop = GameLoop(ms, config)
+ms = LineMesh(config)
+game_loop = GameLoop(ms)
 game_loop.go()
