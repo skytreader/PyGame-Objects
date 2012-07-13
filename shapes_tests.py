@@ -47,6 +47,14 @@ class shapes_tests(unittest.TestCase):
 		self.__shape.add_point(new_point)
 		expected_box = CollisionBox(Point(1,3), Point(15,16))
 		self.assertTrue(expected_box.__eq__(self.__shape.collision_box))
+	
+	def test_set_scale(self):
+		# A triangle confined in a 10x10 screen
+		triangle_pl = [Point(5,1), Point(1,7), Point(8,7)]
+		triangle = PointShape(triangle_pl)
+		triangle_scaled = [Point(5 * 50, 50), Point(50, 50 * 7), Point(50 * 8, 50 * 7)]
+		triangle.set_scale(500, 500, 10, 10)
+		self.assertTrue(triangle.point_list == triangle_scaled)
 
 class collisionbox_tests(unittest.TestCase):
 	
