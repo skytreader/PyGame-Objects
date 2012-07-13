@@ -58,13 +58,30 @@ class GameLoop:
 		self.__clock_rate = game_configurations.clock_rate
 		self.__window_size = game_configurations.window_size
 		self.__window_title = game_configurations.window_title
+		self.__handlers = {}
+	
+	def add_event_handler(self, event_code, handler_function):
+		"""
+		@param event_code
+		  A PyGame event code (typically ints). These come from pygame.event.get()
+		@param handler_function
+		  The function to be executed when event_code is trigerred. This
+		  function will be triggered without any arguments passed.
+		"""
+		self.__handlers[event_code] = handler_function
+	
+	def __handle_event(self, event_code):
+		if event_code in self.__handlers:
+			#TODO: Passing arguments?
+			self.__handlers[event_code]()
 	
 	def go(self):
 		"""
 		The main game loop.
 		
 		This already listens for the click of the close button of
-		a window.
+		a window. You can listen for other events by adding event
+		handlers through add_event_handler
 		"""
 		pygame.init()
 		window = self.__loop_events.invoke_window(self.__window_size)
@@ -78,6 +95,8 @@ class GameLoop:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					loop_control = False
+				else:
+					self.__handle_event(event.type)
 			
 			self.__loop_events.loop_event()
 			pygame.display.flip()

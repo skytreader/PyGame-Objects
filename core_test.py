@@ -10,6 +10,8 @@ import random
 """
 A simple demo of using the framework that randomly draws
 gray circles on a white canvas.
+
+Also demonstrates additional event handling.
 """
 
 class GrayCircle(GameLoopEvents):
@@ -28,10 +30,14 @@ class GrayCircle(GameLoopEvents):
 		pygame.draw.circle(self.window, [218, 218, 218], [x, y], 50, 2)
 		self.__count += 1
 
+def keydown():
+	print "Keydown pressed!"
+
 gconfig = GameConfig()
 gconfig.clock_rate = 10
 gconfig.window_size = [500, 500]
 gconfig.window_title = "Framework test"
 gc_object = GrayCircle(gconfig)
 game_loop = GameLoop(gc_object)
+game_loop.add_event_handler(pygame.KEYDOWN, keydown)
 game_loop.go()
