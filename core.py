@@ -79,9 +79,9 @@ class GameLoop:
 		"""
 		The main game loop.
 		
-		This already listens for the click of the close button of
-		a window. You can listen for other events by adding event
-		handlers through add_event_handler
+		This already listens for the click of the close button of a window
+		You can listen for other events by adding event handlers through
+		add_event_handler .
 		"""
 		pygame.init()
 		window = self.__loop_events.invoke_window(self.__window_size)
