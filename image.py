@@ -48,5 +48,5 @@ class Image(Drawable):
 		on screen, use the position setter. Otherwise, this image gets drawn
 		at point (0, 0) by default.
 		"""
-		super.draw(screen)
+		super(Image, self).draw(screen)
 		screen.blit(self.img, self.position.get_list())

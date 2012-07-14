@@ -82,6 +82,12 @@ class GameLoop:
 		This already listens for the click of the close button of a window
 		You can listen for other events by adding event handlers through
 		add_event_handler .
+		
+		The initializations GameLoop performs by default are the following:
+		  (1) Initialization of PyGame (pygame.init())
+		  (2) Window invokation (GameLoopEvents.invoke_window()); background
+		      color set-up and caption set-up
+		  (3) PyGame clock (pygame.time.Clock())
 		"""
 		pygame.init()
 		window = self.__loop_events.invoke_window(self.__window_size)
@@ -89,6 +95,8 @@ class GameLoop:
 		pygame.display.set_caption(self.__window_title)
 		clock = pygame.time.Clock()
 		loop_control = True
+		
+		self.__loop_events.loop_setup()
 		
 		while loop_control and self.__loop_events.loop_invariant():
 			clock.tick(self.__clock_rate)
@@ -145,5 +153,12 @@ class GameLoopEvents(object):
 	def loop_event(self):
 		"""
 		Holds the code that will be repeatedly executed.
+		"""
+		pass
+	
+	def loop_setup(self):
+		"""
+		This code is executed after the GameLoop default set-up
+		but before GameLoop enters the loop.
 		"""
 		pass
