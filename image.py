@@ -44,11 +44,11 @@ class Image(Drawable):
 	
 	@property
 	def height(self):
-		self.img.get_height
+		return self.img.get_height()
 	
 	@property
 	def width(self):
-		self.img.get_width
+		return self.img.get_width()
 	
 	def draw(self, screen):
 		"""

@@ -42,6 +42,10 @@ class GameConfig:
 		window_title = ""
 	"""
 	
+	# Following constants for window_size
+	WIDTH_INDEX = 0
+	HEIGHT_INDEX = 1
+	
 	def __init__(self):
 		self.clock_rate = 0
 		self.window_size = [0, 0]
