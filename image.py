@@ -42,6 +42,14 @@ class Image(Drawable):
 		"""
 		self.__position = position
 	
+	@property
+	def height(self):
+		self.img.get_height
+	
+	@property
+	def width(self):
+		self.img.get_width
+	
 	def draw(self, screen):
 		"""
 		Draws the image on the screen. To set where this image gets drawn
