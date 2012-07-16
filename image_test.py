@@ -34,7 +34,7 @@ class ImageLoader(GameLoopEvents):
 
 config = GameConfig()
 config.window_size = [500, 500]
-config.clock_rate = 10
+config.clock_rate = 12
 config.window_title = "Image Class Test"
 image_gle = ImageLoader(config)
 gl = GameLoop(image_gle)

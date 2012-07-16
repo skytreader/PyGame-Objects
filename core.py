@@ -18,13 +18,13 @@ class Colors:
 	"""
 	A list of predefined colors.
 	"""
-	LUCID_DARK = [90, 73, 64]
-	WHITE = [255, 255, 255]
-	BLACK = [0, 0, 0]
-	RED = [255, 0, 0]
-	GREEN = [0, 255, 0]
-	BLUE = [0, 0, 255]
-	LIGHT_GRAY = [218, 218, 218]
+	LUCID_DARK = (90, 73, 64)
+	WHITE = (255, 255, 255)
+	BLACK = (0, 0, 0)
+	RED = (255, 0, 0)
+	GREEN = (0, 255, 0)
+	BLUE = (0, 0, 255)
+	LIGHT_GRAY = (218, 218, 218)
 
 class GameConfig:
 	"""
@@ -40,6 +40,7 @@ class GameConfig:
 		clock_rate = 0
 		window_size = [0, 0]
 		window_title = ""
+		frame_rate = 12
 	"""
 	
 	# Following constants for window_size
@@ -67,7 +68,8 @@ class GameLoop:
 	def add_event_handler(self, event_code, handler_function):
 		"""
 		@param event_code
-		  A PyGame event code (typically ints). These come from pygame.event.get()
+		  A PyGame event code (typically ints). These come from the type of
+		  attribute of pygame.event.get()
 		@param handler_function
 		  The function to be executed when event_code is trigerred. This
 		  function will be triggered without any arguments passed.
