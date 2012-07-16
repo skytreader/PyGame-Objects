@@ -15,7 +15,7 @@ class Observable(object):
 		@param observer
 		  An instance of Observer.
 		"""
-		self.__observers.add(observer)
+		self.__observers.append(observer)
 	
 	def unsubscribe(self, observer):
 		i = 0
