@@ -32,7 +32,7 @@ class Subscriber(Observer):
 		self.__name = name
 	
 	def notify(self, o, arg_bundle):
-		print self.__name + " got an issue of " + arg_bundle
+		print self.__name + " got an issue of " + arg_bundle + " from " + str(o)
 
 subscribers = [Subscriber("Homer"), Subscriber("Lenny"), Subscriber("Karl"), Subscriber("Barney")]
 magazines = [Magazine("MAD"), Magazine("Scientific American"), Magazine("Reader's Digest")]

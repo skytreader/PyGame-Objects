@@ -1,11 +1,19 @@
 #! usr/bin/env python
 
 from drawable import Drawable
+
+from subscriber_pattern import Observable
+
 from shapes import Point
 
 import pygame
 
-class Image(Drawable):
+class Image(Observable, Drawable):
+	"""
+	This class notifies its observers when the following happens:
+	 - The image set for this class is changed.
+	 - The object's position attribute changes.
+	"""
 	
 	def __init__(self, filename):
 		"""
@@ -27,6 +35,7 @@ class Image(Drawable):
 	@img.setter
 	def img(self, i):
 		self.__img = i
+		super(Image, self).notify_observers()
 	
 	@property
 	def position(self):
@@ -41,6 +50,7 @@ class Image(Drawable):
 		  A Point describing where this image gets drawn on screen.
 		"""
 		self.__position = position
+		super(Image, self).notify_subscribers()
 	
 	@property
 	def height(self):

@@ -31,9 +31,9 @@ class Observable(object):
 
 class Observer(object):
 	
-	def notify(self, o, arg_bundle = None):
+	def notify(self, observed, arg_bundle = None):
 		"""
-		@param o
+		@param observed
 		  The observable object that trigerred the function call.
 		@param arg_bundle
 		  Holds data which implementors may need responding to the notification.

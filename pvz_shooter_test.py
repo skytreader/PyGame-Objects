@@ -7,6 +7,8 @@ from core import Colors
 
 from image import Image
 
+from subscriber_pattern import Observer
+
 from shapes import Point
 
 import pygame
@@ -17,7 +19,7 @@ A shooting game inspired by Plants vs Zombies.
 Branch-off from image_test.py
 """
 
-class Zombie(pygame.sprite.Sprite):
+class Zombie(pygame.sprite.Sprite, Observer):
 	"""
 	A zombie is a sprite that moves from the right side of the
 	screen to the left side. Zombies typically start off-screen
@@ -50,6 +52,7 @@ class Zombie(pygame.sprite.Sprite):
 		
 		self.__speed = move_speed
 		self.__screen_draw = img
+		self.__screen_draw.subscribe(self)
 		self.__max_hp = hit_points
 		self.__hp = hit_points
 		
@@ -107,8 +110,15 @@ class Zombie(pygame.sprite.Sprite):
 		else:
 			self.__hp = new_hp
 	
+	def notify(self, observed, arg_bundle = None):
+		self.image = self.screen_draw.img
+		self.rect.x = self.screen_draw.position.x
+		self.rect.y = self.screen_draw.position.y
+	
 	def update(self):
-		self.rect.x -= self.speed
+		new_pos = Point(self.screen_draw.position.x - self.speed, \
+			self.screen_draw.position.y)
+		self.screen_draw.position = new_pos
 
 class HPException(Exception):
 	"""
