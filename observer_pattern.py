@@ -25,9 +25,9 @@ class Observable(object):
 				self.__observers.pop(i)
 				return
 	
-	def notify_subscribers():
+	def notify_subscribers(self, arg_bundle = None):
 		for o in self.__observers:
-			o.notify(self)
+			o.notify(self, arg_bundle)
 
 class Observer(object):
 	
