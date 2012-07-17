@@ -81,6 +81,16 @@ class GameLoop:
 			#TODO: Passing arguments?
 			self.__handlers[event_code]()
 	
+	def attach_event_handlers(self):
+		"""
+		Write all calls to add_event_handler here. This method is called after
+		GameLoopEvents.loop_setup but before the main loop starts rolling.
+		
+		(So far, this is the only event in GameLoop which you need to
+		implement, and that's depending on your requirements.)
+		"""
+		pass
+	
 	def go(self):
 		"""
 		The main game loop.
@@ -103,6 +113,7 @@ class GameLoop:
 		loop_control = True
 		
 		self.__loop_events.loop_setup()
+		self.attach_event_handlers()
 		
 		while loop_control and self.__loop_events.loop_invariant():
 			clock.tick(self.__clock_rate)
