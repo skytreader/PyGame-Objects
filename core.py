@@ -14,7 +14,7 @@ Usage
   (4) Have fun!
 """
 
-class Colors:
+class Colors(object):
 	"""
 	A list of predefined colors.
 	"""
@@ -26,7 +26,7 @@ class Colors:
 	BLUE = (0, 0, 255)
 	LIGHT_GRAY = (218, 218, 218)
 
-class GameConfig:
+class GameConfig(object):
 	"""
 	Encapsulation of various configurations needed by a GameLoop object.
 	
@@ -52,7 +52,7 @@ class GameConfig:
 		self.window_size = [0, 0]
 		self.window_title = ""
 
-class GameLoop:
+class GameLoop(object):
 	"""
 	A basic PyGame Game Loop
 	"""
