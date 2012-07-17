@@ -25,7 +25,7 @@ class Image(Observable, Drawable):
 		  The filename of the image, relative to the code listing.
 		"""
 		super(Image, self).__init__()
-		self.__img = pygame.image.load(filename).convert()
+		self.__img = pygame.image.load(filename).convert_alpha()
 		self.__position = Point(0,0)
 	
 	@property
