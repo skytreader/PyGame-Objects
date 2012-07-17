@@ -81,6 +81,10 @@ class GameLoop(object):
 		self.__window_title = game_configurations.window_title
 		self.__handlers = {}
 	
+	@property
+	def loop_events(self):
+		return self.__loop_events
+	
 	def add_event_handler(self, event, handler_function):
 		"""
 		@param event

@@ -1,9 +1,12 @@
 #! usr/bin/env python
 
+from core import Colors
 from core import GameLoopEvents
 from core import GameConfig
 from core import GameLoop
-from core import Colors
+from core import KeyCodes
+
+from framework_exceptions import InstanceException
 
 from image import Image
 
@@ -19,7 +22,7 @@ A shooting game inspired by Plants vs Zombies.
 Branch-off from image_test.py
 """
 
-class Zombie(pygame.sprite.Sprite, Observer):
+class PVZSprite(pygame.sprite.Sprite, Observer):
 	"""
 	A zombie is a sprite that moves from the right side of the
 	screen to the left side. Zombies typically start off-screen
@@ -48,7 +51,7 @@ class Zombie(pygame.sprite.Sprite, Observer):
 		  A Point object specifying this Zombie's position.
 		"""
 		
-		super(Zombie, self).__init__()
+		super(PVZSprite, self).__init__()
 		
 		self.__speed = move_speed
 		self.__screen_draw = img
@@ -115,10 +118,43 @@ class Zombie(pygame.sprite.Sprite, Observer):
 		self.rect.x = self.screen_draw.position.x
 		self.rect.y = self.screen_draw.position.y
 	
+class Zombie(PVZSprite):
+	
+	def __init__(self, move_speed, img, hit_points):
+		super(Zombie, self).__init__(move_speed, img, hit_points)
+	
 	def update(self):
 		new_pos = Point(self.screen_draw.position.x - self.speed, \
 			self.screen_draw.position.y)
 		self.screen_draw.position = new_pos
+
+class Shooter(PVZSprite):
+	"""
+	A shooter is the controllable character in a PVZ game.
+	"""
+	
+	def __init__(self, move_speed, img, hit_points):
+		super(Shooter, self).__init__(move_speed, img, hit_points)
+		self.__is_going_up = False
+		print "Shooter object initialized"
+	
+	@property
+	def is_going_up(self):
+		return self.__is_going_up
+	
+	@is_going_up.setter
+	def is_going_up(self, go_up):
+		self.__is_going_up = go_up
+	
+	def move(self):
+		if self.is_going_up:
+			move_delta = -self.speed
+		else:
+			move_delta = self.speed
+		
+		new_pos = Point(0, self.screen_draw.position.y + move_delta)
+		self.screen_draw.position = new_pos
+		print "Shooter updated"
 
 class HPException(Exception):
 	"""
@@ -135,33 +171,72 @@ class HPException(Exception):
 	def __str__(self):
 		return repr(self.value)
 
-class ImageLoader(GameLoopEvents):
+class PVZEvents(GameLoopEvents):
 	
 	def __init__(self, config):
-		super(ImageLoader, self).__init__(config)
+		super(PVZEvents, self).__init__(config)
 		self.__meteormon = None
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)
 		self.__sprite_group.draw(self.window)
 		self.__sprite_group.update()
+	
+	def move_shooter(self, event):
+		
+		if event.key == KeyCodes.UP:
+			is_up = True
+		elif event.key == KeyCodes.DOWN:
+			is_up = False
+		
+		self.__shooter_sprite.is_going_up = is_up
+		self.__shooter_sprite.move()
 		
 	def loop_setup(self):
-		super(ImageLoader, self).loop_setup()
+		super(PVZEvents, self).loop_setup()
 		meteormon = Image("sample_sprites/meteormon_clueless.png")
-		init_x = super(ImageLoader, self).config.window_size[GameConfig.WIDTH_INDEX] - \
+		bakemon = Image("sample_sprites/bakemon_attack.png")
+		shooter_image = Image("sample_sprites/seahomon_hero.png");
+		shooter_image.flip(True, False)
+		
+		init_x = super(PVZEvents, self).config.window_size[GameConfig.WIDTH_INDEX] - \
 			meteormon.width
+		#off-screen
+		bakemon_x = init_x + meteormon.height
 		
 		meteormon.position = Point(init_x, 0)
+		bakemon.position = Point(bakemon_x, meteormon.height)
+		shooter_image.position = Point(0, self.config.window_size[GameConfig.HEIGHT_INDEX] / 2)
 		
 		self.__sprite_group = pygame.sprite.Group()
 		meteormon_sprite = Zombie(5, meteormon, 10)
+		bakemon_sprite = Zombie(8, bakemon, 10)
+		self.__shooter_sprite = Shooter(7, shooter_image, 10)
 		self.__sprite_group.add(meteormon_sprite)
+		self.__sprite_group.add(bakemon_sprite)
+		self.__sprite_group.add(self.__shooter_sprite)
+
+class PVZLoop(GameLoop):
+	
+	def __init__(self, events):
+		"""
+		FIXME: Is this Pythonic enough?
+		
+		@param events
+		  Must be an instance of PVZEvents.
+		"""
+		if isinstance(events, PVZEvents):
+			super(PVZLoop, self).__init__(events)
+		else:
+			raise InstanceException("PVZLoop expects an instance of PVZEvents")
+	
+	def attach_event_handlers(self):
+		self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), self.loop_events.move_shooter)
 
 config = GameConfig()
 config.window_size = [500, 500]
 config.clock_rate = 12
 config.window_title = "Image Class Test"
-image_gle = ImageLoader(config)
-gl = GameLoop(image_gle)
+image_gle = PVZEvents(config)
+gl = PVZLoop(image_gle)
 gl.go()

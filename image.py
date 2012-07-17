@@ -35,7 +35,7 @@ class Image(Observable, Drawable):
 	@img.setter
 	def img(self, i):
 		self.__img = i
-		super(Image, self).notify_observers()
+		super(Image, self).notify_subscribers()
 	
 	@property
 	def position(self):
@@ -59,6 +59,12 @@ class Image(Observable, Drawable):
 	@property
 	def width(self):
 		return self.img.get_width()
+	
+	def flip(self, on_x, on_y):
+		"""
+		Applies pygame.transform.flip on the Surface attribute.
+		"""
+		self.img = pygame.transform.flip(self.img, on_x, on_y)
 	
 	def draw(self, screen):
 		"""
