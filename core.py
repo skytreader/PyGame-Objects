@@ -26,6 +26,22 @@ class Colors(object):
 	BLUE = (0, 0, 255)
 	LIGHT_GRAY = (218, 218, 218)
 
+class KeyCodes(object):
+	"""
+	A list of the key codes used in detecting key presses. Will add more as
+	we go along. Will be deprecated when we find the PyGame equivalent.
+	"""
+	
+	"""
+	Up key
+	"""
+	UP_KEY = 273
+	
+	"""
+	Down key
+	"""
+	DOWN_KEY = 274
+
 class GameConfig(object):
 	"""
 	Encapsulation of various configurations needed by a GameLoop object.
@@ -65,15 +81,15 @@ class GameLoop(object):
 		self.__window_title = game_configurations.window_title
 		self.__handlers = {}
 	
-	def add_event_handler(self, event_code, handler_function):
+	def add_event_handler(self, event, handler_function):
 		"""
-		@param event_code
-		  A PyGame event code (typically ints). These come from the type of
-		  attribute of pygame.event.get()
+		@param event
+		  The event trigger. Get this from pygame.event.get() .
 		@param handler_function
 		  The function to be executed when event_code is trigerred. This
 		  function will be triggered without any arguments passed.
 		"""
+		event_code = event.type
 		self.__handlers[event_code] = handler_function
 	
 	def __handle_event(self, event_code):

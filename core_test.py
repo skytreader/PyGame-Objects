@@ -30,14 +30,21 @@ class GrayCircle(GameLoopEvents):
 		pygame.draw.circle(self.window, [218, 218, 218], [x, y], 50, 2)
 		self.__count += 1
 
-def keydown():
-	print "Keydown pressed!"
+class GrayCircleLoop(GameLoop):
+	
+	def __init__(self, events):
+		super(GrayCircleLoop, self).__init__(events)
+	
+	def keydown(self):
+		print "Keydown pressed!"
+	
+	def attach_event_handlers(self):
+		self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), self.keydown)
 
 gconfig = GameConfig()
 gconfig.clock_rate = 10
 gconfig.window_size = [500, 500]
 gconfig.window_title = "Framework test"
 gc_object = GrayCircle(gconfig)
-game_loop = GameLoop(gc_object)
-game_loop.add_event_handler(pygame.KEYDOWN, keydown)
+game_loop = GrayCircleLoop(gc_object)
 game_loop.go()
