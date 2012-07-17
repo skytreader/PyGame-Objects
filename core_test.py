@@ -35,8 +35,9 @@ class GrayCircleLoop(GameLoop):
 	def __init__(self, events):
 		super(GrayCircleLoop, self).__init__(events)
 	
-	def keydown(self):
+	def keydown(self, event):
 		print "Keydown pressed!"
+		print event.key
 	
 	def attach_event_handlers(self):
 		self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), self.keydown)

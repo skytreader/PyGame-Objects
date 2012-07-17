@@ -35,12 +35,12 @@ class KeyCodes(object):
 	"""
 	Up key
 	"""
-	UP_KEY = 273
+	UP = 273
 	
 	"""
 	Down key
 	"""
-	DOWN_KEY = 274
+	DOWN = 274
 
 class GameConfig(object):
 	"""
@@ -86,16 +86,17 @@ class GameLoop(object):
 		@param event
 		  The event trigger. Get this from pygame.event.get() .
 		@param handler_function
-		  The function to be executed when event_code is trigerred. This
-		  function will be triggered without any arguments passed.
+		  The function to be executed when event_code is trigerred. All
+		  handler functions must accept one argument, the event.
 		"""
 		event_code = event.type
 		self.__handlers[event_code] = handler_function
 	
-	def __handle_event(self, event_code):
+	def __handle_event(self, event):
+		event_code = event.type
 		if event_code in self.__handlers:
 			#TODO: Passing arguments?
-			self.__handlers[event_code]()
+			self.__handlers[event_code](event)
 	
 	def attach_event_handlers(self):
 		"""
@@ -137,7 +138,7 @@ class GameLoop(object):
 				if event.type == pygame.QUIT:
 					loop_control = False
 				else:
-					self.__handle_event(event.type)
+					self.__handle_event(event)
 			
 			self.__loop_events.loop_event()
 			pygame.display.flip()
