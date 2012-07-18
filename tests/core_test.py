@@ -1,9 +1,8 @@
 #! usr/bin/env python
 
-from core import GameLoopEvents
-from core import GameLoop
-from core import GameConfig
-import gameloop
+from ..components.core import GameLoopEvents
+from ..components.core import GameLoop
+from ..components.core import GameConfig
 import pygame
 import random
 
