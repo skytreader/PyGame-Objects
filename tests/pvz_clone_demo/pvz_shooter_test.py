@@ -1,18 +1,18 @@
 #! usr/bin/env python
 
-from ..components.core import Colors
-from ..components.core import GameLoopEvents
-from ..components.core import GameConfig
-from ..components.core import GameLoop
-from ..components.core import KeyCodes
+from ...components.core import Colors
+from ...components.core import GameLoopEvents
+from ...components.core import GameConfig
+from ...components.core import GameLoop
+from ...components.core import KeyCodes
 
-from ..components.framework_exceptions import InstanceException
+from ...components.framework_exceptions import InstanceException
 
-from ..components.image import Image
+from ...components.image import Image
 
-from ..components.subscriber_pattern import Observer
+from ...components.subscriber_pattern import Observer
 
-from ..components.shapes import Point
+from ...components.shapes import Point
 
 import os
 
