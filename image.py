@@ -21,6 +21,11 @@ class Image(Observable, Drawable):
 		exist? What happens if the file is deleted while we are using it?
 		Do I need to close this resource?
 		
+		This constructor assigns a Surface object accessible via self.img .
+		The Surface is created taking alpha transparency into account. If
+		this behavior is unwanted, just assign your own Surface object
+		through the property setter.
+		
 		@param filename
 		  The filename of the image, relative to the code listing.
 		"""
@@ -30,10 +35,16 @@ class Image(Observable, Drawable):
 	
 	@property
 	def img(self):
+		"""
+		A PyGame surface.
+		"""
 		return self.__img
 	
 	@img.setter
 	def img(self, i):
+		"""
+		Set a PyGame surface to img .
+		"""
 		self.__img = i
 		super(Image, self).notify_subscribers()
 	
