@@ -1,7 +1,7 @@
 #! usr/bin/env python
 
-from observer_pattern import Observable
-from observer_pattern import Observer
+from ..components.subscriber_pattern import Observable
+from ..components.subscriber_pattern import Observer
 
 import random
 

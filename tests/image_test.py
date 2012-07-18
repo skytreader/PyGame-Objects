@@ -1,13 +1,15 @@
 #! usr/bin/env python
 
-from core import GameLoopEvents
-from core import GameConfig
-from core import GameLoop
-from core import Colors
+from ..components.core import GameLoopEvents
+from ..components.core import GameConfig
+from ..components.core import GameLoop
+from ..components.core import Colors
 
-from image import Image
+from ..components.image import Image
 
-from shapes import Point
+from ..components.shapes import Point
+
+import os
 
 import pygame
 
@@ -26,7 +28,7 @@ class ImageLoader(GameLoopEvents):
 		
 	def loop_setup(self):
 		super(ImageLoader, self).loop_setup()
-		self.__meteormon = Image("sample_sprites/meteormon_clueless.png")
+		self.__meteormon = Image(os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png"))
 		init_x = super(ImageLoader, self).config.window_size[GameConfig.WIDTH_INDEX] - \
 			self.__meteormon.width
 		

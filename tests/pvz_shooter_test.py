@@ -1,18 +1,20 @@
 #! usr/bin/env python
 
-from core import Colors
-from core import GameLoopEvents
-from core import GameConfig
-from core import GameLoop
-from core import KeyCodes
+from ..components.core import Colors
+from ..components.core import GameLoopEvents
+from ..components.core import GameConfig
+from ..components.core import GameLoop
+from ..components.core import KeyCodes
 
-from framework_exceptions import InstanceException
+from ..components.framework_exceptions import InstanceException
 
-from image import Image
+from ..components.image import Image
 
-from subscriber_pattern import Observer
+from ..components.subscriber_pattern import Observer
 
-from shapes import Point
+from ..components.shapes import Point
+
+import os
 
 import pygame
 
@@ -136,7 +138,6 @@ class Shooter(PVZSprite):
 	def __init__(self, move_speed, img, hit_points):
 		super(Shooter, self).__init__(move_speed, img, hit_points)
 		self.__is_going_up = False
-		print "Shooter object initialized"
 	
 	@property
 	def is_going_up(self):
@@ -154,7 +155,6 @@ class Shooter(PVZSprite):
 		
 		new_pos = Point(0, self.screen_draw.position.y + move_delta)
 		self.screen_draw.position = new_pos
-		print "Shooter updated"
 
 class HPException(Exception):
 	"""
@@ -194,9 +194,9 @@ class PVZEvents(GameLoopEvents):
 		
 	def loop_setup(self):
 		super(PVZEvents, self).loop_setup()
-		meteormon = Image("sample_sprites/meteormon_clueless.png")
-		bakemon = Image("sample_sprites/bakemon_attack.png")
-		shooter_image = Image("sample_sprites/seahomon_hero.png");
+		meteormon = Image(os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png"))
+		bakemon = Image(os.path.join("PyGame_Objects","sample_sprites","bakemon_attack.png"))
+		shooter_image = Image(os.path.join("PyGame_Objects","sample_sprites","seahomon_hero.png"))
 		shooter_image.flip(True, False)
 		
 		init_x = super(PVZEvents, self).config.window_size[GameConfig.WIDTH_INDEX] - \

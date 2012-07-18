@@ -1,8 +1,8 @@
 #! usr/bin/env python
 
-from shapes import PointShape
-from shapes import Point
-from shapes import CollisionBox
+from ..components.shapes import PointShape
+from ..components.shapes import Point
+from ..components.shapes import CollisionBox
 import unittest
 
 class shapes_tests(unittest.TestCase):

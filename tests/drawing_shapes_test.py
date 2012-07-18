@@ -1,12 +1,12 @@
 #! usr/bin/env python
 
-from core import GameLoopEvents
-from core import GameConfig
-from core import GameLoop
-from core import Colors
+from ..components.core import GameLoopEvents
+from ..components.core import GameConfig
+from ..components.core import GameLoop
+from ..components.core import Colors
 
-from shapes import PointShape
-from shapes import Point
+from ..components.shapes import PointShape
+from ..components.shapes import Point
 
 import pygame
 
