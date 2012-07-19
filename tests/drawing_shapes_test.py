@@ -12,6 +12,8 @@ import pygame
 
 """
 Shows a four-sided figure gliding across the screen.
+
+@author Chad Estioco
 """
 
 class RandomDrawing(GameLoopEvents):

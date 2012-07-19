@@ -8,10 +8,9 @@ import pygame
 
 class PVZSprite(pygame.sprite.Sprite, Observer):
 	"""
-	A zombie is a sprite that moves from the right side of the
-	screen to the left side. Zombies typically start off-screen
-	and march to the right side. When a zombie reaches the left
-	side, the player losses.
+	General behavior of a PVZ Game Sprite
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, move_speed, img, hit_points):
@@ -103,6 +102,14 @@ class PVZSprite(pygame.sprite.Sprite, Observer):
 		self.rect.y = self.screen_draw.position.y
 	
 class Zombie(PVZSprite):
+	"""
+	A zombie is a sprite that moves from the right side of the
+	screen to the left side. Zombies typically start off-screen
+	and march to the right side. When a zombie reaches the left
+	side, the player losses.
+	
+	@author Chad Estioco
+	"""
 	
 	def __init__(self, move_speed, img, hit_points):
 		super(Zombie, self).__init__(move_speed, img, hit_points)
@@ -115,6 +122,8 @@ class Zombie(PVZSprite):
 class Shooter(PVZSprite):
 	"""
 	A shooter is the controllable character in a PVZ game.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, move_speed, img, hit_points):
@@ -145,6 +154,8 @@ class HPException(Exception):
 	
 	Example taken from:
 	http://docs.python.org/tutorial/errors.html#user-defined-exceptions
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, value):

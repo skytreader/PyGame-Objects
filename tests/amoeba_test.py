@@ -19,6 +19,8 @@ end).
 Of course, the end result does not really look like a mutating
 amoeba because we are just adding Points randomly; the resulting
 vertices might intersect each other.
+
+@author Chad Estioco
 """
 
 class AmoebaScreen(GameScreen):

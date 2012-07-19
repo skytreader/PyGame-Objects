@@ -58,6 +58,8 @@ class GameConfig(object):
 		window_size = [0, 0]
 		window_title = ""
 		frame_rate = 12
+	
+	@author Chad Estioco
 	"""
 	
 	# Following constants for window_size
@@ -72,6 +74,8 @@ class GameConfig(object):
 class GameLoop(object):
 	"""
 	A basic PyGame Game Loop.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, loop_events):
@@ -165,6 +169,8 @@ class GameScreen(object):
 	
 	GameScreen classes should provide properties with which a GameLoopEvents can
 	change what's happening on screen.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, screen_dimensions):
@@ -204,6 +210,8 @@ class GameLoopEvents(object):
 	The controller.
 	
 	Encapsulates the stuff that happens inside a game loop.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, config, game_screen):

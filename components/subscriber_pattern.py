@@ -3,6 +3,8 @@
 """
 Classes necessary for the Observer pattern. Slightly patterned
 after Java's Observer pattern framework.
+
+@author Chad Estioco
 """
 
 class Observable(object):

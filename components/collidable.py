@@ -8,6 +8,8 @@ class Collidable(object):
 	to implement better collision detection algorithms. Also, this allows
 	us to attach collision detection non-sprite, irregular objects (e.g.,
 	PointShapes).
+	
+	@author Chad Estioco
 	"""
 	
 	def has_collided(collision_object):

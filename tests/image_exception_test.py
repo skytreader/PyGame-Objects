@@ -17,6 +17,8 @@ Scenario: File specified is deleted after load.
 Does not seem to affect program flow in any way.
 
 Also, this resource does not seem to need closing.
+
+@author Chad Estioco
 """
 
 pygame.display.set_mode([500, 500])

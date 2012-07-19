@@ -7,6 +7,8 @@ import random
 
 """
 Sample use of the observer pattern.
+
+@author Chad Estioco
 """
 
 class Magazine(Observable):

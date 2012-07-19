@@ -30,6 +30,8 @@ class PointShape(Drawable):
 	Specify the Points in the order with which you would like
 	them connected. The last point will be automatically
 	connected to the first point.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, point_list = None, color = Colors.BLACK):
@@ -201,6 +203,8 @@ class CollisionBox(Collidable):
 	Ph 2012]
 	
 	A CollisionBox is defined by its upper left and lower right points.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, upper_left = None, lower_right = None):
@@ -253,6 +257,8 @@ class CollisionBox(Collidable):
 class Point:
 	"""
 	Represents a point in 2D-space.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, x, y):

@@ -13,14 +13,12 @@ class Image(Observable, Drawable):
 	This class notifies its observers when the following happens:
 	 - The image set for this class is changed.
 	 - The object's position attribute changes.
+	
+	@author Chad Estioco
 	"""
 	
 	def __init__(self, filename):
 		"""
-		TODO: What happens if the file described by the filename does not
-		exist? What happens if the file is deleted while we are using it?
-		Do I need to close this resource?
-		
 		This constructor assigns a Surface object accessible via self.img .
 		The Surface is created taking alpha transparency into account. If
 		this behavior is unwanted, just assign your own Surface object

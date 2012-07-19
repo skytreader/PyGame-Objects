@@ -7,6 +7,8 @@ import random
 
 """
 Demo stuff for PointShape.
+
+@author Chad Estioco
 """
 
 class LineMesh(GameLoopEvents):

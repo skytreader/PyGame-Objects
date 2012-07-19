@@ -21,6 +21,8 @@ import pygame
 
 """
 A shooting game inspired by Plants vs Zombies.
+
+@author Chad Estioco
 """
 
 class PVZMainScreen(GameScreen):

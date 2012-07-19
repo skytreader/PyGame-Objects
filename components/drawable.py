@@ -9,6 +9,8 @@ class Drawable(object):
 	directly extending this class to call super methods. Don't call them
 	if it will cause conflicts with other parent classes that may have
 	logic involved (case in point, constructor).
+	
+	@author Chad Estioco
 	"""
 	
 	def draw(self, screen):

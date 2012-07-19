@@ -11,6 +11,8 @@ A simple demo of using the framework that randomly draws
 gray circles on a white canvas.
 
 Also demonstrates additional event handling.
+
+@author Chad Estioco
 """
 
 class GrayCircle(GameLoopEvents):

@@ -3,7 +3,14 @@
 from ..components.shapes import PointShape
 from ..components.shapes import Point
 from ..components.shapes import CollisionBox
+
 import unittest
+
+"""
+Unit tests for the shapes module.
+
+@author Chad Estioco
+"""
 
 class shapes_tests(unittest.TestCase):
 	
