@@ -148,6 +148,40 @@ class GameLoop(object):
 			pygame.display.flip()
 		
 		pygame.quit()
+
+class GameScreen(object):
+	"""
+	The view.
+	
+	A GameScreen must be PyGame executable by itself. Without a GameLoop,
+	it won't respond to any user-triggerred event.
+	
+	GameScreen classes should provide properties with which a GameLoop can
+	change what's happening on screen.
+	"""
+	
+	def __init__(self, screen_dimensions):
+		"""
+		Creates an instance of GameScreen.
+		
+		@param screen_dimensions
+		  An iterable with at least two elements. See GameConfig.
+		"""
+		self.__screen_dimensions = screen_dimensions
+		pass
+	
+	@property
+	def screen_dimensions(self):
+		return self.__screen_dimensions
+	
+	def draw_screen(self, window):
+		"""
+		Insert all drawing logic here. Draw them on window.
+		
+		@param window
+		  A Surface instance to draw on.
+		"""
+		pass
 	
 class GameLoopEvents(object):
 	"""
