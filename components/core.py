@@ -258,8 +258,10 @@ class GameLoopEvents(object):
 	def loop_event(self):
 		"""
 		Holds the code that will be repeatedly executed.
+		
+		By default, this already draws the GameScreen object.
 		"""
-		pass
+		self.game_screen.draw_screen(self.window)
 	
 	def loop_setup(self):
 		"""

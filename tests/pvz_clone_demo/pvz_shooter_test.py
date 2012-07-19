@@ -72,7 +72,7 @@ class PVZEvents(GameLoopEvents):
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)
-		super(PVZEvents, self).game_screen.draw_screen(self.window)
+		super(PVZEvents, self).loop_event()
 	
 	def move_shooter(self, event):
 		
