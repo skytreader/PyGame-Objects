@@ -3,7 +3,8 @@
 import pygame
 
 """
-Classes in core encapsulate what happens in a game loop.
+Classes in core encapsulate what happens in a game loop. It contains
+the classes used to implement an MVC pattern.
 
 Usage
   (1) Configure your program by creating a GameConfig instance.
@@ -70,10 +71,16 @@ class GameConfig(object):
 
 class GameLoop(object):
 	"""
-	A basic PyGame Game Loop
+	A basic PyGame Game Loop.
 	"""
 	
 	def __init__(self, loop_events):
+		"""
+		Initializes a GameLoop.
+		
+		@param loop_events
+		  An instance of GameLoopEvents.
+		"""
 		self.__loop_events = loop_events
 		game_configurations = loop_events.config
 		self.__clock_rate = game_configurations.clock_rate
@@ -84,7 +91,7 @@ class GameLoop(object):
 	@property
 	def loop_events(self):
 		return self.__loop_events
-	
+
 	def add_event_handler(self, event, handler_function):
 		"""
 		@param event
@@ -153,16 +160,19 @@ class GameScreen(object):
 	"""
 	The view.
 	
-	A GameScreen must be PyGame executable by itself. Without a GameLoop,
+	A GameScreen must be PyGame executable by itself. Without a GameLoopEvents,
 	it won't respond to any user-triggerred event.
 	
-	GameScreen classes should provide properties with which a GameLoop can
+	GameScreen classes should provide properties with which a GameLoopEvents can
 	change what's happening on screen.
 	"""
 	
 	def __init__(self, screen_dimensions):
 		"""
-		Creates an instance of GameScreen.
+		Creates an instance of GameScreen. DO NOT instantiate images/surfaces here.
+		Put instantiation code in setup() method.
+		
+		TODO: Take in a Model (for MVC).
 		
 		@param screen_dimensions
 		  An iterable with at least two elements. See GameConfig.
@@ -173,6 +183,12 @@ class GameScreen(object):
 	@property
 	def screen_dimensions(self):
 		return self.__screen_dimensions
+	
+	def setup(self):
+		"""
+		Put all image/surface instatiation code here.
+		"""
+		pass
 	
 	def draw_screen(self, window):
 		"""
@@ -185,15 +201,32 @@ class GameScreen(object):
 	
 class GameLoopEvents(object):
 	"""
+	The controller.
+	
 	Encapsulates the stuff that happens inside a game loop.
 	"""
 	
-	def __init__(self, config):
+	def __init__(self, config, game_screen):
+		"""
+		Initializes a GameLoopEvents object. It is important that subclasses
+		still initialize GameLoopEvents superclass for the properties config
+		and game_screen.
+		
+		@param config
+		  A GameConfig instance.
+		@param game_screen
+		  A GameScreen instance.
+		"""
 		self.__config = config
+		self.__game_screen = game_screen
 	
 	@property
 	def config(self):
 		return self.__config
+	
+	@property
+	def game_screen(self):
+		return self.__game_screen
 	
 	def loop_invariant(self):
 		"""
@@ -218,7 +251,7 @@ class GameLoopEvents(object):
 	@property
 	def window(self):
 		"""
-		RED ALERT! Call this only after calling invoke_window
+		Call this only after calling invoke_window
 		"""
 		return self.__window
 	
@@ -230,7 +263,9 @@ class GameLoopEvents(object):
 	
 	def loop_setup(self):
 		"""
-		This code is executed after the GameLoop default set-up
-		but before GameLoop enters the loop.
+		This code is executed after the GameLoop default set-up but before
+		GameLoop enters the loop. It is important that extensions of GameLoopEvents
+		call this method. This method already calls the setup() method of the
+		GameScreen attribute.
 		"""
-		pass
+		self.game_screen.setup()
