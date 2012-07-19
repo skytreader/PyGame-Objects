@@ -1,5 +1,7 @@
 #! usr/bin/env python
 
+from subscriber_pattern import Observable
+
 import pygame
 
 """
@@ -43,7 +45,7 @@ class KeyCodes(object):
 	"""
 	DOWN = 274
 
-class GameConfig(object):
+class GameConfig(Observable):
 	"""
 	Encapsulation of various configurations needed by a GameLoop object.
 	
@@ -67,9 +69,37 @@ class GameConfig(object):
 	HEIGHT_INDEX = 1
 	
 	def __init__(self):
-		self.clock_rate = 0
-		self.window_size = [0, 0]
-		self.window_title = ""
+		super(GameConfig, self).__init__()
+		self.__clock_rate = 0
+		self.__window_size = [0, 0]
+		self.__window_title = ""
+	
+	@property
+	def clock_rate(self):
+		return self.__clock_rate
+	
+	@clock_rate.setter
+	def clock_rate(self, rate):
+		self.__clock_rate = rate
+		self.notify_subscribers()
+	
+	@property
+	def window_size(self):
+		return self.__window_size
+	
+	@window_size.setter
+	def window_size(self, ws):
+		self.__window_size = ws
+		self.notify_subscribers()
+	
+	@property
+	def window_title(self):
+		return self.__window_title
+	
+	@window_title.setter
+	def window_title(self, title):
+		self.__window_title = title
+		self.notify_subscribers()
 
 class GameLoop(object):
 	"""
