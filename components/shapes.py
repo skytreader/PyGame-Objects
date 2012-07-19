@@ -51,12 +51,17 @@ class PointShape(Drawable):
 			
 		self.__color = color
 	
-	def add_point(self, p):
+	def add_point(self, p, index = None):
 		"""
 		Add a point to the point list. This will change how this
 		PointShape is drawn. Also adjusts collision_box when necessary.
+		
+		TODO: Check if index can get len(self.point_list)
 		"""
-		self.point_list.append(p)
+		if index == None:
+			index = len(self.point_list)
+		
+		self.point_list.insert(index, p)
 		
 		max_x = self.collision_box.lower_right.x
 		max_y = self.collision_box.lower_right.y
