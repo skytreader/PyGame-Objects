@@ -77,7 +77,6 @@ class PVZEvents(GameLoopEvents):
 		super(PVZEvents, self).loop_event()
 	
 	def move_shooter(self, event):
-		
 		if event.key == KeyCodes.UP:
 			is_up = True
 		elif event.key == KeyCodes.DOWN:
@@ -88,6 +87,7 @@ class PVZEvents(GameLoopEvents):
 		
 	def loop_setup(self):
 		super(PVZEvents, self).loop_setup()
+		pygame.key.set_repeat(self.config.clock_rate, self.config.clock_rate)
 
 class PVZLoop(GameLoop):
 	
