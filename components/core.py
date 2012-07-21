@@ -1,6 +1,7 @@
 #! usr/bin/env python
 
 from subscriber_pattern import Observable
+from subscriber_pattern import Observer
 
 import pygame
 
@@ -116,15 +117,16 @@ class GameLoop(object):
 		  An instance of GameLoopEvents.
 		"""
 		self.__loop_events = loop_events
-		game_configurations = loop_events.config
-		self.__clock_rate = game_configurations.clock_rate
-		self.__window_size = game_configurations.window_size
-		self.__window_title = game_configurations.window_title
+		self.__game_configurations = loop_events.config
 		self.__handlers = {}
 	
 	@property
 	def loop_events(self):
 		return self.__loop_events
+	
+	@property
+	def game_configurations(self):
+		return self.__game_configurations
 
 	def add_event_handler(self, event, handler_function):
 		"""
@@ -165,12 +167,8 @@ class GameLoop(object):
 		  (1) Initialization of PyGame (pygame.init())
 		  (2) Window invokation (GameLoopEvents.invoke_window()); background
 		      color set-up and caption set-up
-		  (3) PyGame clock (pygame.time.Clock())
 		"""
 		pygame.init()
-		window = self.__loop_events.invoke_window(self.__window_size)
-		window.fill(Colors.WHITE)
-		pygame.display.set_caption(self.__window_title)
 		clock = pygame.time.Clock()
 		loop_control = True
 		
@@ -178,7 +176,7 @@ class GameLoop(object):
 		self.attach_event_handlers()
 		
 		while loop_control and self.__loop_events.loop_invariant():
-			clock.tick(self.__clock_rate)
+			clock.tick(self.__loop_events.config.clock_rate)
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					loop_control = False
@@ -235,7 +233,7 @@ class GameScreen(object):
 		"""
 		pass
 	
-class GameLoopEvents(object):
+class GameLoopEvents(Observer):
 	"""
 	The controller.
 	
@@ -257,6 +255,8 @@ class GameLoopEvents(object):
 		"""
 		self.__config = config
 		self.__game_screen = game_screen
+		
+		self.__config.subscribe(self)
 	
 	@property
 	def config(self):
@@ -301,6 +301,17 @@ class GameLoopEvents(object):
 		"""
 		self.game_screen.draw_screen(self.window)
 	
+	def __configurable_setup(self):
+		"""
+		Holds the set-up code affected by GameConfig.
+		"""
+		pygame.display.set_caption(self.config.window_title)
+		window = self.invoke_window(self.config.window_size)
+		window.fill(Colors.WHITE)
+	
+	def notify(self, observed, arg_bundle = None):
+		self.__configurable_setup()
+	
 	def loop_setup(self):
 		"""
 		This code is executed after the GameLoop default set-up but before
@@ -308,4 +319,5 @@ class GameLoopEvents(object):
 		call this method. This method already calls the setup() method of the
 		GameScreen attribute.
 		"""
+		self.__configurable_setup()
 		self.game_screen.setup()
