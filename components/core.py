@@ -10,12 +10,14 @@ Classes in core encapsulate what happens in a game loop. It contains
 the classes used to implement an MVC pattern.
 
 Usage
-  (1) Configure your program by creating a GameConfig instance.
-  (2) Extend GameLoopEvents. Note what methods you need to override
-      from that class.
-  (3) Create a GameLoop object by passing a GameConfig instance and
-      an instance of your GameLoopEvents object. Call go() .
-  (4) Have fun!
+  (1) Set the configuration of your game by creating a GameConfig
+      instance.
+  (2) Create a GameScreen instance.
+  (3) Create a GameLoopEvents object by passing your GameConfig
+      instance and GameScreen instance.
+  (4) Create a GameLoop object by passing your GameLoopEvents object.
+      Call go() .
+  (5) Have fun!
 """
 
 class Colors(object):
