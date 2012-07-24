@@ -104,6 +104,14 @@ class GameConfig(Observable):
 		self.__window_title = title
 		self.notify_subscribers()
 
+class KeyHandler(object):
+	
+	def key_action(self, event):
+		pass
+	
+	def get_key(self):
+		pass
+
 class GameLoop(object):
 	"""
 	A basic PyGame Game Loop.
@@ -120,7 +128,18 @@ class GameLoop(object):
 		"""
 		self.__loop_events = loop_events
 		self.__game_configurations = loop_events.config
-		self.__handlers = {}
+		self.__event_handlers = {}
+		self.__key_handlers = {}
+		
+		self.event_handlers[pygame.KEYDOWN] = self.__handle_key
+		
+	@property
+	def event_handlers(self):
+		return self.__event_handlers
+	
+	@property
+	def key_handlers(self):
+		return self.__key_handlers
 	
 	@property
 	def loop_events(self):
@@ -129,23 +148,33 @@ class GameLoop(object):
 	@property
 	def game_configurations(self):
 		return self.__game_configurations
-
-	def add_event_handler(self, event, handler_function):
+	
+	def add_event_handler(self, event, handler):
 		"""
 		@param event
 		  The event trigger. Get this from pygame.event.get() .
-		@param handler_function
-		  The function to be executed when event_code is trigerred. All
-		  handler functions must accept one argument, the event.
+		@param handler
+		  If event.type == pygame.KEYDOWN, this must be an instance of
+		  KeyHandler. Otherwise, this is simply the function to be executed
+		  when event_code is trigerred. All handler functions must accept
+		  one argument, the event.
 		"""
 		event_code = event.type
-		self.__handlers[event_code] = handler_function
+		
+		if event_code == pygame.KEYDOWN:
+			self.key_handlers[handler.get_key()] = handler.key_action
+		else:
+			self.event_handlers[event_code] = handler
+	
+	def __handle_key(self, event):
+		if event.key in self.key_handlers:
+			self.key_handlers[event.key](event)
 	
 	def __handle_event(self, event):
 		event_code = event.type
-		if event_code in self.__handlers:
+		if event_code in self.event_handlers:
 			#TODO: Passing arguments?
-			self.__handlers[event_code](event)
+			self.event_handlers[event_code](event)
 	
 	def attach_event_handlers(self):
 		"""

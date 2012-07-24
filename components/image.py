@@ -14,6 +14,8 @@ class Image(Observable, Drawable):
 	 - The image set for this class is changed.
 	 - The object's position attribute changes.
 	
+	This class was made Observable for Sprites.
+	
 	@author Chad Estioco
 	"""
 	
@@ -48,6 +50,9 @@ class Image(Observable, Drawable):
 	
 	@property
 	def position(self):
+		"""
+		Position of the upper-left corner of the image.
+		"""
 		return self.__position
 	
 	@position.setter
