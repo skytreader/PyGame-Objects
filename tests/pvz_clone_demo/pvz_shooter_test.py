@@ -61,9 +61,11 @@ class PVZMainScreen(GameScreen):
 	def setup(self):
 		super(PVZMainScreen, self).setup()
 		# Preload monster sprites
-		meteormon_img = os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png")
-		bakemon_img = os.path.join("PyGame_Objects","sample_sprites","bakemon_attack.png")
-		self.__monster_list = [meteormon_img, bakemon_img]
+		meteormon_img = os.path.join("PyGame_Objects", "sample_sprites", "meteormon_clueless.png")
+		bakemon_img = os.path.join("PyGame_Objects", "sample_sprites", "bakemon_attack.png")
+		lalamon_img = os.path.join("PyGame_Objects", "sample_sprites", "lalamon_clueless.png")
+		tentacly_img = os.path.join("PyGame_Objects", "sample_sprites", "tentacly_angry.png")
+		self.__monster_list = [meteormon_img, bakemon_img, lalamon_img, tentacly_img]
 		
 		# Load the character sprite
 		shooter_image = Image(os.path.join("PyGame_Objects","sample_sprites","seahomon_hero.png"))
