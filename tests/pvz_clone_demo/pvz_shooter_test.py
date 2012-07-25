@@ -29,6 +29,7 @@ class PVZMainScreen(GameScreen):
 	def __init__(self, screen_dimensions):
 		super(PVZMainScreen, self).__init__(screen_dimensions)
 		self.__sprite_group = pygame.sprite.Group()
+		self.sprite_group2 = pygame.sprite.Group()
 	
 	@property
 	def sprite_group(self):
@@ -54,17 +55,19 @@ class PVZMainScreen(GameScreen):
 		bakemon.position = Point(bakemon_x, meteormon.height)
 		shooter_image.position = Point(0, super(PVZMainScreen, self).screen_dimensions[GameConfig.HEIGHT_INDEX] / 2)
 		
-		meteormon_sprite = Zombie(5, meteormon, 10)
+		self.meteormon_sprite = Zombie(5, meteormon, 10)
 		bakemon_sprite = Zombie(8, bakemon, 10)
 		self.__shooter_sprite = Shooter(7, shooter_image, 10)
-		self.sprite_group.add(meteormon_sprite)
+		self.sprite_group.add(self.meteormon_sprite)
 		self.sprite_group.add(bakemon_sprite)
 		self.sprite_group.add(self.shooter_sprite)
-		self.sprite_group.add(self.shooter_sprite.bullet_sprite)
+		self.sprite_group2.add(self.shooter_sprite.bullet_sprite)
 	
 	def draw_screen(self, window):
 		self.sprite_group.draw(window)
+		self.sprite_group2.draw(window)
 		self.sprite_group.update()
+		self.sprite_group2.update()
 
 class PVZEvents(GameLoopEvents):
 	
@@ -75,7 +78,10 @@ class PVZEvents(GameLoopEvents):
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)
 		super(PVZEvents, self).loop_event()
-		pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, self.game_screen.sprite_group, True)
+		col = pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, self.game_screen.sprite_group, True)
+		
+		if col:
+			print col
 	
 	def move_shooter(self, event):
 		if event.key == pygame.K_UP:
