@@ -5,7 +5,6 @@ from ...components.core import GameLoopEvents
 from ...components.core import GameConfig
 from ...components.core import GameLoop
 from ...components.core import GameScreen
-from ...components.core import KeyCodes
 
 from ...components.framework_exceptions import InstanceException
 
@@ -78,9 +77,9 @@ class PVZEvents(GameLoopEvents):
 		super(PVZEvents, self).loop_event()
 	
 	def move_shooter(self, event):
-		if event.key == KeyCodes.UP:
+		if event.key == pygame.K_UP:
 			is_up = True
-		elif event.key == KeyCodes.DOWN:
+		elif event.key == pygame.K_DOWN:
 			is_up = False
 		
 		super(PVZEvents, self).game_screen.shooter_sprite.is_going_up = is_up
@@ -108,15 +107,20 @@ class PVZLoop(GameLoop):
 		keydown_event = pygame.event.Event(pygame.KEYDOWN)
 		
 		up_dict = {}
-		up_dict[GameLoop.KEYCODE] = KeyCodes.UP
+		up_dict[GameLoop.KEYCODE] = pygame.K_UP
 		up_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
 		
 		down_dict = {}
-		down_dict[GameLoop.KEYCODE] = KeyCodes.DOWN
-		down_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shooter_sprite.shoot
+		down_dict[GameLoop.KEYCODE] = pygame.K_DOWN
+		down_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
+		
+		shoot_dict = {}
+		shoot_dict[GameLoop.KEYCODE] = pygame.K_RETURN
+		shoot_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shooter_sprite.shoot
 		
 		self.add_event_handler(keydown_event, up_dict)
 		self.add_event_handler(keydown_event, down_dict)
+		self.add_event_handler(keydown_event, shoot_dict)
 
 config = GameConfig()
 config.window_size = [500, 500]

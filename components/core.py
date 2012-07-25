@@ -32,22 +32,6 @@ class Colors(object):
 	BLUE = (0, 0, 255)
 	LIGHT_GRAY = (218, 218, 218)
 
-class KeyCodes(object):
-	"""
-	A list of the key codes used in detecting key presses. Will add more as
-	we go along. Will be deprecated when we find the PyGame equivalent.
-	"""
-	
-	"""
-	Up key
-	"""
-	UP = 273
-	
-	"""
-	Down key
-	"""
-	DOWN = 274
-
 class GameConfig(Observable):
 	"""
 	Encapsulation of various configurations needed by a GameLoop object.
