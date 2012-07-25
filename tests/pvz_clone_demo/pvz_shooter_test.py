@@ -113,7 +113,7 @@ class PVZLoop(GameLoop):
 		
 		down_dict = {}
 		down_dict[GameLoop.KEYCODE] = KeyCodes.DOWN
-		down_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
+		down_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shooter_sprite.shoot
 		
 		self.add_event_handler(keydown_event, up_dict)
 		self.add_event_handler(keydown_event, down_dict)

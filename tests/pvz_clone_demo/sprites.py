@@ -174,7 +174,7 @@ class Shooter(PVZSprite):
 		self.screen_draw.position = new_pos
 		self.bullet_image.position = Point(self.bullet_image.position.x, self.screen_draw.position.y)
 	
-	def shoot(self):
+	def shoot(self, event):
 		self.bullet_sprite.rect.x = self.screen_draw.width
 		self.bullet_sprite.rect.y = self.screen_draw.position.y + 39
 		
