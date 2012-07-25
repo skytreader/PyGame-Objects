@@ -61,6 +61,7 @@ class PVZMainScreen(GameScreen):
 		self.sprite_group.add(meteormon_sprite)
 		self.sprite_group.add(bakemon_sprite)
 		self.sprite_group.add(self.shooter_sprite)
+		self.sprite_group.add(self.shooter_sprite.bullet_sprite)
 	
 	def draw_screen(self, window):
 		self.sprite_group.draw(window)
@@ -104,7 +105,18 @@ class PVZLoop(GameLoop):
 			raise TypeError("PVZLoop expects an instance of PVZEvents")
 	
 	def attach_event_handlers(self):
-		self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), self.loop_events.move_shooter)
+		keydown_event = pygame.event.Event(pygame.KEYDOWN)
+		
+		up_dict = {}
+		up_dict[GameLoop.KEYCODE] = KeyCodes.UP
+		up_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
+		
+		down_dict = {}
+		down_dict[GameLoop.KEYCODE] = KeyCodes.DOWN
+		down_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
+		
+		self.add_event_handler(keydown_event, up_dict)
+		self.add_event_handler(keydown_event, down_dict)
 
 config = GameConfig()
 config.window_size = [500, 500]

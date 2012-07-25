@@ -1,10 +1,16 @@
 #! usr/bin/env python
 
+from ...components.image import Image
+
 from ...components.subscriber_pattern import Observer
 
 from ...components.shapes import Point
 
+import os
+
 import pygame
+
+import thread
 
 class PVZSprite(pygame.sprite.Sprite, Observer):
 	"""
@@ -16,22 +22,19 @@ class PVZSprite(pygame.sprite.Sprite, Observer):
 	def __init__(self, move_speed, img, hit_points):
 		"""
 		@param move_speed
-		  The speed at which the zombie marches, specified in pixels.
+		  The speed at which this sprite moves, specified in pixels.
 		@param img
-		  An instance of Image, which is the Zombie's character
+		  An instance of Image, which is the sprite's character
 		  representation. Not to be confused with Sprite's self.image .
 		  This constructor automatically loads self.image with the surface
 		  contained in img .
 		  
-		  TODO: Give PointShape a Surface property so that it can be drawn
-		  as a sprite.
-		  
 		@param hit_points
-		  The number of hits it takes for the Zombie to go down. That is,
-		  this zombie's maximum HP.
+		  The number of hits it takes for this sprite to go down. That is,
+		  this sprite's maximum HP.
 		
 		@param pos
-		  A Point object specifying this Zombie's position.
+		  A Point object specifying this sprite's position.
 		"""
 		
 		super(PVZSprite, self).__init__()
@@ -128,7 +131,30 @@ class Shooter(PVZSprite):
 	
 	def __init__(self, move_speed, img, hit_points):
 		super(Shooter, self).__init__(move_speed, img, hit_points)
+		
+		# Initialize the bullet sprite
+		self.__bullet_image = Image(os.path.join("PyGame_Objects", "sample_sprites", "bullet.png"))
+		self.bullet_image.position.x = -self.bullet_image.width
+		self.bullet_image.position.y = img.position.y + 39
+		self.__bullet_sprite = pygame.sprite.Sprite()
+		self.bullet_sprite.image = self.bullet_image.img
+		self.bullet_sprite.rect = self.bullet_image.img.get_rect()
+		self.bullet_sprite.rect.x = self.bullet_image.position.x
+		self.bullet_sprite.rect.y = self.bullet_image.position.y
+		
 		self.__is_going_up = False
+	
+	@property
+	def bullet_image(self):
+		return self.__bullet_image
+	
+	@property
+	def bullet_sprite(self):
+		"""
+		An extra sprite of Shooter, representing the bullet "fired"
+		by this Shooter.
+		"""
+		return self.__bullet_sprite
 	
 	@property
 	def is_going_up(self):
@@ -146,6 +172,12 @@ class Shooter(PVZSprite):
 		
 		new_pos = Point(0, self.screen_draw.position.y + move_delta)
 		self.screen_draw.position = new_pos
+		self.bullet_image.position = Point(self.bullet_image.position.x, self.screen_draw.position.y)
+	
+	def shoot(self):
+		self.bullet_sprite.rect.x = self.screen_draw.width
+		self.bullet_sprite.rect.y = self.screen_draw.position.y + 39
+		
 
 class HPException(Exception):
 	"""

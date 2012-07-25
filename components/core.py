@@ -104,20 +104,16 @@ class GameConfig(Observable):
 		self.__window_title = title
 		self.notify_subscribers()
 
-class KeyHandler(object):
-	
-	def key_action(self, event):
-		pass
-	
-	def get_key(self):
-		pass
-
 class GameLoop(object):
 	"""
 	A basic PyGame Game Loop.
 	
 	@author Chad Estioco
 	"""
+	
+	# Constants used by the dictionary for key handlers
+	KEYCODE = "keycode"
+	HANDLER = "handler"
 	
 	def __init__(self, loop_events):
 		"""
@@ -151,18 +147,27 @@ class GameLoop(object):
 	
 	def add_event_handler(self, event, handler):
 		"""
+		Maps a given event to the function handler. pygame.KEYDOWN events
+		are handled slightly differently, though. See argument documentation
+		below.
+		
 		@param event
 		  The event trigger. Get this from pygame.event.get() .
 		@param handler
-		  If event.type == pygame.KEYDOWN, this must be an instance of
-		  KeyHandler. Otherwise, this is simply the function to be executed
-		  when event_code is trigerred. All handler functions must accept
-		  one argument, the event.
+		  If event.type == pygame.KEYDOWN, this must be a dictionary
+		  containing at least two keys: GameLoop.KEYCODE and GameLoop.HANDLER.
+		  GameLoop.KEY should map to the key code of the button we wish
+		  to catch while GameLoop.HANDLER should map to the function we will
+		  execute when the said key is triggered.
+		  
+		  Otherwise, this is simply the function to be executed when
+		  event_code is trigerred. All handler functions must accept one
+		  argument, the event.
 		"""
 		event_code = event.type
 		
 		if event_code == pygame.KEYDOWN:
-			self.key_handlers[handler.get_key()] = handler.key_action
+			self.key_handlers[handler[GameLoop.KEYCODE]] = handler[GameLoop.HANDLER]
 		else:
 			self.event_handlers[event_code] = handler
 	
