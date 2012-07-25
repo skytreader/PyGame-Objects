@@ -131,35 +131,7 @@ class Shooter(PVZSprite):
 	
 	def __init__(self, move_speed, img, hit_points, max_bullet_pos):
 		super(Shooter, self).__init__(move_speed, img, hit_points)
-		
-		# Initialize the bullet sprite
-		self.__bullet_image = Image(os.path.join("PyGame_Objects", "sample_sprites", "bullet.png"))
-		self.bullet_image.position.x = -self.bullet_image.width
-		self.bullet_image.position.y = img.position.y + 39
-		self.__bullet_sprite = pygame.sprite.Sprite()
-		self.bullet_sprite.image = self.bullet_image.img
-		self.bullet_sprite.rect = self.bullet_image.img.get_rect()
-		self.bullet_sprite.rect.x = self.bullet_image.position.x
-		self.bullet_sprite.rect.y = self.bullet_image.position.y
-		
 		self.__is_going_up = False
-		self.__is_bullet_moving = False
-	
-	@property
-	def is_bullet_moving(self):
-		return self.__is_bullet_moving
-	
-	@property
-	def bullet_image(self):
-		return self.__bullet_image
-	
-	@property
-	def bullet_sprite(self):
-		"""
-		An extra sprite of Shooter, representing the bullet "fired"
-		by this Shooter.
-		"""
-		return self.__bullet_sprite
 	
 	@property
 	def is_going_up(self):
@@ -177,17 +149,30 @@ class Shooter(PVZSprite):
 		
 		new_pos = Point(0, self.screen_draw.position.y + move_delta)
 		self.screen_draw.position = new_pos
-		self.bullet_image.position = Point(self.bullet_image.position.x, self.screen_draw.position.y)
 	
-	def shoot(self, event):
-		self.bullet_sprite.rect.x = self.screen_draw.width + 3
-		self.bullet_sprite.rect.y = self.screen_draw.position.y + 39
-		self.__is_bullet_moving = True
+class Bullet(pygame.sprite.Sprite):
+	"""
+	A Bullet is only put on screen when the Shooter wants to
+	shoot some monsters.
+	
+	@author Chad Estioco
+	"""
+	
+	def __init__(self, xpos, ypos):
+		super(Bullet, self).__init__()
+		
+		bullet_image = Image(os.path.join("PyGame_Objects", "sample_sprites", "bullet.png"))
+		bullet_image.position.x = xpos
+		bullet_image.position.y = ypos
+		
+		self.image = bullet_image.img
+		self.rect = bullet_image.img.get_rect()
+		self.rect.x = bullet_image.position.x
+		self.rect.y = bullet_image.position.y
 	
 	def update(self):
-		if self.is_bullet_moving:
-			self.bullet_sprite.rect.x += 10
-			self.__is_bullet_moving = (self.bullet_sprite.rect.x < 500)
+		self.rect.x += 10
+		
 
 class HPException(Exception):
 	"""

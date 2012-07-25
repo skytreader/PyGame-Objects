@@ -12,7 +12,7 @@ from ...components.image import Image
 
 from ...components.shapes import Point
 
-from sprites import Zombie, Shooter
+from sprites import Zombie, Shooter, Bullet
 
 import os
 
@@ -32,6 +32,11 @@ class PVZMainScreen(GameScreen):
 		super(PVZMainScreen, self).__init__(screen_dimensions)
 		self.__monster_sprite_group = pygame.sprite.Group()
 		self.__player_sprite_group = pygame.sprite.Group()
+		self.__bullet_sprite_group = pygame.sprite.Group()
+	
+	@property
+	def bullet_sprite_group(self):
+		return self.__bullet_sprite_group
 	
 	@property
 	def monster_sprite_group(self):
@@ -57,6 +62,13 @@ class PVZMainScreen(GameScreen):
 	def shooter_sprite(self):
 		return self.__shooter_sprite
 	
+	def shoot(self, event):
+		# Initialize the bullet sprite
+		shooter_xpos = self.shooter_sprite.rect.x
+		shooter_width = self.shooter_sprite.screen_draw.width
+		bullet = Bullet(shooter_width, self.shooter_sprite.rect.y + 39)
+		self.bullet_sprite_group.add(bullet)
+	
 	# TODO Must be able to vary monster properties (Factory pattern at last?!)
 	def setup(self):
 		super(PVZMainScreen, self).setup()
@@ -75,7 +87,6 @@ class PVZMainScreen(GameScreen):
 		
 		self.__shooter_sprite = Shooter(7, shooter_image, 10, self.screen_size[GameConfig.WIDTH_INDEX])
 		self.player_sprite_group.add(self.shooter_sprite)
-		self.player_sprite_group.add(self.shooter_sprite.bullet_sprite)
 	
 	def add_monster(self, monster):
 		monster_image = Image(monster)
@@ -91,8 +102,11 @@ class PVZMainScreen(GameScreen):
 	def draw_screen(self, window):
 		self.monster_sprite_group.draw(window)
 		self.player_sprite_group.draw(window)
+		self.bullet_sprite_group.draw(window)
+		
 		self.monster_sprite_group.update()
 		self.player_sprite_group.update()
+		self.bullet_sprite_group.update()
 
 class PVZEvents(GameLoopEvents):
 	
@@ -108,8 +122,8 @@ class PVZEvents(GameLoopEvents):
 			self.game_screen.add_monster(self.game_screen.monster_list[monster_index])
 		
 		super(PVZEvents, self).loop_event()
-		pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, \
-			self.game_screen.monster_sprite_group, True)
+		pygame.sprite.groupcollide(self.game_screen.bullet_sprite_group, \
+			self.game_screen.monster_sprite_group, True, True)
 		pygame.sprite.spritecollide(self.game_screen.shooter_sprite, \
 			self.game_screen.monster_sprite_group, True)
 	
@@ -153,7 +167,7 @@ class PVZLoop(GameLoop):
 		
 		shoot_dict = {}
 		shoot_dict[GameLoop.KEYCODE] = pygame.K_RETURN
-		shoot_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shooter_sprite.shoot
+		shoot_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shoot
 		
 		self.add_event_handler(keydown_event, up_dict)
 		self.add_event_handler(keydown_event, down_dict)
