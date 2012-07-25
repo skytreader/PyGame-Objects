@@ -143,6 +143,11 @@ class Shooter(PVZSprite):
 		self.bullet_sprite.rect.y = self.bullet_image.position.y
 		
 		self.__is_going_up = False
+		self.__is_bullet_moving = False
+	
+	@property
+	def is_bullet_moving(self):
+		return self.__is_bullet_moving
 	
 	@property
 	def bullet_image(self):
@@ -177,7 +182,12 @@ class Shooter(PVZSprite):
 	def shoot(self, event):
 		self.bullet_sprite.rect.x = self.screen_draw.width
 		self.bullet_sprite.rect.y = self.screen_draw.position.y + 39
-		
+		self.__is_bullet_moving = True
+	
+	def update(self):
+		if self.is_bullet_moving:
+			self.bullet_sprite.rect.x += 10
+			self.__is_bullet_moving = (self.bullet_sprite.rect.x < 500)
 
 class HPException(Exception):
 	"""
