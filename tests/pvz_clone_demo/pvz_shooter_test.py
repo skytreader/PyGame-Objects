@@ -75,6 +75,7 @@ class PVZEvents(GameLoopEvents):
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)
 		super(PVZEvents, self).loop_event()
+		pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, self.game_screen.sprite_group, True)
 	
 	def move_shooter(self, event):
 		if event.key == pygame.K_UP:
