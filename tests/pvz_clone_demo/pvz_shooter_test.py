@@ -18,6 +18,8 @@ import os
 
 import pygame
 
+import random
+
 """
 A shooting game inspired by Plants vs Zombies.
 
@@ -28,46 +30,67 @@ class PVZMainScreen(GameScreen):
 	
 	def __init__(self, screen_dimensions):
 		super(PVZMainScreen, self).__init__(screen_dimensions)
-		self.__sprite_group = pygame.sprite.Group()
-		self.sprite_group2 = pygame.sprite.Group()
+		self.__monster_sprite_group = pygame.sprite.Group()
+		self.__player_sprite_group = pygame.sprite.Group()
 	
 	@property
-	def sprite_group(self):
-		return self.__sprite_group
+	def monster_sprite_group(self):
+		return self.__monster_sprite_group
+	
+	@property
+	def player_sprite_group(self):
+		return self.__player_sprite_group
+	
+	@property
+	def meteormon(self):
+		return self.__meteormon_sprite
+	
+	@property
+	def bakemon(self):
+		return self.__bakemon_sprite
+	
+	@property
+	def monster_list(self):
+		return self.__monster_list
 	
 	@property
 	def shooter_sprite(self):
 		return self.__shooter_sprite
 	
+	# TODO Must be able to vary monster properties (Factory pattern at last?!)
 	def setup(self):
 		super(PVZMainScreen, self).setup()
-		meteormon = Image(os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png"))
-		bakemon = Image(os.path.join("PyGame_Objects","sample_sprites","bakemon_attack.png"))
+		# Preload monster sprites
+		meteormon_img = os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png")
+		bakemon_img = os.path.join("PyGame_Objects","sample_sprites","bakemon_attack.png")
+		self.__monster_list = [meteormon_img, bakemon_img]
+		
+		# Load the character sprite
 		shooter_image = Image(os.path.join("PyGame_Objects","sample_sprites","seahomon_hero.png"))
 		shooter_image.flip(True, False)
 		
-		init_x = super(PVZMainScreen, self).screen_dimensions[GameConfig.WIDTH_INDEX] - \
-			meteormon.width
-		#off-screen
-		bakemon_x = init_x + meteormon.height
+		shooter_image.position = Point(0, super(PVZMainScreen, self).screen_size[GameConfig.HEIGHT_INDEX] / 2)
 		
-		meteormon.position = Point(init_x, 0)
-		bakemon.position = Point(bakemon_x, meteormon.height)
-		shooter_image.position = Point(0, super(PVZMainScreen, self).screen_dimensions[GameConfig.HEIGHT_INDEX] / 2)
+		self.__shooter_sprite = Shooter(7, shooter_image, 10, self.screen_size[GameConfig.WIDTH_INDEX])
+		self.player_sprite_group.add(self.shooter_sprite)
+		self.player_sprite_group.add(self.shooter_sprite.bullet_sprite)
+	
+	def add_monster(self, monster):
+		monster_image = Image(monster)
+		screen_width = self.screen_size[GameConfig.WIDTH_INDEX]
+		init_x = random.randint(screen_width, screen_width + 50)
+		init_y = random.randint(0, self.screen_size[GameConfig.HEIGHT_INDEX] - 50)
+		monster_image.position = Point(init_x, init_y)
 		
-		self.meteormon_sprite = Zombie(5, meteormon, 10)
-		bakemon_sprite = Zombie(8, bakemon, 10)
-		self.__shooter_sprite = Shooter(7, shooter_image, 10)
-		self.sprite_group.add(self.meteormon_sprite)
-		self.sprite_group.add(bakemon_sprite)
-		self.sprite_group.add(self.shooter_sprite)
-		self.sprite_group2.add(self.shooter_sprite.bullet_sprite)
+		sprite = Zombie(5, monster_image, 10)
+		
+		self.monster_sprite_group.add(sprite)
 	
 	def draw_screen(self, window):
-		self.sprite_group.draw(window)
-		self.sprite_group2.draw(window)
-		self.sprite_group.update()
-		self.sprite_group2.update()
+		self.monster_sprite_group.draw(window)
+		self.player_sprite_group.draw(window)
+		self.monster_sprite_group.update()
+		self.player_sprite_group.update()
 
 class PVZEvents(GameLoopEvents):
 	
@@ -77,11 +100,16 @@ class PVZEvents(GameLoopEvents):
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)
-		super(PVZEvents, self).loop_event()
-		col = pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, self.game_screen.sprite_group, True)
 		
-		if col:
-			print col
+		if random.random() <= 0.3:
+			monster_index = random.randint(0, len(self.game_screen.monster_list) - 1)
+			self.game_screen.add_monster(self.game_screen.monster_list[monster_index])
+		
+		super(PVZEvents, self).loop_event()
+		pygame.sprite.spritecollide(self.game_screen.shooter_sprite.bullet_sprite, \
+			self.game_screen.monster_sprite_group, True)
+		pygame.sprite.spritecollide(self.game_screen.shooter_sprite, \
+			self.game_screen.monster_sprite_group, True)
 	
 	def move_shooter(self, event):
 		if event.key == pygame.K_UP:

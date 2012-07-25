@@ -129,7 +129,7 @@ class Shooter(PVZSprite):
 	@author Chad Estioco
 	"""
 	
-	def __init__(self, move_speed, img, hit_points):
+	def __init__(self, move_speed, img, hit_points, max_bullet_pos):
 		super(Shooter, self).__init__(move_speed, img, hit_points)
 		
 		# Initialize the bullet sprite

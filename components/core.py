@@ -235,7 +235,7 @@ class GameScreen(object):
 		pass
 	
 	@property
-	def screen_dimensions(self):
+	def screen_size(self):
 		return self.__screen_dimensions
 	
 	def setup(self):
