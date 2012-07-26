@@ -34,6 +34,15 @@ class PVZMainScreen(GameScreen):
 		self.__player_sprite_group = pygame.sprite.Group()
 		self.__bullet_sprite_group = pygame.sprite.Group()
 		self.__score = 0
+		self.__end_game = False
+	
+	@property
+	def end_game(self):
+		return self.__end_game
+	
+	@end_game.setter
+	def end_game(self, is_end):
+		self.__end_game = is_end
 	
 	@property
 	def bullet_sprite_group(self):
@@ -109,6 +118,12 @@ class PVZMainScreen(GameScreen):
 		self.monster_sprite_group.add(sprite)
 	
 	def draw_screen(self, window):
+		if self.end_game:
+			font = pygame.font.Font(None, 25)
+			end_message = font.render("GAME OVER", True, Colors.RED)
+			window.blit(end_message, [100, 100])
+			return
+		
 		self.monster_sprite_group.draw(window)
 		self.player_sprite_group.draw(window)
 		self.bullet_sprite_group.draw(window)
@@ -144,6 +159,8 @@ class PVZEvents(GameLoopEvents):
 			self.game_screen.monster_sprite_group, True)
 		
 		self.game_screen.score -= len(self_hits)
+		
+		self.game_screen.end_game = self.game_screen.score < 0
 	
 	def move_shooter(self, event):
 		if event.key == pygame.K_UP:
