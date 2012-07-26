@@ -33,6 +33,7 @@ class PVZMainScreen(GameScreen):
 		self.__monster_sprite_group = pygame.sprite.Group()
 		self.__player_sprite_group = pygame.sprite.Group()
 		self.__bullet_sprite_group = pygame.sprite.Group()
+		self.__score = 0
 	
 	@property
 	def bullet_sprite_group(self):
@@ -41,6 +42,14 @@ class PVZMainScreen(GameScreen):
 	@property
 	def monster_sprite_group(self):
 		return self.__monster_sprite_group
+	
+	@property
+	def score(self):
+		return self.__score
+	
+	@score.setter
+	def score(self, s):
+		self.__score = s
 	
 	@property
 	def player_sprite_group(self):
@@ -107,6 +116,10 @@ class PVZMainScreen(GameScreen):
 		self.monster_sprite_group.update()
 		self.player_sprite_group.update()
 		self.bullet_sprite_group.update()
+		
+		font = pygame.font.Font(None, 25)
+		score = font.render("Score: " + str(self.score), True, Colors.RED)
+		window.blit(score, [100, 100])
 
 class PVZEvents(GameLoopEvents):
 	
@@ -122,10 +135,15 @@ class PVZEvents(GameLoopEvents):
 			self.game_screen.add_monster(self.game_screen.monster_list[monster_index])
 		
 		super(PVZEvents, self).loop_event()
-		pygame.sprite.groupcollide(self.game_screen.bullet_sprite_group, \
+		bullet_hits = pygame.sprite.groupcollide(self.game_screen.bullet_sprite_group, \
 			self.game_screen.monster_sprite_group, True, True)
-		pygame.sprite.spritecollide(self.game_screen.shooter_sprite, \
+		
+		self.game_screen.score += len(bullet_hits)
+		
+		self_hits = pygame.sprite.spritecollide(self.game_screen.shooter_sprite, \
 			self.game_screen.monster_sprite_group, True)
+		
+		self.game_screen.score -= len(self_hits)
 	
 	def move_shooter(self, event):
 		if event.key == pygame.K_UP:
