@@ -105,8 +105,6 @@ class GameLoop(object):
 		self.__loop_events = loop_events
 		self.__game_configurations = loop_events.config
 		
-		self.event_handlers[pygame.KEYDOWN] = self.__handle_key
-		
 	@property
 	def loop_events(self):
 		return self.__loop_events
@@ -119,17 +117,8 @@ class GameLoop(object):
 		event_code = event.type
 		if event_code in self.loop_events.event_handlers:
 			#TODO: Passing arguments?
+			print "Handling event with " + str(self.loop_events.event_handlers[event_code](event))
 			self.loop_events.event_handlers[event_code](event)
-	
-	def attach_event_handlers(self):
-		"""
-		Write all calls to add_event_handler here. This method is called after
-		GameLoopEvents.loop_setup but before the main loop starts rolling.
-		
-		(So far, this is the only event in GameLoop which you need to
-		implement, and that's depending on your requirements.)
-		"""
-		pass
 	
 	def go(self):
 		"""
@@ -148,8 +137,7 @@ class GameLoop(object):
 		clock = pygame.time.Clock()
 		loop_control = True
 		
-		self.__loop_events.loop_setup()
-		self.attach_event_handlers()
+		self.loop_events.loop_setup()
 		
 		while loop_control and self.__loop_events.loop_invariant():
 			clock.tick(self.__loop_events.config.clock_rate)
@@ -288,6 +276,13 @@ class GameLoopEvents(Observer):
 		else:
 			self.event_handlers[event_code] = handler
 	
+	def attach_event_handlers(self):
+		"""
+		Write all calls to add_event_handler here. This method is called inside
+		GameLoopEvents.loop_setup.
+		"""
+		pass
+	
 	def loop_invariant(self):
 		"""
 		Condition to check that keeps the game loop going.
@@ -343,3 +338,4 @@ class GameLoopEvents(Observer):
 		"""
 		self.__configurable_setup()
 		self.game_screen.setup()
+		self.attach_event_handlers()
