@@ -117,7 +117,6 @@ class GameLoop(object):
 		event_code = event.type
 		if event_code in self.loop_events.event_handlers:
 			#TODO: Passing arguments?
-			print "Handling event with " + str(self.loop_events.event_handlers[event_code](event))
 			self.loop_events.event_handlers[event_code](event)
 	
 	def go(self):
@@ -228,7 +227,7 @@ class GameLoopEvents(Observer):
 		self.__event_handlers = {}
 		self.__key_handlers = {}
 		
-		self.key_handlers[pygame.KEYDOWN] = self.__handle_key
+		self.event_handlers[pygame.KEYDOWN] = self.__handle_key
 	
 	@property
 	def config(self):

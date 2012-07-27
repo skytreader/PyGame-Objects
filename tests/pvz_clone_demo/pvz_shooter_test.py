@@ -174,7 +174,26 @@ class PVZEvents(GameLoopEvents):
 	def loop_setup(self):
 		super(PVZEvents, self).loop_setup()
 		pygame.key.set_repeat(self.config.clock_rate, self.config.clock_rate)
-
+	
+	def attach_event_handlers(self):
+		keydown_event = pygame.event.Event(pygame.KEYDOWN)
+		
+		up_dict = {}
+		up_dict[GameLoopEvents.KEYCODE] = pygame.K_UP
+		up_dict[GameLoopEvents.HANDLER] = self.move_shooter
+		
+		down_dict = {}
+		down_dict[GameLoopEvents.KEYCODE] = pygame.K_DOWN
+		down_dict[GameLoopEvents.HANDLER] = self.move_shooter
+		
+		shoot_dict = {}
+		shoot_dict[GameLoopEvents.KEYCODE] = pygame.K_RETURN
+		shoot_dict[GameLoopEvents.HANDLER] = self.game_screen.shoot
+		
+		self.add_event_handler(keydown_event, up_dict)
+		self.add_event_handler(keydown_event, down_dict)
+		self.add_event_handler(keydown_event, shoot_dict)
+		
 class PVZLoop(GameLoop):
 	
 	def __init__(self, events):
@@ -189,24 +208,6 @@ class PVZLoop(GameLoop):
 		else:
 			raise TypeError("PVZLoop expects an instance of PVZEvents")
 	
-	def attach_event_handlers(self):
-		keydown_event = pygame.event.Event(pygame.KEYDOWN)
-		
-		up_dict = {}
-		up_dict[GameLoop.KEYCODE] = pygame.K_UP
-		up_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
-		
-		down_dict = {}
-		down_dict[GameLoop.KEYCODE] = pygame.K_DOWN
-		down_dict[GameLoop.HANDLER] = self.loop_events.move_shooter
-		
-		shoot_dict = {}
-		shoot_dict[GameLoop.KEYCODE] = pygame.K_RETURN
-		shoot_dict[GameLoop.HANDLER] = self.loop_events.game_screen.shoot
-		
-		self.add_event_handler(keydown_event, up_dict)
-		self.add_event_handler(keydown_event, down_dict)
-		self.add_event_handler(keydown_event, shoot_dict)
 
 config = GameConfig()
 config.window_size = [500, 500]
