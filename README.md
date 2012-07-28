@@ -18,4 +18,4 @@ Just a simple game, with a simple set of rules it's virtually impossible to lose
 If you look at the code, this is a very simple version of what I originally had in mind; maybe, some other time, for some other iteration of PyGame Objects. If you look at my commit history, yes, this was supposed to be a clone of Plants vs Zombies, but it ended up as a simple shoot-em-up.
 
 # Git Organization
-(Nonexistent) documentation is at the wiki but hey, I have inline docs. My todo list I made as issues.
+Documentation is at the wiki though it is not very comprehensive; the inline docs will be far more informative. My todo list I made as issues.
