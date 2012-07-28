@@ -317,7 +317,7 @@ class GameLoopEvents(Observer):
 		"""
 		self.game_screen.draw_screen(self.window)
 	
-	def __configurable_setup(self):
+	def configurable_setup(self):
 		"""
 		Holds the set-up code affected by GameConfig.
 		"""
@@ -335,6 +335,6 @@ class GameLoopEvents(Observer):
 		call this method. This method already calls the setup() method of the
 		GameScreen attribute.
 		"""
-		self.__configurable_setup()
+		self.configurable_setup()
 		self.game_screen.setup()
 		self.attach_event_handlers()
