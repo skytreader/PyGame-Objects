@@ -11,7 +11,7 @@ scheme of the framework.
 @author Chad Estioco
 """
 
-class Sprite(pygame.sprite.Sprite, Observer):
+class PyRoSprite(pygame.sprite.Sprite, Observer):
 	
 	def __init__(self, img):
 		"""
@@ -21,9 +21,10 @@ class Sprite(pygame.sprite.Sprite, Observer):
 		  This constructor automatically loads self.image with the surface
 		  contained in img .
 		"""
-		super(Sprite, self).__init__()
+		super(PyRoSprite, self).__init__()
 		
 		self.__screen_draw = img
+		self.screen_draw.subscribe(self)
 		
 		self.image = img.img
 		self.rect = self.image.get_rect()

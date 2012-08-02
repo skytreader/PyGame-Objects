@@ -6,13 +6,15 @@ from ...components.subscriber_pattern import Observer
 
 from ...components.shapes import Point
 
+from ...components.sprite import PyRoSprite
+
 import os
 
 import pygame
 
 import thread
 
-class PVZSprite(pygame.sprite.Sprite, Observer):
+class PVZSprite(PyRoSprite):
 	"""
 	General behavior of a PVZ Game Sprite
 	
@@ -37,19 +39,11 @@ class PVZSprite(pygame.sprite.Sprite, Observer):
 		  A Point object specifying this sprite's position.
 		"""
 		
-		super(PVZSprite, self).__init__()
+		super(PVZSprite, self).__init__(img)
 		
 		self.__speed = move_speed
-		self.__screen_draw = img
-		self.__screen_draw.subscribe(self)
 		self.__max_hp = hit_points
 		self.__hp = hit_points
-		
-		#Set sprite attributes
-		self.image = img.img
-		self.rect = self.image.get_rect()
-		self.rect.y = img.position.y
-		self.rect.x = img.position.x
 	
 	@property
 	def speed(self):
@@ -58,21 +52,6 @@ class PVZSprite(pygame.sprite.Sprite, Observer):
 	@speed.setter
 	def speed(self, s):
 		self.__speed = s
-	
-	@property
-	def screen_draw(self):
-		"""
-		Returns the Image object of this sprite.
-		"""
-		return self.__screen_draw
-	
-	@screen_draw.setter
-	def screen_draw(self, i):
-		"""
-		Sets the Image object of this sprite.
-		"""
-		self.__screen_draw = i
-		self.image = self.screen_draw.img
 	
 	@property
 	def max_hp(self):
@@ -98,12 +77,7 @@ class PVZSprite(pygame.sprite.Sprite, Observer):
 			raise HPException("Gave a zombie more HP than it's worth!")
 		else:
 			self.__hp = new_hp
-	
-	def notify(self, observed, arg_bundle = None):
-		self.image = self.screen_draw.img
-		self.rect.x = self.screen_draw.position.x
-		self.rect.y = self.screen_draw.position.y
-	
+
 class Zombie(PVZSprite):
 	"""
 	A zombie is a sprite that moves from the right side of the
