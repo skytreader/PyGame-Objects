@@ -7,9 +7,11 @@ This file contains models for grids.
 class QuadraticGrid(object):
 	"""
 	AKA Cartesian Grid.
+	
+	TODO: Raise errors for invalid indices.
 	"""
 	
-	def __init__(self, grid_width, grid_height):
+	def __init__(self, grid_height, grid_width):
 		self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
 	
 	@property
@@ -42,11 +44,6 @@ class QuadraticGrid(object):
 		"""
 		Returns a list of all the adjacent cells to (row, col). The list
 		contains tuples of the index coordinates of the adjacent blocks.
-		
-		Test cases:
-			The grid is just one row.
-			
-			The grid is just one column.
 		"""
 		rows = self.__list_unique(row, self.__incr(row, len(self.grid)), self.__decr(row))
 		cols = self.__list_unique(col, self.__incr(col, len(self.grid[0])), self.__decr(col))

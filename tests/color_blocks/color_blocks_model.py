@@ -1,5 +1,7 @@
 #! usr/bin/env python
 
+from ...helpers.grid import QuadraticGrid
+
 import random
 
 class ColorBlocksModel(object):
@@ -14,17 +16,21 @@ class ColorBlocksModel(object):
 	BLOCKS = "01234"
 	UNTAKEN = "."
 	
-	def __init__(self, grid_width, grid_height):
+	def __init__(self, grid_height, grid_width):
 		"""
 		Initializes a Color Blocks game with the given parameters
 		"""
 		untaken = ColorBlocksModel.UNTAKEN
-		self.__grid = [[untaken for i in range(grid_width)] for j in range(grid_height)]
+		self.__quadratic_grid = QuadraticGrid(grid_height, grid_width)
 		self.__populate()
 	
 	@property
 	def grid(self):
-		return self.__grid
+		return self.__quadratic_grid.grid
+	
+	@property
+	def quadratic_grid(self):
+		return self.__quadratic_grid
 	
 	def __populate(self):
 		height = len(self.grid)
@@ -35,3 +41,15 @@ class ColorBlocksModel(object):
 			for j in range(width):
 				block = ColorBlocksModel.BLOCKS[random.randint(0, block_index_max)]
 				self.grid[i][j] = block
+	
+	def toggle(self, row, col):
+		"""
+		Removes the block at position (row, col) and all adjacent blocks of
+		the same color.
+		"""
+		crow = row
+		ccol = col
+		adjacent_stack = []
+		
+		while self.grid[crow][ccol] == self.grid[row][col]:
+			pass
