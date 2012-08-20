@@ -10,14 +10,14 @@ class QuadraticGrid(object):
 	"""
 	
 	def __init__(self, grid_width, grid_height):
-		self.__grid = [[untaken for i in range(grid_width)] for j in range(grid_height)]
+		self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
 	
 	@property
 	def grid(self):
 		return self.__grid
 	
-	def __incr(self, index):
-		if index == (len(self.grid) - 1):
+	def __incr(self, index, dimension_length):
+		if index == (dimension_length - 1):
 			return index
 		else:
 			return index + 1
@@ -48,8 +48,8 @@ class QuadraticGrid(object):
 			
 			The grid is just one column.
 		"""
-		rows = self.__list_unique(row, self.__incr(row), self.__decr(row))
-		cols = self.__list_unique(col, self.__incr(col), self.__decr(col))
+		rows = self.__list_unique(row, self.__incr(row, len(self.grid)), self.__decr(row))
+		cols = self.__list_unique(col, self.__incr(col, len(self.grid[0])), self.__decr(col))
 		adjacent = []
 		
 		# Cartesian product rows and cols, sans the combination (rows, cols)
