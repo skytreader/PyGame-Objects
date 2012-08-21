@@ -7,9 +7,12 @@ import unittest
 class color_blocks_model_tests(unittest.TestCase):
 	
 	def setUp(self):
-		self.width = 3
-		self.height = 4
-		self.color_game = ColorBlocksModel(self.height, self.width)
+		"""
+		Note that this results to a random configuration for every test!
+		"""
+		self.width = 4
+		self.height = 5
+		self.color_game = ColorBlocksModel(self.width, self.height)
 	
 	def __modify_model_grid(self, grid):
 		"""
@@ -28,6 +31,10 @@ class color_blocks_model_tests(unittest.TestCase):
 		game_grid = self.color_game.grid
 		self.assertEqual(self.height, len(game_grid))
 		self.assertEqual(self.width, len(game_grid[0]))
+	
+	def test_toggle(self):
+		game_grid = [[1 for i in range(self.width)] for j in range(self.height)]
+		self.__modify_model_grid(game_grid)
 
 if __name__ == "__main__":
 	tests = unittest.TestLoader().loadTestsFromTestCase(color_blocks_model_tests)

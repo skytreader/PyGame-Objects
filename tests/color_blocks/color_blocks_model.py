@@ -16,12 +16,12 @@ class ColorBlocksModel(object):
 	BLOCKS = "01234"
 	UNTAKEN = "."
 	
-	def __init__(self, grid_height, grid_width):
+	def __init__(self, grid_width, grid_height):
 		"""
 		Initializes a Color Blocks game with the given parameters
 		"""
 		untaken = ColorBlocksModel.UNTAKEN
-		self.__quadratic_grid = QuadraticGrid(grid_height, grid_width)
+		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height)
 		self.__populate()
 	
 	@property
@@ -46,10 +46,19 @@ class ColorBlocksModel(object):
 		"""
 		Removes the block at position (row, col) and all adjacent blocks of
 		the same color.
-		"""
-		crow = row
-		ccol = col
-		adjacent_stack = []
 		
-		while self.grid[crow][ccol] == self.grid[row][col]:
-			pass
+		TODO: We should only be checking in the four directions---no diagonals!
+		"""
+		adjacent_stack = [(row, col)]
+		
+		while len(adjacent_stack):
+			cur_block = adjacent_stack.pop()
+			adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block[0], cur_block[1])
+			adj_count = len(adjacent_blocks)
+			
+			for i in range(adj_count):
+				block = adjacent_blocks[i]
+				if self.grid[block[0]][block[1]] == self.grid[row][col]:
+					adjacent_stack.insert(0, adjacent_blocks[i])
+			
+			self.grid[cur_block[0]][cur_block[1]] = ColorBlocksModel.UNTAKEN

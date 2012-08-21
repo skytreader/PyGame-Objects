@@ -11,7 +11,7 @@ class QuadraticGrid(object):
 	TODO: Raise errors for invalid indices.
 	"""
 	
-	def __init__(self, grid_height, grid_width):
+	def __init__(self, grid_width, grid_height):
 		self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
 	
 	@property

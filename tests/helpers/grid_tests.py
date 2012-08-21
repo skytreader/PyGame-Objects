@@ -27,7 +27,7 @@ class QuadraticGrid_Tests(unittest.TestCase):
 		return len(l1) == len(l2) == 0
 	
 	def test_adjacent_list(self):
-		one_row = QuadraticGrid(1, 5)
+		one_row = QuadraticGrid(5, 1)
 		adj = one_row.get_adjacent(0, 0)
 		self.assertTrue(self.__all_in(adj, [(0, 1)]))
 		adj = one_row.get_adjacent(0, 3)
@@ -35,7 +35,7 @@ class QuadraticGrid_Tests(unittest.TestCase):
 		adj = one_row.get_adjacent(0, 4)
 		self.assertTrue(self.__all_in(adj, [(0, 3)]))
 		
-		one_col = QuadraticGrid(5, 1)
+		one_col = QuadraticGrid(1, 5)
 		adj = one_col.get_adjacent(0, 0)
 		self.assertTrue(self.__all_in(adj, [(1, 0)]));
 		adj = one_col.get_adjacent(3, 0)
@@ -43,7 +43,7 @@ class QuadraticGrid_Tests(unittest.TestCase):
 		adj = one_col.get_adjacent(4, 0)
 		self.assertTrue(self.__all_in(adj, [(3, 0)]))
 		
-		matrix = QuadraticGrid(4, 3)
+		matrix = QuadraticGrid(3, 4)
 		adj = matrix.get_adjacent(0, 0)
 		self.assertTrue(self.__all_in(adj, [(0, 1), (1, 0), (1, 1)]))
 		adj = matrix.get_adjacent(0, 2)
