@@ -47,18 +47,26 @@ class ColorBlocksModel(object):
 		Removes the block at position (row, col) and all adjacent blocks of
 		the same color.
 		
+		Returns the number of blocks removed from the grid.
+		
 		TODO: We should only be checking in the four directions---no diagonals!
 		"""
+		points = 0
+		original = self.grid[row][col]
 		adjacent_stack = [(row, col)]
 		
 		while len(adjacent_stack):
 			cur_block = adjacent_stack.pop()
+			points += 1
 			adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block[0], cur_block[1])
 			adj_count = len(adjacent_blocks)
 			
 			for i in range(adj_count):
 				block = adjacent_blocks[i]
-				if self.grid[block[0]][block[1]] == self.grid[row][col]:
+				if self.grid[block[0]][block[1]] == original and \
+				  block not in adjacent_stack:
 					adjacent_stack.insert(0, adjacent_blocks[i])
 			
 			self.grid[cur_block[0]][cur_block[1]] = ColorBlocksModel.UNTAKEN
+		
+		return points
