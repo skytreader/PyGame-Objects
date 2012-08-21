@@ -50,9 +50,20 @@ class ColorBlocksModel(object):
 		Returns the number of blocks removed from the grid.
 		
 		TODO: We should only be checking in the four directions---no diagonals!
+		
+		@param row
+		  The row index of the block to be toggled.
+		@param col
+		  The column index of the block to be toggled.
+		@return The number of blocks removed from the grid or false if the block
+		indicated is untaken.
 		"""
 		points = 0
 		original = self.grid[row][col]
+		
+		if original == ColorBlocksModel.UNTAKEN:
+			return False
+		
 		adjacent_stack = [(row, col)]
 		
 		while len(adjacent_stack):
@@ -70,3 +81,12 @@ class ColorBlocksModel(object):
 			self.grid[cur_block[0]][cur_block[1]] = ColorBlocksModel.UNTAKEN
 		
 		return points
+	
+	def __str__(self):
+		board = ""
+		height = len(self.grid)
+		
+		for i in range(height):
+			board += str(self.grid[i]) + "\n"
+		
+		return board
