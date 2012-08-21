@@ -21,7 +21,7 @@ class ColorBlocksModel(object):
 		Initializes a Color Blocks game with the given parameters
 		"""
 		untaken = ColorBlocksModel.UNTAKEN
-		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height)
+		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height, True, False)
 		self.__populate()
 	
 	@property
