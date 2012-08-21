@@ -85,12 +85,12 @@ class QuadraticGrid(object):
 		
 		if is_height:
 			dim_len = len(self.grid)
-			static_index = 0
-			trans_index = 1
-		else:
-			dim_len = len(self.grid[0])
 			static_index = 1
 			trans_index = 0
+		else:
+			dim_len = len(self.grid[0])
+			static_index = 0
+			trans_index = 1
 		
 		move_dim = current_block[trans_index]
 		
@@ -129,7 +129,8 @@ class QuadraticGrid(object):
 		
 		for i in range(len(rows)):
 			for j in range(len(cols)):
-				adjacent.append((rows[i], cols[j]))
+				if rows[i] != row and cols[j] != col:
+					adjacent.append((rows[i], cols[j]))
 		
 		return adjacent
 	
@@ -176,6 +177,7 @@ class QuadraticGrid(object):
 		
 		limit = len(hv_adj)
 		for i in range(limit):
-			diag_adj.append(hv_adj[i])
+			if hv_adj[i] not in diag_adj and hv_adj[i] != current_block:
+				diag_adj.append(hv_adj[i])
 		
 		return diag_adj
