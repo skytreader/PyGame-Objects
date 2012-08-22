@@ -16,13 +16,20 @@ class ColorBlocksModel(object):
 	BLOCKS = "01234"
 	UNTAKEN = "."
 	
-	def __init__(self, grid_width, grid_height):
+	def __init__(self, grid_width, grid_height, min_score = 1):
 		"""
 		Initializes a Color Blocks game with the given parameters
+		
+		@param grid_width
+		@param grid_height
+		@param min_score
+		  The minimum number of blocks required to make a score.
 		"""
 		untaken = ColorBlocksModel.UNTAKEN
 		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height, True, False)
 		self.__populate()
+		self.__min_score = min_score
+		self.__score = 0
 	
 	@property
 	def grid(self):
@@ -31,6 +38,22 @@ class ColorBlocksModel(object):
 	@property
 	def quadratic_grid(self):
 		return self.__quadratic_grid
+	
+	@property
+	def min_score(self):
+		return self.__min_score
+	
+	@min_score.setter
+	def min_score(self, min_score):
+		self.__min_score = min_score
+	
+	@property
+	def score(self):
+		return self.__score
+	
+	@score.setter
+	def score(self, score):
+		self.__score = score
 	
 	def __populate(self):
 		height = len(self.grid)
@@ -49,8 +72,6 @@ class ColorBlocksModel(object):
 		
 		Returns the number of blocks removed from the grid.
 		
-		TODO: We should only be checking in the four directions---no diagonals!
-		
 		@param row
 		  The row index of the block to be toggled.
 		@param col
@@ -65,10 +86,11 @@ class ColorBlocksModel(object):
 			return False
 		
 		adjacent_stack = [(row, col)]
+		adj_same_color = []
 		
 		while len(adjacent_stack):
 			cur_block = adjacent_stack.pop()
-			points += 1
+			adj_same_color.append(cur_block)
 			adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block[0], cur_block[1])
 			adj_count = len(adjacent_blocks)
 			
@@ -76,9 +98,12 @@ class ColorBlocksModel(object):
 				block = adjacent_blocks[i]
 				if self.grid[block[0]][block[1]] == original and \
 				  block not in adjacent_stack:
-					adjacent_stack.insert(0, adjacent_blocks[i])
-			
-			self.grid[cur_block[0]][cur_block[1]] = ColorBlocksModel.UNTAKEN
+					adjacent_stack.append(adjacent_blocks[i])
+		
+		if len(adj_same_color) >= self.min_score:
+			for cur_block in adj_same_color:
+				self.grid[cur_block[0]][cur_block[1]] = ColorBlocksModel.UNTAKEN
+				points += 1
 		
 		return points
 	
