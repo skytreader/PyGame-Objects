@@ -8,7 +8,7 @@ Nothing grand here (yet). Just a simple abstraction for some commmon code patter
 Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ubuntu.
 
 # Current Status
-I'm currently adding new features (see "helpers" directory and "tests/color_blocks"). The product of my last dev cycle (a.k.a Julython 2012 is tagged as "Milestone1").
+I'm currently adding new features (see "helpers" directory and "tests/color_blocks"). The product of my last dev cycle (a.k.a Julython 2012) is tagged as "Milestone1".
 
 # File Organization
 `components` houses the main framework. `sample_sprites` contains the sprites I used for the test and demo files. `tests` contains, well, tests.
