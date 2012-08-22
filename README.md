@@ -7,10 +7,13 @@ Nothing grand here (yet). Just a simple abstraction for some commmon code patter
 
 Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ubuntu.
 
+# Current Status
+I'm currently adding new features (see "helpers" directory and "tests/color_blocks"). The product of my last dev cycle (a.k.a Julython 2012 is tagged as "Milestone1").
+
 # File Organization
 `components` houses the main framework. `sample_sprites` contains the sprites I used for the test and demo files. `tests` contains, well, tests.
 
-The tests were written after every feature I finished. However, when I modified/revised those features, I did not really modify the corresponding test especially when I already have a larger test/demo that encompasses that given feature. So, not all those tests are guaranteed to work (but the framework is, for what it's worth). And yes, there is one large demo that encompasses all that I have so far---the monster shooter test.
+The tests were written after every feature I finished. The tests are a mix of demos and unit tests. There is also one large demo that encompasses all that I have so far---the monster shooter test.
 
 ## Monster Shooter Test
 Just a simple game, with a simple set of rules it's virtually impossible to lose. Keep shooting (with the `enter`) key. One monster is equivalent to one point. Get hit by a monster and it will cost you one point (deduct one to current score). You lose when your score becomes less than zero. And oh, move using the up and down keys.
