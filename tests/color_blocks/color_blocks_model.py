@@ -116,10 +116,13 @@ class ColorBlocksModel(object):
 		first one is returned. If there are no empty columns in the
 		grid, the value -1 is returned.
 		"""
-		for col in range(len(self.grid[0])):
+		col_limit = len(self.grid[0])
+		row_limit = len(self.grid)
+		
+		for col in range(col_limit):
 			empty_found = True
 			
-			for row in range(len(self.grid)):
+			for row in range(row_limit):
 				if self.grid[row][col] != ColorBlocksModel.UNTAKEN:
 					empty_found = False
 					break
@@ -132,11 +135,11 @@ class ColorBlocksModel(object):
 	def __translate_empty_col(self, col_index):
 		limit = len(self.grid[0])
 		
-		for i in range(len(self.grid)):
+		for row in self.grid:
 			col = col_index + 1
 			
 			while col < limit:
-				self.grid[i][col - 1] = self.grid[i][col]
+				row[col - 1] = row[col]
 				col += 1
 	
 	def __untake_last_col(self):
