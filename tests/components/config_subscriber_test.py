@@ -1,7 +1,7 @@
 #! usr/bin/env python
 
-from ..components.core import GameConfig
-from ..components.subscriber_pattern import Observer
+from ...components.core import GameConfig
+from ...components.subscriber_pattern import Observer
 
 """
 Tests the subscriber-patter-related decorator of GameConfig.

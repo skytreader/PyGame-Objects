@@ -1,7 +1,7 @@
 #! usr/bin/env python
 
-from ..components.core import GameLoop, GameLoopEvents, GameConfig, GameScreen, Colors
-from ..components.shapes import Point, PointShape
+from ...components.core import GameLoop, GameLoopEvents, GameConfig, GameScreen, Colors
+from ...components.shapes import Point, PointShape
 
 import random
 

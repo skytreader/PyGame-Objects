@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ..components.image import Image
+from ...components.image import Image
 
 import os
 

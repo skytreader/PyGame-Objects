@@ -1,8 +1,8 @@
 #! usr/bin/env python
 
-from ..components.shapes import PointShape
-from ..components.shapes import Point
-from ..components.shapes import CollisionBox
+from ...components.shapes import PointShape
+from ...components.shapes import Point
+from ...components.shapes import CollisionBox
 
 import unittest
 
@@ -15,8 +15,7 @@ Unit tests for the shapes module.
 class shapes_tests(unittest.TestCase):
 	
 	def setUp(self):
-		self.__four_points = PointShape() #PointShape([Point(3,4), Point(5,1), Point(8,10), Point(6,9)])
-		#self.__four_points.point_list = []
+		self.__four_points = PointShape()
 		self.__four_points.add_point(Point(3, 4))
 		self.__four_points.add_point(Point(5, 1))
 		self.__four_points.add_point(Point(8, 10))
