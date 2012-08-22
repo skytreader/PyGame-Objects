@@ -10,8 +10,8 @@ class color_blocks_model_tests(unittest.TestCase):
 		"""
 		Note that this results to a random configuration for every test!
 		"""
-		self.width = 4
-		self.height = 5
+		self.width = 8
+		self.height = 8
 		self.color_game = ColorBlocksModel(self.width, self.height)
 	
 	def __modify_model_grid(self, grid):
@@ -52,6 +52,22 @@ class color_blocks_model_tests(unittest.TestCase):
 		
 		self.assertEqual(points, 4)
 		self.assertEqual(self.color_game.grid, game_grid)
+	
+	def test_collapse(self):
+		test_game = [[1 for i in range(self.width)] for i in range(self.height)]
+		self.__modify_model_grid(test_game)
+		row_limit = len(self.color_game.grid)
+		col_limit = len(self.color_game.grid[0])
+		
+		for i in range(row_limit):
+			self.color_game.grid[i][3] = ColorBlocksModel.UNTAKEN
+		
+		self.color_game.collapse()
+		
+		for i in range(row_limit):
+			test_game[i][col_limit - 1] = ColorBlocksModel.UNTAKEN
+		
+		self.assertEqual(self.color_game.grid, test_game)
 
 if __name__ == "__main__":
 	tests = unittest.TestLoader().loadTestsFromTestCase(color_blocks_model_tests)
