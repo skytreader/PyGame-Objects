@@ -134,31 +134,19 @@ class QuadraticGrid(object):
 		
 		return adjacent
 	
-	def get_adjancent(self, row, col):
-		"""
-		Returns a list of all the adjacent cells to (row, col). The list
-		contains tuples of the index coordinates of the adjacent blocks.
-		"""
-		rows = self.__list_unique(row, self.__incr(row, len(self.grid)), self.__decr(row))
-		cols = self.__list_unique(col, self.__incr(col, len(self.grid[0])), self.__decr(col))
-		adjacent = []
-		
-		# Cartesian product rows and cols, sans the combination (rows, cols)
-		for i in range(len(rows)):
-			for j in range(len(cols)):
-				if rows[i] == row and cols[j] == col:
-					pass
-				else:
-					adjacent.append((rows[i], cols[j]))
-		
-		return adjacent
-	
 	def get_adjacent(self, row, col):
 		"""
 		Returns a list of all the adjacent cells to block (row, col), depending
 		on the set-up of the invoking object. The return list contains tuples of
 		the index coordinates of the adjacent blocks.
 		"""
+		
+		if row > len(self.grid) or col > len(self.grid[0]) or row < 0 or col < 0:
+			raise IndexError("Invalid index!")
+		
+		if type(row) != type(0) or type(col) != type(0):
+			raise TypeError("Parameters should be of type int.")
+		
 		current_block = (row, col)
 		hv_adj = []
 		diag_adj = []
