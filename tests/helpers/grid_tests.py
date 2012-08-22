@@ -54,6 +54,9 @@ class QuadraticGrid_Tests(unittest.TestCase):
 		self.assertTrue(self.__all_in(adj, [(3, 1), (2, 1), (2, 2)]))
 		adj = matrix.get_adjacent(2, 1)
 		self.assertTrue(self.__all_in(adj, [(2, 0), (2, 2), (1, 0), (1, 1), (1, 2), (3, 0), (3, 1), (3, 2)]))
+		
+		self.assertRaises(IndexError, matrix.get_adjacent, 10, 10)
+		self.assertRaises(TypeError, matrix.get_adjacent, 0.0, "zero")
 	
 	def test_all_in(self):
 		l1 = [1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 1, 1, 9, 7, 1, 6, 9]

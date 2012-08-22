@@ -28,6 +28,13 @@ class QuadraticGrid(object):
 		  
 		  Defaults to true.
 		"""
+		
+		if type(grid_width) != type(0) or type(grid_height) != type(0):
+			raise TypeError("Grid dimensions must be specified as ints.")
+		
+		if grid_width <= 0 or grid_height <= 0:
+			raise ValueError("Grid dimensions must be positive.")
+		
 		self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
 		self.__hv_neighbors = hv_neighbors
 		self.__diag_neighbors = diag_neighbors
@@ -141,11 +148,11 @@ class QuadraticGrid(object):
 		the index coordinates of the adjacent blocks.
 		"""
 		
-		if row > len(self.grid) or col > len(self.grid[0]) or row < 0 or col < 0:
-			raise IndexError("Invalid index!")
-		
 		if type(row) != type(0) or type(col) != type(0):
 			raise TypeError("Parameters should be of type int.")
+		
+		if row > len(self.grid) or col > len(self.grid[0]) or row < 0 or col < 0:
+			raise IndexError("Invalid index!")
 		
 		current_block = (row, col)
 		hv_adj = []
