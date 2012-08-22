@@ -120,17 +120,44 @@ class ColorBlocksModel(object):
 		row_limit = len(self.grid)
 		
 		for col in range(col_limit):
-			empty_found = True
-			
-			for row in range(row_limit):
-				if self.grid[row][col] != ColorBlocksModel.UNTAKEN:
-					empty_found = False
-					break
-			
-			if empty_found:
+			if self.__is_empty_col(col):
 				return col
 		
 		return -1
+	
+	def __is_empty_col(self, col_index):
+		"""
+		Checks whether the column described by col_index is empty.
+		"""
+		for row in self.grid:
+			if row[col_index] != ColorBlocksModel.UNTAKEN:
+				return False
+		
+		return True
+	
+	def __find_empty_column_block(self, start_index):
+		"""
+		Returns a tuple indicating the start and end of an empty column
+		block. start_index is the index in which we start searching.
+		
+		Assume start_index is an empty column already (for sure!)
+		
+		Yes, if there is only one empty column, the return tuple will
+		be (start_index, start_index)
+		"""
+		empty_range = [start_index, None]
+		limit = len(self.grid[0])
+		col_index = start_index + 1
+		
+		while col_index < limit:
+			if not self.__is_empty_col(col_index):
+				break
+			
+			col_index += 1
+		
+		empty_range[1] = col_index - 1
+		
+		return tuple(empty_range)
 	
 	def __translate_empty_col(self, col_index):
 		limit = len(self.grid[0])
@@ -142,6 +169,25 @@ class ColorBlocksModel(object):
 				row[col - 1] = row[col]
 				col += 1
 	
+	def __translate_empty_block(self, col_index, block_length):
+		"""
+		Performs the actual collapsing of an empty column block.
+		
+		@param col_index
+		  The upper bound of the range of empty columns which we are
+		  collapsing.
+		@param block_length
+		  The length of the empty column block.
+		"""
+		limit = len(self.grid[0])
+		
+		for row in self.grid:
+			non_empty = col_index + 1
+			
+			while non_empty < limit:
+				row[non_empty - block_length] = row[non_empty]
+				non_empty += 1
+	
 	def __untake_last_col(self):
 		last_col = len(self.grid[0]) - 1
 		limit = len(self.grid)
@@ -149,13 +195,28 @@ class ColorBlocksModel(object):
 		for i in range(limit):
 			self.grid[i][last_col] = ColorBlocksModel.UNTAKEN
 	
+	def __untake_last_block(self, block_length):
+		last_block_start = len(self.grid[0]) - block_length
+		limit = len(self.grid)
+		
+		for row in self.grid:
+			cell_index = last_block_start
+			
+			while cell_index < limit:
+				row[cell_index] = ColorBlocksModel.UNTAKEN
+				cell_index += 1
+	
 	def collapse(self):
 		"""
 		Removes empty columns by "collapsing" the space left.
 		"""
 		empty_col = self.__find_empty_column()
-		self.__translate_empty_col(empty_col)
-		self.__untake_last_col()
+		
+		empty_block = self.__find_empty_column_block(empty_col)
+		block_length = empty_block[1] - empty_block[0] + 1
+		self.__translate_empty_block(empty_col, block_length)
+		self.__untake_last_block(block_length)
+		
 	
 	def __str__(self):
 		board = ""
