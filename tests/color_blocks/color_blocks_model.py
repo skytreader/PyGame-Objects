@@ -87,9 +87,11 @@ class ColorBlocksModel(object):
 		
 		adjacent_stack = [(row, col)]
 		adj_same_color = []
+		inspected = []
 		
 		while len(adjacent_stack):
 			cur_block = adjacent_stack.pop()
+			inspected.append(cur_block)
 			adj_same_color.append(cur_block)
 			adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block[0], cur_block[1])
 			adj_count = len(adjacent_blocks)
@@ -97,7 +99,7 @@ class ColorBlocksModel(object):
 			for i in range(adj_count):
 				block = adjacent_blocks[i]
 				if self.grid[block[0]][block[1]] == original and \
-				  block not in adjacent_stack:
+				  block not in adjacent_stack and block not in inspected:
 					adjacent_stack.append(adjacent_blocks[i])
 		
 		if len(adj_same_color) >= self.min_score:
@@ -106,6 +108,42 @@ class ColorBlocksModel(object):
 				points += 1
 		
 		return points
+	
+	def __find_empty_column(self):
+		"""
+		Looks for empty columns in the grid. Returns the index of an
+		empty column. If there are multiple empty columns, only the
+		first one is returned. If there are no empty columns in the
+		grid, the value -1 is returned.
+		"""
+		for col in range(self.grid[0]):
+			empty_found = True
+			
+			for row in range(self.grid):
+				if self.grid[row][col] != ColorBlocksModel.UNTAKEN:
+					empty_found = False
+					break
+			
+			if empty_found:
+				return col
+		
+		return -1
+	
+	def __translate_empty_col(self, col_index):
+		limit = len(self.grid[0])
+		
+		for i in range(self.grid):
+			col = col_index + 1
+			
+			while col < limit:
+				self.grid[i][col - 1] = self.grid[i][col]
+	
+	def collapse(self):
+		"""
+		Removes empty columns by "collapsing" the space left.
+		"""
+		empty_col = self.__find_empty_column()
+		self.__translate_empty_col(empty_col)
 	
 	def __str__(self):
 		board = ""
