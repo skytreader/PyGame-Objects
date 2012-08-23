@@ -2,9 +2,11 @@
 
 from color_blocks_model import ColorBlocksModel
 
-game = ColorBlocksModel(8, 8)
+game = ColorBlocksModel(9, 9)
 
 while True:
 	print str(game)
 	tuple_toggle = input("toggle>")
 	game.toggle(tuple_toggle[0], tuple_toggle[1])
+	game.falldown()
+	game.collapse()
