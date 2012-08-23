@@ -204,6 +204,9 @@ class ColorBlocksModel(object):
 		"""
 		Scans each column of the grid and looks for unsupported (i.e.,
 		UNTAKEN cells below) blocks and makes them "fall down".
+		
+		TODO: Rewrite? Logic seems too complicated and can be broken down
+		further.
 		"""
 		col_limit = len(self.grid[0])
 		row_limit = len(self.grid)

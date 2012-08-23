@@ -86,21 +86,40 @@ class color_blocks_model_tests(unittest.TestCase):
 		
 		self.assertEqual(self.color_game.grid, test_game)
 	
+	def __col_untake(self, col, row):
+		for r in row:
+			self.color_game.grid[r][col] = ColorBlocksModel.UNTAKEN
+	
 	def test_falldown(self):
 		test_board = list(self.color_game.grid)
-		self.color_game.grid[6][3] = ColorBlocksModel.UNTAKEN
-		self.color_game.grid[7][3] = ColorBlocksModel.UNTAKEN
-		self.color_game.grid[8][3] = ColorBlocksModel.UNTAKEN
+		
+		untake_list = [6, 7, 8]
+		untake_col = 3
+		
+		self.__col_untake(untake_col, untake_list)
 		
 		trans_block = range(6)
 		trans_block.reverse()
 		
 		for block in trans_block:
-			test_board[block + 3][3] = test_board[block][3]
+			test_board[block + 3][untake_col] = test_board[block][3]
 		
-		test_board[0][3] = ColorBlocksModel.UNTAKEN
-		test_board[1][3] = ColorBlocksModel.UNTAKEN
-		test_board[2][3] = ColorBlocksModel.UNTAKEN
+		for untake_row in untake_list:
+			test_board[untake_row][untake_col] = ColorBlocksModel.UNTAKEN
+		
+		self.assertEqual(test_board, self.color_game.grid)
+		
+		self.setUp()
+		
+		test_board = list(self.color_game.grid)
+		untake_list = [6, 7, 8, 0, 1, 2]
+		self.__col_untake(untake_col, untake_list)
+		
+		for block in [5, 4, 3]:
+			test_board[block + 3][untake_col] = test_board[block][untake_col]
+		
+		for untake_row in untake_list:
+			test_board[untake_row][untake_col] = ColorBlocksModel.UNTAKEN
 		
 		self.assertEqual(test_board, self.color_game.grid)
 
