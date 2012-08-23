@@ -10,8 +10,8 @@ class color_blocks_model_tests(unittest.TestCase):
 		"""
 		Note that this results to a random configuration for every test!
 		"""
-		self.width = 8
-		self.height = 8
+		self.width = 9
+		self.height = 9
 		self.color_game = ColorBlocksModel(self.width, self.height)
 	
 	def __modify_model_grid(self, grid):
@@ -87,6 +87,24 @@ class color_blocks_model_tests(unittest.TestCase):
 			test_game[i][hi_bound] = ColorBlocksModel.UNTAKEN
 		
 		self.assertEqual(self.color_game.grid, test_game)
+	
+	def test_falldown(self):
+		test_board = list(self.color_game.grid)
+		self.color_game.grid[6][3] = ColorBlocksModel.UNTAKEN
+		self.color_game.grid[7][3] = ColorBlocksModel.UNTAKEN
+		self.color_game.grid[8][3] = ColorBlocksModel.UNTAKEN
+		
+		trans_block = range(6)
+		trans_block.reverse()
+		
+		for block in trans_block:
+			test_board[block + 3][3] = test_board[block][3]
+		
+		test_board[0][3] = ColorBlocksModel.UNTAKEN
+		test_board[1][3] = ColorBlocksModel.UNTAKEN
+		test_board[2][3] = ColorBlocksModel.UNTAKEN
+		
+		self.assertEqual(test_board, self.color_game.grid)
 
 if __name__ == "__main__":
 	tests = unittest.TestLoader().loadTestsFromTestCase(color_blocks_model_tests)

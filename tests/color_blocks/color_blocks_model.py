@@ -200,6 +200,38 @@ class ColorBlocksModel(object):
 		self.__translate_empty_block(empty_block[1], block_length)
 		self.__untake_last_block(block_length)
 	
+	def falldown(self):
+		"""
+		Scans each column of the grid and looks for unsupported (i.e.,
+		UNTAKEN cells below) blocks and makes them "fall down".
+		"""
+		col_limit = len(self.grid[0])
+		row_limit = len(self.grid)
+		
+		for col in range(col_limit):
+			row = row_limit - 1
+			
+			while i >= 0:
+				if not self.__is_empty_col(col) and self.grid[row][col] == ColorBlocksModel.UNTAKEN:
+					self.__fall_col(col)
+					row_runner = row - 1
+					
+					while row_runner >= 0:
+						if self.grid[row_runner][col] != ColorBlocksModel.UNTAKEN:
+							# Move everything!
+							skip = row - row_runner
+							fall = row_runnerd
+							
+							while fall >= 0 and self.grid[fall][col] != ColorBlocksModel.UNTAKEN:
+								self.grid[fall + 3][col] = self.grid[fall][col]
+								self.grid[fall][col] = ColorBlocksModel.UNTAKEN
+							
+							break
+						else:
+							row_runner -= 1
+				
+				i -= 1
+	
 	def __str__(self):
 		board = ""
 		height = len(self.grid)
