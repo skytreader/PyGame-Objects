@@ -196,8 +196,8 @@ class ColorBlocksModel(object):
 			self.grid[i][last_col] = ColorBlocksModel.UNTAKEN
 	
 	def __untake_last_block(self, block_length):
-		last_block_start = len(self.grid[0]) - block_length
-		limit = len(self.grid)
+		limit = len(self.grid[0])
+		last_block_start = limit - block_length
 		
 		for row in self.grid:
 			cell_index = last_block_start
@@ -214,9 +214,8 @@ class ColorBlocksModel(object):
 		
 		empty_block = self.__find_empty_column_block(empty_col)
 		block_length = empty_block[1] - empty_block[0] + 1
-		self.__translate_empty_block(empty_col, block_length)
+		self.__translate_empty_block(empty_block[1], block_length)
 		self.__untake_last_block(block_length)
-		
 	
 	def __str__(self):
 		board = ""

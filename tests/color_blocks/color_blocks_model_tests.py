@@ -54,7 +54,8 @@ class color_blocks_model_tests(unittest.TestCase):
 		self.assertEqual(self.color_game.grid, game_grid)
 	
 	def test_collapse(self):
-		test_game = [[1 for i in range(self.width)] for i in range(self.height)]
+		base_test = [[1 for i in range(self.width)] for j in range(self.height)]
+		test_game = [[base_test[row][col] for col in range(self.width)] for row in range(self.height)]
 		self.__modify_model_grid(test_game)
 		row_limit = len(self.color_game.grid)
 		col_limit = len(self.color_game.grid[0])
@@ -66,6 +67,24 @@ class color_blocks_model_tests(unittest.TestCase):
 		
 		for i in range(row_limit):
 			test_game[i][col_limit - 1] = ColorBlocksModel.UNTAKEN
+		
+		self.assertEqual(self.color_game.grid, test_game)
+		test_game = []
+		test_game = [[base_test[row][col] for col in range(self.width)] for row in range(self.height)]
+		self.__modify_model_grid(test_game)
+		
+		for i in range(row_limit):
+			self.color_game.grid[i][3] = ColorBlocksModel.UNTAKEN
+			self.color_game.grid[i][4] = ColorBlocksModel.UNTAKEN
+		
+		self.color_game.collapse()
+		
+		low_bound = self.width - 2
+		hi_bound = self.width - 1
+		
+		for i in range(row_limit):
+			test_game[i][low_bound] = ColorBlocksModel.UNTAKEN
+			test_game[i][hi_bound] = ColorBlocksModel.UNTAKEN
 		
 		self.assertEqual(self.color_game.grid, test_game)
 
