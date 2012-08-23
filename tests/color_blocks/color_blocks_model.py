@@ -225,7 +225,7 @@ class ColorBlocksModel(object):
 							fall = row_runner
 							
 							while fall >= 0 and self.grid[fall][col] != ColorBlocksModel.UNTAKEN:
-								self.grid[fall + 3][col] = self.grid[fall][col]
+								self.grid[fall + skip][col] = self.grid[fall][col]
 								self.grid[fall][col] = ColorBlocksModel.UNTAKEN
 								fall -= 1
 							
@@ -236,10 +236,23 @@ class ColorBlocksModel(object):
 				row -= 1
 	
 	def __str__(self):
-		board = ""
-		height = len(self.grid)
+		board = "  "
+		width = len(self.grid[0])
 		
-		for i in range(height):
-			board += str(self.grid[i]) + "\n"
+		for i in range(width):
+			board += str(i) + " "
+		
+		board += "\n"
+		
+		ri = 0
+		limit = len(self.grid)
+		
+		for ri in range(limit):
+			board += str(ri) + " "
+			
+			for cell in self.grid[ri]:
+				board += str(cell) + " "
+			
+			board += "\n"
 		
 		return board
