@@ -159,16 +159,6 @@ class ColorBlocksModel(object):
 		
 		return tuple(empty_range)
 	
-	def __translate_empty_col(self, col_index):
-		limit = len(self.grid[0])
-		
-		for row in self.grid:
-			col = col_index + 1
-			
-			while col < limit:
-				row[col - 1] = row[col]
-				col += 1
-	
 	def __translate_empty_block(self, col_index, block_length):
 		"""
 		Performs the actual collapsing of an empty column block.
@@ -187,13 +177,6 @@ class ColorBlocksModel(object):
 			while non_empty < limit:
 				row[non_empty - block_length] = row[non_empty]
 				non_empty += 1
-	
-	def __untake_last_col(self):
-		last_col = len(self.grid[0]) - 1
-		limit = len(self.grid)
-		
-		for i in range(limit):
-			self.grid[i][last_col] = ColorBlocksModel.UNTAKEN
 	
 	def __untake_last_block(self, block_length):
 		limit = len(self.grid[0])
