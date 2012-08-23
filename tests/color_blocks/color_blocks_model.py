@@ -214,26 +214,26 @@ class ColorBlocksModel(object):
 		for col in range(col_limit):
 			row = row_limit - 1
 			
-			while i >= 0:
-				if not self.__is_empty_col(col) and self.grid[row][col] == ColorBlocksModel.UNTAKEN:
-					self.__fall_col(col)
+			while not self.__is_empty_col(col) and row >= 0:
+				if self.grid[row][col] == ColorBlocksModel.UNTAKEN:
 					row_runner = row - 1
 					
 					while row_runner >= 0:
 						if self.grid[row_runner][col] != ColorBlocksModel.UNTAKEN:
 							# Move everything!
 							skip = row - row_runner
-							fall = row_runnerd
+							fall = row_runner
 							
 							while fall >= 0 and self.grid[fall][col] != ColorBlocksModel.UNTAKEN:
 								self.grid[fall + 3][col] = self.grid[fall][col]
 								self.grid[fall][col] = ColorBlocksModel.UNTAKEN
+								fall -= 1
 							
 							break
 						else:
 							row_runner -= 1
 				
-				i -= 1
+				row -= 1
 	
 	def __str__(self):
 		board = ""
