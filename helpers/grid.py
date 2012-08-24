@@ -72,12 +72,11 @@ class QuadraticGrid(object):
 			return index - 1
 	
 	def __list_unique(self, *items):
-		limit = len(items)
 		unique = []
 		
-		for i in range(limit):
-			if items[i] not in unique:
-				unique.append(items[i])
+		for i in items:
+			if i not in unique:
+				unique.append(i)
 		
 		return unique
 	
