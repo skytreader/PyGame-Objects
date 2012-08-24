@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ...helpers.grid import QuadraticGrid
+from ...helpers.grid import QuadraticGrid, DimensionException
 
 import random
 
@@ -25,6 +25,11 @@ class ColorBlocksModel(object):
 		@param min_score
 		  The minimum number of blocks required to make a score.
 		"""
+		
+		# Let's add a minimum dimension of 3 x 3
+		if grid_width < 3 or grid_height < 3:
+			raise DimensionException("Minimum grid dimensions is 3x3.")
+		
 		untaken = ColorBlocksModel.UNTAKEN
 		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height, True, False)
 		self.__populate()

@@ -1,5 +1,7 @@
 #! usr/bin/env python
 
+from ...helpers.grid import DimensionException
+
 from color_blocks_model import ColorBlocksModel
 
 import unittest
@@ -26,6 +28,8 @@ class color_blocks_model_tests(unittest.TestCase):
 		for i in range(height):
 			for j in range(width):
 				self.color_game.grid[i][j] = grid[i][j]
+		
+		self.assertRaises(DimensionException, ColorBlocksModel, 2, 2)
 	
 	def test_game_instance(self):
 		game_grid = self.color_game.grid

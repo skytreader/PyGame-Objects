@@ -4,6 +4,19 @@
 This file contains models for grids.
 """
 
+class DimensionException(Exception):
+	"""
+	Use this exception when indicating wrong dimensions for
+	grids (i.e., if you set a minimum/maximum dimensions for
+	your grids).
+	"""
+	
+	def __init__(self, msg):
+		self.msg = msg
+	
+	def __str__(self):
+		return str(msg)
+
 class QuadraticGrid(object):
 	"""
 	AKA Cartesian Grid.
