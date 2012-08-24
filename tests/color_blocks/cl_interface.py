@@ -7,6 +7,7 @@ game = ColorBlocksModel(9, 9)
 while True:
 	print str(game)
 	tuple_toggle = input("toggle>")
-	game.toggle(tuple_toggle[0], tuple_toggle[1])
+	game.score += game.toggle(tuple_toggle[0], tuple_toggle[1])
 	game.falldown()
 	game.collapse()
+	print "Score: " + str(game.score)

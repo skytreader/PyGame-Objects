@@ -114,6 +114,15 @@ class color_blocks_model_tests(unittest.TestCase):
 		self.__collapse((3, 4))
 		self.setUp()
 		self.__collapse((3, 3), (5, 5))
+		
+		# Non-collapsing tests
+		self.setUp()
+		self.color_game.grid[2][0] = ColorBlocksModel.UNTAKEN
+		self.color_game.grid[2][1] = ColorBlocksModel.UNTAKEN
+		self.color_game.grid[2][2] = ColorBlocksModel.UNTAKEN
+		test_grid = [list(self.color_game.grid[r]) for r in range(self.height)]
+		self.color_game.collapse()
+		self.assertEqual(test_grid, self.color_game.grid)
 	
 	def __col_untake(self, col, row):
 		"""
