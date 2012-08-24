@@ -61,7 +61,7 @@ class color_blocks_model_tests(unittest.TestCase):
 		is a list-of-lists).
 		"""
 		for r in untake_ranges:
-			self.__range_col_untake(untake_ranges)
+			self.__range_col_untake(r)
 		
 		test_game = [list(self.color_game.grid[row]) for row in range(self.height)]
 		
@@ -110,9 +110,9 @@ class color_blocks_model_tests(unittest.TestCase):
 			col += 1
 	
 	def test_collapse(self):
-		self.__collapse((3, 3))
+		self.__collapse([(3, 3)])
 		self.setUp()
-		self.__collapse((3, 4))
+		self.__collapse([(3, 4)])
 	
 	def __col_untake(self, col, row):
 		"""
