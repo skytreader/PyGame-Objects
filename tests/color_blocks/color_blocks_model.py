@@ -207,10 +207,7 @@ class ColorBlocksModel(object):
 				self.__translate_empty_block(empty_block[1], block_length)
 				self.__untake_last_block(block_length)
 				
-				# By definition of empty_block, we know that the column at
-				# empty_block[1] + 1 is non-empty (else it would be included
-				# in the empty block.
-				col_start = empty_block[1] + 2
+				col_start = empty_block[1] + 1
 			else:
 				col_start += 1
 		

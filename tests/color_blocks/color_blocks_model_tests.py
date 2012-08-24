@@ -53,12 +53,11 @@ class color_blocks_model_tests(unittest.TestCase):
 		self.assertEqual(points, 4)
 		self.assertEqual(self.color_game.grid, game_grid)
 	
-	def __collapse(self, untake_ranges):
+	def __collapse(self, *untake_ranges):
 		"""
 		Auto script for collapse unit tests that will actually collapse.
 		
-		Specify the (continuous) columns to untake as ranges (i.e., untake_ranges
-		is a list-of-lists).
+		Specify the (continuous) columns to untake as ranges.
 		"""
 		for r in untake_ranges:
 			self.__range_col_untake(r)
@@ -110,9 +109,11 @@ class color_blocks_model_tests(unittest.TestCase):
 			col += 1
 	
 	def test_collapse(self):
-		self.__collapse([(3, 3)])
+		self.__collapse((3, 3))
 		self.setUp()
-		self.__collapse([(3, 4)])
+		self.__collapse((3, 4))
+		self.setUp()
+		self.__collapse((3, 3), (5, 5))
 	
 	def __col_untake(self, col, row):
 		"""
