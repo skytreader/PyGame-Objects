@@ -109,7 +109,7 @@ class ColorBlocksModel(object):
 		
 		return points
 	
-	def __find_empty_column(self):
+	def __find_empty_column(self, startat = 0):
 		"""
 		Looks for empty columns in the grid. Returns the index of an
 		empty column. If there are multiple empty columns, only the
@@ -117,11 +117,13 @@ class ColorBlocksModel(object):
 		grid, the value -1 is returned.
 		"""
 		col_limit = len(self.grid[0])
-		row_limit = len(self.grid)
+		col = startat
 		
-		for col in range(col_limit):
+		while col < col_limit:
 			if self.__is_empty_col(col):
 				return col
+			
+			col += 1
 		
 		return -1
 	
@@ -191,14 +193,27 @@ class ColorBlocksModel(object):
 	
 	def collapse(self):
 		"""
-		Removes empty columns by "collapsing" the space left.
+		Removes empty columns by "collapsing" the space leftwards.
 		"""
-		empty_col = self.__find_empty_column()
+		col_start = 0
+		col_limit = len(self.grid[0])
 		
-		empty_block = self.__find_empty_column_block(empty_col)
-		block_length = empty_block[1] - empty_block[0] + 1
-		self.__translate_empty_block(empty_block[1], block_length)
-		self.__untake_last_block(block_length)
+		while col_start < col_limit:
+			empty_col = self.__find_empty_column(col_start)
+			
+			if empty_col != -1:
+				empty_block = self.__find_empty_column_block(empty_col)
+				block_length = empty_block[1] - empty_block[0] + 1
+				self.__translate_empty_block(empty_block[1], block_length)
+				self.__untake_last_block(block_length)
+				
+				# By definition of empty_block, we know that the column at
+				# empty_block[1] + 1 is non-empty (else it would be included
+				# in the empty block.
+				col_start = empty_block[1] + 2
+			else:
+				col_start += 1
+		
 	
 	def falldown(self):
 		"""

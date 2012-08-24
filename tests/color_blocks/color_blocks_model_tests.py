@@ -53,45 +53,72 @@ class color_blocks_model_tests(unittest.TestCase):
 		self.assertEqual(points, 4)
 		self.assertEqual(self.color_game.grid, game_grid)
 	
-	def test_collapse(self):
-		untake_index = 3
-		for i in range(self.height):
-			self.color_game.grid[i][untake_index] = ColorBlocksModel.UNTAKEN
+	def __collapse(self, untake_ranges):
+		"""
+		Auto script for collapse unit tests that will actually collapse.
+		
+		Specify the (continuous) columns to untake as ranges (i.e., untake_ranges
+		is a list-of-lists).
+		"""
+		for r in untake_ranges:
+			self.__range_col_untake(untake_ranges)
 		
 		test_game = [list(self.color_game.grid[row]) for row in range(self.height)]
 		
+		# "Collapse" board out-of-place
+		collapsed = [[] for row in self.color_game.grid]
+		
 		self.color_game.collapse()
-		taken_index = untake_index + 1
+		self.assertNotEqual(test_game, self.color_game.grid)
 		
-		for row in test_game:
-			while taken_index < self.width:
-				row[taken_index - 1] = row[taken_index]
-				taken_index += 1
+		for col_index in range(self.width):
+			if not self.__is_untaken(test_game, col_index):
+				row_counter = 0
+				
+				for row in collapsed:
+					row.append(test_game[row_counter][col_index])
+					row_counter += 1
 		
-		for i in range(self.height):
-			test_game[i][self.width - 1] = ColorBlocksModel.UNTAKEN
+		# Pad collapsed with untaken cols
+		for row in collapsed:
+			row.extend([ColorBlocksModel.UNTAKEN for i in range(self.width - len(row))])
 		
-		self.assertEqual(self.color_game.grid, test_game)
+		# Collapse color_game
+		self.assertEqual(collapsed, self.color_game.grid)
+	
+	def __is_untaken(self, board, col_index):
+		for row in board:
+			if row[col_index] != ColorBlocksModel.UNTAKEN:
+				return False
+		
+		return True
+	
+	def __range_col_untake(self, untake_range):
+		"""
+		Untakes whole columns. The columns should be consecutive and specified
+		as an inclusive range.
+		
+		untake_range is an iterable with at least two items. The first item is the
+		low bound of the range while the second one is the high bound of the range.
+		"""
+		col = untake_range[0]
+		
+		while col <= untake_range[1]:
+			for row in self.color_game.grid:
+				row[col] = ColorBlocksModel.UNTAKEN
+			
+			col += 1
+	
+	def test_collapse(self):
+		self.__collapse((3, 3))
 		self.setUp()
-		
-		test_game = list(self.color_game.grid)
-		
-		for i in range(self.height):
-			self.color_game.grid[i][3] = ColorBlocksModel.UNTAKEN
-			self.color_game.grid[i][4] = ColorBlocksModel.UNTAKEN
-		
-		self.color_game.collapse()
-		
-		low_bound = self.width - 2
-		hi_bound = self.width - 1
-		
-		for i in range(self.height):
-			test_game[i][low_bound] = ColorBlocksModel.UNTAKEN
-			test_game[i][hi_bound] = ColorBlocksModel.UNTAKEN
-		
-		self.assertEqual(self.color_game.grid, test_game)
+		self.__collapse((3, 4))
 	
 	def __col_untake(self, col, row):
+		"""
+		Untakes the cells in index col, for every row as specified in
+		iterable row.
+		"""
 		for r in row:
 			self.color_game.grid[r][col] = ColorBlocksModel.UNTAKEN
 	
