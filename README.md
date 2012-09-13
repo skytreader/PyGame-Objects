@@ -1,4 +1,6 @@
-Nothing grand here (yet). Just a simple abstraction for some commmon code patterns I find while using PyGame.
+The most awesome framework for PyGame you will ever encounter!
+
+**But** it's not there yet. Right now, it's just a simple abstraction for some commmon code patterns I find while using PyGame.
 
 **Built-on:**
 * Python 2.6.5
@@ -9,6 +11,8 @@ Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ub
 
 # Current Status
 I'm currently adding new features (see "helpers" directory and "tests/color_blocks"). The product of my last dev cycle (a.k.a Julython 2012) is tagged as "Milestone1".
+
+Right now, I'm working on adding extra game-making functionalities; stuff that will maybe come useful if you do an RPG, platformer, arcade, etc., type of game. I'm also working on adding new native drawing functionalities.
 
 # File Organization
 `components` houses the main framework. `sample_sprites` contains the sprites I used for the test and demo files. `tests` contains, well, tests.
