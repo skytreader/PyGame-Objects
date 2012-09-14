@@ -123,10 +123,6 @@ class GameLoop(object):
 		"""
 		The main game loop.
 		
-		This already listens for the click of the close button of a window
-		You can listen for other events by adding event handlers through
-		add_event_handler .
-		
 		The initializations GameLoop performs by default are the following:
 		  (1) Initialization of PyGame (pygame.init())
 		  (2) Window invokation (GameLoopEvents.invoke_window()); background
@@ -141,10 +137,7 @@ class GameLoop(object):
 		while loop_control and self.__loop_events.loop_invariant():
 			clock.tick(self.__loop_events.config.clock_rate)
 			for event in pygame.event.get():
-				if event.type == pygame.QUIT:
-					loop_control = False
-				else:
-					self.__handle_event(event)
+				self.__handle_event(event)
 			
 			self.__loop_events.loop_event()
 			pygame.display.flip()
@@ -227,6 +220,9 @@ class GameLoopEvents(Observer):
 		self.__event_handlers = {}
 		self.__key_handlers = {}
 		
+		self.__loop_control = True
+		
+		self.event_handlers[pygame.QUIT] = self.__stop_loop
 		self.event_handlers[pygame.KEYDOWN] = self.__handle_key
 	
 	@property
@@ -244,6 +240,16 @@ class GameLoopEvents(Observer):
 	@property
 	def key_handlers(self):
 		return self.__key_handlers
+	
+	def stop_loop(self):
+		"""
+		You can override the default behavior of a game when responding to a
+		pygame.QUIT event; like, for instance, if you want to ask the user
+		if he really wants to quit. However, doing so may cause your game
+		_not_ to quit at all! Use this method, in conjunction with
+		GameLoopEvents.loop_invariant, to kill a game session.
+		"""
+		self.__loop_control = False
 	
 	def __handle_key(self, event):
 		if event.key in self.key_handlers:
@@ -286,9 +292,12 @@ class GameLoopEvents(Observer):
 		"""
 		Condition to check that keeps the game loop going.
 		
-		By default this returns True.
+		The return value of this method is affected by the default behavior
+		defined for event pygame.QUIT . It is recommended that direct subclasses
+		of GameLoopEvents AND the return of this loop_invariant to their own
+		loop invariants.
 		"""
-		return True
+		return self.__loop_control
 	
 	def invoke_window(self, window_size):
 		"""
