@@ -31,9 +31,6 @@ class RandomDrawing(GameLoopEvents):
 	def game_screen(self):
 		return self.__game_screen
 	
-	def loop_invariant(self):
-		return True
-	
 	def loop_event(self):
 		super(RandomDrawing, self).loop_event()
 		self.game_screen.ps.translate(10, 10)

@@ -43,7 +43,8 @@ class LineMesh(GameLoopEvents):
 		
 	
 	def loop_invariant(self):
-		return self.__count < self.__limit
+		parent_invariant = super(LineMesh, self).loop_invariant()
+		return self.__count < self.__limit and parent_invariant
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)

@@ -23,7 +23,8 @@ class GrayCircle(GameLoopEvents):
 		self.__count = 0
 	
 	def loop_invariant(self):
-		return self.__count < self.__limit
+		parent_invariant = super(GrayCircle, self).loop_invariant()
+		return self.__count < self.__limit and parent_invariant
 	
 	def loop_event(self):
 		x = random.randint(0, 500)
