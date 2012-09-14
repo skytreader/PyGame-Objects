@@ -46,7 +46,8 @@ class AmoebaLoopEvents(GameLoopEvents):
 		self.__limit = 200
 	
 	def loop_invariant(self):
-		return self.__i < self.__limit
+		parent_invariant = super(AmoebaLoopEvents, self).loop_invariant()
+		return self.__i < self.__limit and parent_invariant
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)

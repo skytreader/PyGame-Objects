@@ -222,7 +222,7 @@ class GameLoopEvents(Observer):
 		
 		self.__loop_control = True
 		
-		self.event_handlers[pygame.QUIT] = self.__stop_loop
+		self.event_handlers[pygame.QUIT] = self.stop_loop
 		self.event_handlers[pygame.KEYDOWN] = self.__handle_key
 	
 	@property
@@ -241,7 +241,7 @@ class GameLoopEvents(Observer):
 	def key_handlers(self):
 		return self.__key_handlers
 	
-	def stop_loop(self):
+	def stop_loop(self, event):
 		"""
 		You can override the default behavior of a game when responding to a
 		pygame.QUIT event; like, for instance, if you want to ask the user
