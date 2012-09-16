@@ -284,6 +284,13 @@ class Point:
 	def get_list(self):
 		return [self.x, self.y]
 	
+	def distance(self, another_point):
+		dx = self.x - another_point.x
+		dy = self.y - another_point.y
+		square_sum = (dx ** 2) + (dy ** 2)
+		
+		return math.sqrt(square_sum)
+	
 	def __eq__(self, other_point):
 		return self.x == other_point.x and self.y == other_point.y
 	
