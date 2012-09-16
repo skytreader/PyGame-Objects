@@ -9,6 +9,8 @@ from ...components.core import GameScreen
 from ...components.shapes import Point
 from ...components.shapes import PointShape
 
+import math
+
 """
 Renders a scene full of fractal trees.
 
@@ -59,3 +61,11 @@ class TreeLoopEvents(GameLoopEvents):
 		line_stack_length = len(self.game_screen.line_stack)
 		current_line = self.game_screen.line_stack(line_stack_length - 1)
 		
+		super(TreeLoopEvents, self).loop_event()
+		
+		# Grow the new branches 1/3 and 2/3 of the way on the current branch
+		# Get the 1/3 and 2/3 (y-coordinates, first point)
+		point_list = current_line.point_list
+		branch_length = math.fabs(point_list[0] - point_list[1] + 1)
+		branch1 = math.floor(0.33 * branch_length)
+		branch2 = math.floor(0.66 * branch_length)
