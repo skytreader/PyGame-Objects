@@ -34,6 +34,9 @@ class TreeScreen(GameScreen):
 
 class TreeLoopEvents(GameLoopEvents):
 	
+	# The angle at which branches branch off, in radians
+	BRANCH_ANGLE = 0.523598776
+	
 	def __init__(self, config, screen, initial_length):
 		super(TreeLoopEvents, self).__init__(config, screen)
 		self.__wood_length = initial_length
@@ -64,8 +67,14 @@ class TreeLoopEvents(GameLoopEvents):
 		super(TreeLoopEvents, self).loop_event()
 		
 		# Grow the new branches 1/3 and 2/3 of the way on the current branch
-		# Get the 1/3 and 2/3 (y-coordinates, first point)
+		# These define the starting points. y-coordinates first, then x
 		point_list = current_line.point_list
-		branch_length = math.fabs(point_list[0] - point_list[1] + 1)
-		branch1 = math.floor(0.33 * branch_length)
-		branch2 = math.floor(0.66 * branch_length)
+		y_length = math.fabs(point_list[0].y - point_list[1].y + 1)
+		y_branch1 = math.floor(0.33 * y_length)
+		y_branch2 = math.floor(0.66 * y_length)
+		
+		x_length = math.fabs(point_list[0].x - point_list[1].x + 1)
+		x_branch1 = math.floor(0.33 * x_length)
+		x_branch2 = math.floor(0.66 * y_length)
+		
+		
