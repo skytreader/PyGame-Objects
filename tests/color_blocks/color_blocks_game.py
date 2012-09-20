@@ -8,6 +8,8 @@ from color_blocks_model import ColorBlocksModel
 
 class ColorBlocksScreen(GameScreen):
 	
+	COLOR_MAPPING = (Colors.LUCID_DARK, Colors.RED, Colors.GREEN, Colors.BLUE, Colors.LIGHT_GRAY)
+	
 	def __init__(self, dimensions, grid_size):
 		"""
 		Instantiates a ColorBlocksScreen instance.
