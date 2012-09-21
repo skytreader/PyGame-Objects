@@ -4,6 +4,8 @@ from ...components.core import Colors
 from ...components.core import GameConfig
 from ...components.core import GameScreen
 
+from ...helpers.grid import QuadraticGrid
+
 from color_blocks_model import ColorBlocksModel
 
 class ColorBlocksScreen(GameScreen):
@@ -25,7 +27,13 @@ class ColorBlocksScreen(GameScreen):
 		"""
 		super(GameScreen, self).__init__(dimensions)
 		self.__game_model = ColorBlocksModel(grid_size[0], grid_size[1])
+		# Instantiate an underlying grid model
+		self.__grid_model = QuadraticGrid(dimensions[0] / grid_size[0], dimensions[1] / grid_size[1])
 	
 	@property
 	def game_model(self):
 		return self.__game_model
+	
+	@property
+	def grid_mode(self):
+		return self.__grid_model
