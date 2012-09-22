@@ -6,6 +6,10 @@ from ...components.subscriber_pattern import Observer
 """
 Tests the subscriber-patter-related decorator of GameConfig.
 
+Effect:
+You should see the string "Configuration has changed" printed thrice
+in the terminal.
+
 TODO: Better tests! (Maybe, unit tests?)
 
 @author Chad Estioco
@@ -14,7 +18,7 @@ TODO: Better tests! (Maybe, unit tests?)
 class ConfigObserver(Observer):
 	
 	def notify(self, observed, arg_bundle = None):
-		print "Configurations has changed!"
+		print "Configuration has changed!"
 
 config = GameConfig()
 config.subscribe(ConfigObserver())
