@@ -34,9 +34,9 @@ class PointShape(Drawable):
 	@author Chad Estioco
 	"""
 	
-	def __init__(self, point_list = None, color = Colors.BLACK):
+	def __init__(self, point_list = None, line_color = Colors.BLACK):
 		"""
-		Create a PointShape with no points.
+		Create a PointShape with the given point_list.
 		"""
 		#Wonder what will happen if I call the super constructor
 		#being that the super class got no constructor?
@@ -51,7 +51,11 @@ class PointShape(Drawable):
 			self.__point_list = point_list
 			self.__set_box()
 			
-		self.__color = color
+		self.__line_color = line_color
+	
+	@property
+	def line_color(self):
+		return self.__line_color
 	
 	def add_point(self, p, index = None):
 		"""
@@ -142,14 +146,14 @@ class PointShape(Drawable):
 			point0 = self.point_list[i]
 			point1 = self.point_list[i + 1]
 			
-			pygame.draw.line(screen, self.__color, point0.get_list(), point1.get_list())
+			pygame.draw.line(screen, self.line_color, point0.get_list(), point1.get_list())
 			
 			i += 1
 		
 		if limit > 0:
 			# Since we end at limit - 1, limit should now hold the index
 			# to the last point in the point list
-			pygame.draw.line(screen, self.__color, self.point_list[limit].get_list(), self.point_list[0].get_list())
+			pygame.draw.line(screen, self.line_color, self.point_list[limit].get_list(), self.point_list[0].get_list())
 	
 	def __x_set(self, point, scale_trans):
 		point.x = scale_trans
@@ -160,7 +164,8 @@ class PointShape(Drawable):
 		return point
 	
 	def set_scale(self, new_width, new_height, old_width, old_height):
-		# TODO: Recall that Python 2.x does _integer division_
+		# Python 2 automatically floors division. Beware when this code
+		# is run on Python 3!
 		width_scale = float(new_width) / old_width
 		height_scale = float(new_height) / old_height
 		

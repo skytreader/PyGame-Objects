@@ -7,7 +7,8 @@ from shapes import PointShape
 
 """
 This module contains some common shapes you may want
-to draw on your games
+to draw on your games. A (sort of) alternative to using
+pygame.draw.* .
 """
 
 class Rectangle(PointShape):
