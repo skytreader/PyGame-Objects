@@ -46,7 +46,6 @@ class GameConfig(Observable):
 		clock_rate = 0
 		window_size = [0, 0]
 		window_title = ""
-		frame_rate = 12
 	
 	@author Chad Estioco
 	"""
