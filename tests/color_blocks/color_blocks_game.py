@@ -2,9 +2,11 @@
 
 from ...components.core import Colors
 from ...components.core import GameConfig
+from ...components.core import GameLoop
+from ...components.core import GameLoopEvents
 from ...components.core import GameScreen
-from ...components.shape import Point
-from ...components.shape import PointShape
+from ...components.shapes import Point
+from ...components.shapes import PointShape
 
 from ...helpers.grid import QuadraticGrid
 
@@ -29,7 +31,7 @@ class ColorBlocksScreen(GameScreen):
 		  is taken for the width while the second one is taken for the
 		  height.
 		"""
-		super(GameScreen, self).__init__(screen_size)
+		super(ColorBlocksScreen, self).__init__(screen_size)
 		self.__game_model = ColorBlocksModel(grid_size[0], grid_size[1])
 		# Instantiate an underlying grid model
 		# Python 2 automatically floors division. Beware when this code
@@ -68,7 +70,7 @@ class ColorBlocksScreen(GameScreen):
 		# in color_list.
 		self.__rect_list = []
 		self.__color_list = []
-		raw_grid = self.grid_model.grid
+		raw_grid = self.game_model.grid
 		rowlen = len(raw_grid)
 		collen = len(raw_grid[0])
 		
@@ -80,7 +82,7 @@ class ColorBlocksScreen(GameScreen):
 				self.rect_list.append(rect)
 				
 				color_index = int(raw_grid[i][j])
-				self.color_list.append(COLOR_MAPPING[color_index])
+				self.color_list.append(ColorBlocksScreen.COLOR_MAPPING[color_index])
 	
 	def draw_screen(self, window):
 		"""
@@ -94,3 +96,14 @@ class ColorBlocksScreen(GameScreen):
 		
 		for i in range(limit):
 			pygame.draw.rect(window, self.color_list[i], self.rect_list[i], 0)
+
+if __name__ == "__main__":
+	config = GameConfig()
+	config.clock_rate = 12
+	config.window_size = [500, 500]
+	config.window_title = "Color Blocks Game"
+	
+	screen = ColorBlocksScreen(config.window_size, [10, 10])
+	loop_events = GameLoopEvents(config, screen)
+	loop = GameLoop(loop_events)
+	loop.go()

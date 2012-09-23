@@ -18,7 +18,8 @@ class ColorBlocksModel(object):
 	
 	def __init__(self, grid_width, grid_height, min_score = 1):
 		"""
-		Initializes a Color Blocks game with the given parameters
+		Initializes a Color Blocks game with the given parameters. Randomly
+		assigns colors to the grid.
 		
 		@param grid_width
 		@param grid_height
