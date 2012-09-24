@@ -25,4 +25,4 @@ Just a simple game, with a simple set of rules it's virtually impossible to lose
 If you look at the code, this is a very simple version of what I originally had in mind; maybe, some other time, for some other iteration of PyGame Objects. If you look at my commit history, yes, this was supposed to be a clone of Plants vs Zombies, but it ended up as a simple shoot-em-up.
 
 # Git Organization
-Documentation is at the wiki though it is not very comprehensive; the inline docs will be far more informative. My todo list I made as issues.
+Documentation is at the wiki. My todo list I made as issues. I am currently working to make the documentation comprehensive (no more peeking at the framework code!). However, something I was not able to forsee is that, the documentation for Milestone 1 and for the code at the repo head has been mixed at the wiki. Fortunately, they are not yet that different from each other and when and where they differ, it is easy to note. In the near future, I plan to include markdown files of the docs along with the code.
