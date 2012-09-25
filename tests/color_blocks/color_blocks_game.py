@@ -97,6 +97,14 @@ class ColorBlocksScreen(GameScreen):
 		for i in range(limit):
 			pygame.draw.rect(window, self.color_list[i], self.rect_list[i], 0)
 
+class ColorBlocksEvents(GameLoopEvents):
+	
+	def __init__(self, screen, config):
+		super(ColorBlocksEvents, self).__init__(screen, config)
+	
+	def attach_event_handlers(self):
+		
+
 if __name__ == "__main__":
 	config = GameConfig()
 	config.clock_rate = 12
