@@ -65,6 +65,12 @@ class ColorBlocksScreen(GameScreen):
 		return self.__color_list
 	
 	def setup(self):
+		self.represent_tiles()
+	
+	def represent_tiles(self):
+		"""
+		Scans the game model and then lists their assigned colors.
+		"""
 		# rect_list and color_list are associative arrays.
 		# for the rect described in rect_list, its color is
 		# in color_list.
@@ -81,8 +87,11 @@ class ColorBlocksScreen(GameScreen):
 				rect = (upper_left_x, upper_left_y, self.block_width, self.block_height)
 				self.rect_list.append(rect)
 				
-				color_index = int(raw_grid[i][j])
-				self.color_list.append(ColorBlocksScreen.COLOR_MAPPING[color_index])
+				if raw_grid[i][j] == ColorBlocksModel.UNTAKEN:
+					self.color_list.append(Colors.WHITE)
+				else:
+					color_index = int(raw_grid[i][j])
+					self.color_list.append(ColorBlocksScreen.COLOR_MAPPING[color_index])
 	
 	def draw_screen(self, window):
 		"""
