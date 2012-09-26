@@ -102,8 +102,12 @@ class ColorBlocksEvents(GameLoopEvents):
 	def __init__(self, screen, config):
 		super(ColorBlocksEvents, self).__init__(screen, config)
 	
+	def __mouse_click(self, event):
+		print pygame.mouse.get_pos()
+	
 	def attach_event_handlers(self):
-		
+		button_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
+		self.add_event_handler(button_down_event, self.__mouse_click)
 
 if __name__ == "__main__":
 	config = GameConfig()
@@ -112,6 +116,6 @@ if __name__ == "__main__":
 	config.window_title = "Color Blocks Game"
 	
 	screen = ColorBlocksScreen(config.window_size, [10, 10])
-	loop_events = GameLoopEvents(config, screen)
+	loop_events = ColorBlocksEvents(config, screen)
 	loop = GameLoop(loop_events)
 	loop.go()
