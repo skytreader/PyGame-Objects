@@ -82,8 +82,8 @@ class ColorBlocksScreen(GameScreen):
 		
 		for i in range(rowlen):
 			for j in range(collen):
-				upper_left_x = i * self.block_width
-				upper_left_y = j * self.block_height
+				upper_left_x = j * self.block_width
+				upper_left_y = i * self.block_height
 				rect = (upper_left_x, upper_left_y, self.block_width, self.block_height)
 				self.rect_list.append(rect)
 				
@@ -112,7 +112,13 @@ class ColorBlocksEvents(GameLoopEvents):
 		super(ColorBlocksEvents, self).__init__(screen, config)
 	
 	def __mouse_click(self, event):
-		print pygame.mouse.get_pos()
+		pos = pygame.mouse.get_pos()
+		row_index = pos[1] / screen.block_height
+		col_index = pos[0] / screen.block_width
+		screen.game_model.toggle(row_index, col_index)
+		screen.game_model.falldown()
+		screen.game_model.collapse()
+		screen.represent_tiles()
 	
 	def attach_event_handlers(self):
 		button_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)

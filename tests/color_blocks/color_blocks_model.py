@@ -215,7 +215,7 @@ class ColorBlocksModel(object):
 				
 				col_start = empty_block[1] + 1
 			else:
-				col_start += 1
+				break
 		
 	
 	def falldown(self):
