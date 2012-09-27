@@ -14,6 +14,8 @@ from color_blocks_model import ColorBlocksModel
 
 import pygame
 
+HEIGHT_OFFSET = 100
+
 class ColorBlocksScreen(GameScreen):
 	
 	COLOR_MAPPING = (Colors.LUCID_DARK, Colors.RED, Colors.GREEN, Colors.BLUE, Colors.LIGHT_GRAY)
@@ -37,8 +39,8 @@ class ColorBlocksScreen(GameScreen):
 		# Python 2 automatically floors division. Beware when this code
 		# is run on Python 3!
 		self.__block_width = screen_size[0] / grid_size[0]
-		self.__block_height = screen_size[1] / grid_size[1]
-		self.__grid_model = QuadraticGrid(screen_size[0] / self.block_width, screen_size[1] / self.block_height)
+		self.__block_height = (screen_size[1] - HEIGHT_OFFSET) / grid_size[1]
+		self.__grid_model = QuadraticGrid(screen_size[0] / self.block_width, (screen_size[1] - HEIGHT_OFFSET) / self.block_height)
 	
 	@property
 	def game_model(self):
@@ -83,7 +85,7 @@ class ColorBlocksScreen(GameScreen):
 		for i in range(rowlen):
 			for j in range(collen):
 				upper_left_x = j * self.block_width
-				upper_left_y = i * self.block_height
+				upper_left_y = i * self.block_height + HEIGHT_OFFSET
 				rect = (upper_left_x, upper_left_y, self.block_width, self.block_height)
 				self.rect_list.append(rect)
 				
@@ -113,7 +115,7 @@ class ColorBlocksEvents(GameLoopEvents):
 	
 	def __mouse_click(self, event):
 		pos = pygame.mouse.get_pos()
-		row_index = pos[1] / screen.block_height
+		row_index = (pos[1] - HEIGHT_OFFSET) / screen.block_height
 		col_index = pos[0] / screen.block_width
 		screen.game_model.toggle(row_index, col_index)
 		screen.game_model.falldown()
@@ -127,7 +129,7 @@ class ColorBlocksEvents(GameLoopEvents):
 if __name__ == "__main__":
 	config = GameConfig()
 	config.clock_rate = 12
-	config.window_size = [500, 500]
+	config.window_size = [500, 500 + HEIGHT_OFFSET]
 	config.window_title = "Color Blocks Game"
 	
 	screen = ColorBlocksScreen(config.window_size, [10, 10])
