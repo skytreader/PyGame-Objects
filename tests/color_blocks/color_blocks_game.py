@@ -34,7 +34,7 @@ class ColorBlocksScreen(GameScreen):
 		  height.
 		"""
 		super(ColorBlocksScreen, self).__init__(screen_size)
-		self.__game_model = ColorBlocksModel(grid_size[0], grid_size[1])
+		self.__game_model = ColorBlocksModel(grid_size[0], grid_size[1], 2)
 		# Instantiate an underlying grid model
 		# Python 2 automatically floors division. Beware when this code
 		# is run on Python 3!
