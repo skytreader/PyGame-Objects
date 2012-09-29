@@ -107,6 +107,10 @@ class ColorBlocksScreen(GameScreen):
 		
 		for i in range(limit):
 			pygame.draw.rect(window, self.color_list[i], self.rect_list[i], 0)
+		
+		score_font = pygame.font.Font(None, 25)
+		score = score_font.render("Score: " + str(self.game_model.score), True, Colors.RED)
+		window.blit(score, [10, 10])
 
 class ColorBlocksEvents(GameLoopEvents):
 	
@@ -117,7 +121,7 @@ class ColorBlocksEvents(GameLoopEvents):
 		pos = pygame.mouse.get_pos()
 		row_index = (pos[1] - HEIGHT_OFFSET) / screen.block_height
 		col_index = pos[0] / screen.block_width
-		screen.game_model.toggle(row_index, col_index)
+		screen.game_model.score += screen.game_model.toggle(row_index, col_index)
 		screen.game_model.falldown()
 		screen.game_model.collapse()
 		screen.represent_tiles()
@@ -125,6 +129,10 @@ class ColorBlocksEvents(GameLoopEvents):
 	def attach_event_handlers(self):
 		button_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
 		self.add_event_handler(button_down_event, self.__mouse_click)
+	
+	def loop_event(self):
+		self.window.fill(Colors.WHITE)
+		super(ColorBlocksEvents, self).loop_event()
 
 if __name__ == "__main__":
 	config = GameConfig()
