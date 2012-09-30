@@ -1,5 +1,7 @@
 #! usr/bin/env python
 
+import math
+
 """
 This file contains models for grids.
 """
@@ -188,3 +190,20 @@ class QuadraticGrid(object):
 				diag_adj.append(hv_adj[i])
 		
 		return diag_adj
+
+class TriangularGrid(object):
+	"""
+	Represents a triangular grid.
+	"""
+	
+	def __init__(self, grid_width, grid_height):
+		"""
+		Given the grid width and the grid height, we determine the origin
+		to be (floor(grid_width/2), floor(grid_height/2)). Take note of
+		this.
+		
+		Indices less than the origin coordinates are taken as negative.
+		Use these indices when referring to points in this grid.
+		"""
+		self.__origin_x = math.floor(grid_width / 2)
+		self.__origin_y = math.floor(grid_height / 2)
