@@ -19,7 +19,24 @@ class DimensionException(Exception):
 	def __str__(self):
 		return str(msg)
 
-class QuadraticGrid(object):
+class Grid(object):
+	"""
+	A grid must be drawable (and traversable)!
+	"""
+	
+	def draw_grid(self, window, x_offset, y_offset):
+		"""
+		Subclasses must implement this!
+		"""
+		pass
+	
+	def traverse(self):
+		"""
+		TODO: What happens here? :\
+		"""
+		pass
+
+class QuadraticGrid(Grid):
 	"""
 	AKA Cartesian Grid.
 	
@@ -43,6 +60,7 @@ class QuadraticGrid(object):
 		  
 		  Defaults to true.
 		"""
+		super(QuadraticGrid, self).__init__()
 		
 		if type(grid_width) != type(0) or type(grid_height) != type(0):
 			raise TypeError("Grid dimensions must be specified as ints.")
@@ -191,7 +209,7 @@ class QuadraticGrid(object):
 		
 		return diag_adj
 
-class TriangularGrid(object):
+class TriangularGrid(Grid):
 	"""
 	Represents a triangular grid.
 	"""
@@ -205,5 +223,6 @@ class TriangularGrid(object):
 		Indices less than the origin coordinates are taken as negative.
 		Use these indices when referring to points in this grid.
 		"""
+		super(Grid, self).__init__()
 		self.__origin_x = math.floor(grid_width / 2)
 		self.__origin_y = math.floor(grid_height / 2)
