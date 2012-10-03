@@ -117,6 +117,7 @@ class ColorBlocksEvents(GameLoopEvents):
 	def __init__(self, screen, config):
 		super(ColorBlocksEvents, self).__init__(screen, config)
 	
+	# Wow. Amusing that this works. Where'd they get the screen?
 	def __mouse_click(self, event):
 		pos = pygame.mouse.get_pos()
 		row_index = (pos[1] - HEIGHT_OFFSET) / screen.block_height
@@ -126,9 +127,18 @@ class ColorBlocksEvents(GameLoopEvents):
 		screen.game_model.collapse()
 		screen.represent_tiles()
 	
+	def __trigger_new_game(self, event):
+		self.game_screen.game_model.new_game()
+		self.game_screen.represent_tiles()
+	
 	def attach_event_handlers(self):
 		button_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
 		self.add_event_handler(button_down_event, self.__mouse_click)
+		
+		new_game_dict = {}
+		new_game_dict[GameLoopEvents.KEYCODE] = pygame.K_F2
+		new_game_dict[GameLoopEvents.HANDLER] = self.__trigger_new_game
+		self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), new_game_dict)
 	
 	def loop_event(self):
 		self.window.fill(Colors.WHITE)

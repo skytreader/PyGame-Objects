@@ -31,11 +31,9 @@ class ColorBlocksModel(object):
 		if grid_width < 3 or grid_height < 3:
 			raise DimensionException("Minimum grid dimensions is 3x3.")
 		
+		# TODO What the...
 		untaken = ColorBlocksModel.UNTAKEN
-		self.__quadratic_grid = QuadraticGrid(grid_width, grid_height, True, False)
-		self.__populate()
-		self.__min_score = min_score
-		self.__score = 0
+		self.__self_setup(grid_width, grid_height, min_score)
 	
 	@property
 	def grid(self):
@@ -70,6 +68,19 @@ class ColorBlocksModel(object):
 			for j in range(width):
 				block = ColorBlocksModel.BLOCKS[random.randint(0, block_index_max)]
 				self.grid[i][j] = block
+	
+	def __self_setup(self, width, height, min_score):
+		self.__quadratic_grid = QuadraticGrid(width, height, True, False)
+		self.__populate()
+		self.min_score = min_score
+		self.score = 0
+	
+	def new_game(self):
+		"""
+		Allows you to reset the game without having to create another
+		color_blocks_model object.
+		"""
+		self.__self_setup(len(self.grid[0]), len(self.grid), self.min_score)
 	
 	def toggle(self, row, col):
 		"""
