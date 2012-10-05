@@ -46,6 +46,18 @@ class Grid(Drawable):
 	def y_offset(self, y):
 		self.__y_offset = y
 	
+	@property
+	def color_mapping(self):
+		"""
+		color_mapping is a dictionary with grid symbols as keys
+		and colors as values.
+		"""
+		return self.__color_mapping
+	
+	@color_mapping.setter
+	def color_mapping(self, mapping):
+		self.__color_mapping = mapping
+	
 	def draw(self, window):
 		"""
 		Subclasses must implement this!
