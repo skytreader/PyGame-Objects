@@ -1,5 +1,7 @@
 #! usr/bin/env python
 
+from ..components.drawable import Drawable
+
 import math
 
 """
@@ -19,12 +21,32 @@ class DimensionException(Exception):
 	def __str__(self):
 		return str(msg)
 
-class Grid(object):
+class Grid(Drawable):
 	"""
 	A grid must be drawable (and traversable)!
 	"""
 	
-	def draw_grid(self, window, x_offset, y_offset):
+	def __init__(self):
+		super(Drawable, self).__init__()
+		pass
+	
+	@property
+	def x_offset(self):
+		return self.__x_offset
+	
+	@x_offset.setter
+	def x_offset(self, x):
+		self.__x_offset = x
+	
+	@property
+	def y_offset(self):
+		return self.__y_offset
+	
+	@y_offset.setter
+	def y_offset(self, y):
+		self.__y_offset = y
+	
+	def draw(self, window):
 		"""
 		Subclasses must implement this!
 		"""
