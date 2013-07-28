@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 from subscriber_pattern import Observer
 
 import pygame

@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 from common_shapes import Rectangle
 
 from core import Colors

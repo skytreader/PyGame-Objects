@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 from core import Colors
 
 from shapes import Point

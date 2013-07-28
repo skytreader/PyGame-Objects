@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 """
 Classes necessary for the Observer pattern. Slightly patterned
 after Java's Observer pattern framework.

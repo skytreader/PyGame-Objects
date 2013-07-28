@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 class Collidable(object):
 	"""
 	Represents a game object that can collide with other game objects.

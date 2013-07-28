@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 from drawable import Drawable
 
 from subscriber_pattern import Observable

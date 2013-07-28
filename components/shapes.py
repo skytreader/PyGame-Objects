@@ -1,5 +1,3 @@
-#! usr/bin/env python
-
 from core import Colors
 from drawable import Drawable
 from collidable import Collidable
