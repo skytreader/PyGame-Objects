@@ -16,21 +16,21 @@ gray circles on a white canvas.
 """
 
 class GrayCircle(GameLoopEvents):
-	
-	def __init__(self, config):
-		super(GrayCircle, self).__init__(config, GameScreen([500,500]))
-		self.__limit = 100
-		self.__count = 0
-	
-	def loop_invariant(self):
-		parent_invariant = super(GrayCircle, self).loop_invariant()
-		return self.__count < self.__limit and parent_invariant
-	
-	def loop_event(self):
-		x = random.randint(0, 500)
-		y = random.randint(0, 500)
-		pygame.draw.circle(self.window, [218, 218, 218], [x, y], 50, 2)
-		self.__count += 1
+    
+    def __init__(self, config):
+        super(GrayCircle, self).__init__(config, GameScreen([500,500]))
+        self.__limit = 100
+        self.__count = 0
+    
+    def loop_invariant(self):
+        parent_invariant = super(GrayCircle, self).loop_invariant()
+        return self.__count < self.__limit and parent_invariant
+    
+    def loop_event(self):
+        x = random.randint(0, 500)
+        y = random.randint(0, 500)
+        pygame.draw.circle(self.window, [218, 218, 218], [x, y], 50, 2)
+        self.__count += 1
 
 gconfig = GameConfig()
 gconfig.clock_rate = 10

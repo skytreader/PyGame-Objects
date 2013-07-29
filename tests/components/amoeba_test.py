@@ -24,45 +24,45 @@ vertices might intersect each other.
 """
 
 class AmoebaScreen(GameScreen):
-	
-	def __init__(self, screen_size):
-		super(AmoebaScreen, self).__init__(screen_size)
-		#Assumming a 500x500 screen.
-		self.__mutating_shape = PointShape([Point(250, 50), Point(50, 350), Point(400, 250)])
-	
-	@property
-	def mutating_shape(self):
-		return self.__mutating_shape
-	
-	def draw_screen(self, window):
-		super(AmoebaScreen, self).draw_screen(window)
-		self.mutating_shape.draw(window)
+    
+    def __init__(self, screen_size):
+        super(AmoebaScreen, self).__init__(screen_size)
+        #Assumming a 500x500 screen.
+        self.__mutating_shape = PointShape([Point(250, 50), Point(50, 350), Point(400, 250)])
+    
+    @property
+    def mutating_shape(self):
+        return self.__mutating_shape
+    
+    def draw_screen(self, window):
+        super(AmoebaScreen, self).draw_screen(window)
+        self.mutating_shape.draw(window)
 
 class AmoebaLoopEvents(GameLoopEvents):
-	
-	def __init__(self, config, game_screen):
-		super(AmoebaLoopEvents, self).__init__(config, game_screen)
-		self.__i = 0
-		self.__limit = 200
-	
-	def loop_invariant(self):
-		parent_invariant = super(AmoebaLoopEvents, self).loop_invariant()
-		return self.__i < self.__limit and parent_invariant
-	
-	def loop_event(self):
-		self.window.fill(Colors.WHITE)
-		
-		upper_bound = len(super(AmoebaLoopEvents, self).game_screen.mutating_shape.point_list) - 1
-		insertion_point = random.randint(0, upper_bound)
-		
-		rand_x = random.randint(0, self.config.window_size[GameConfig.WIDTH_INDEX])
-		rand_y = random.randint(0, self.config.window_size[GameConfig.HEIGHT_INDEX])
-		
-		super(AmoebaLoopEvents, self).game_screen.mutating_shape.add_point(Point(rand_x, rand_y), insertion_point)
-		
-		super(AmoebaLoopEvents, self).loop_event()
-		
-		self.__i += 1
+    
+    def __init__(self, config, game_screen):
+        super(AmoebaLoopEvents, self).__init__(config, game_screen)
+        self.__i = 0
+        self.__limit = 200
+    
+    def loop_invariant(self):
+        parent_invariant = super(AmoebaLoopEvents, self).loop_invariant()
+        return self.__i < self.__limit and parent_invariant
+    
+    def loop_event(self):
+        self.window.fill(Colors.WHITE)
+        
+        upper_bound = len(super(AmoebaLoopEvents, self).game_screen.mutating_shape.point_list) - 1
+        insertion_point = random.randint(0, upper_bound)
+        
+        rand_x = random.randint(0, self.config.window_size[GameConfig.WIDTH_INDEX])
+        rand_y = random.randint(0, self.config.window_size[GameConfig.HEIGHT_INDEX])
+        
+        super(AmoebaLoopEvents, self).game_screen.mutating_shape.add_point(Point(rand_x, rand_y), insertion_point)
+        
+        super(AmoebaLoopEvents, self).loop_event()
+        
+        self.__i += 1
 
 gameconfig = GameConfig()
 gameconfig.window_size = [500, 500]

@@ -16,9 +16,9 @@ TODO: Better tests! (Maybe, unit tests?)
 """
 
 class ConfigObserver(Observer):
-	
-	def notify(self, observed, arg_bundle = None):
-		print "Configuration has changed!"
+    
+    def notify(self, observed, arg_bundle = None):
+        print "Configuration has changed!"
 
 config = GameConfig()
 config.subscribe(ConfigObserver())
