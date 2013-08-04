@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ...components.image import Image
+from components.image import Image
 
 import os
 
@@ -22,7 +22,7 @@ Also, this resource does not seem to need closing.
 """
 
 pygame.display.set_mode([500, 500])
-nonexistent = Image(os.path.join("PyGame_Objects", "sample_sprites", "lalamon_clueless.png"));
+nonexistent = Image(os.path.join("sample_sprites", "lalamon_clueless.png"));
 
 # Set-up blocking code...
 foo = raw_input("Press enter when you have moved lalamon_clueless.png");
