@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ..components.drawable import Drawable
+from components.drawable import Drawable
 
 import math
 

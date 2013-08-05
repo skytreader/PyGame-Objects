@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ...helpers.grid import DimensionException
+from helpers.grid import DimensionException
 
 from color_blocks_model import ColorBlocksModel
 

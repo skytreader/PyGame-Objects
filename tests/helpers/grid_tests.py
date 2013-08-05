@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from ...helpers.grid import QuadraticGrid
+from helpers.grid import QuadraticGrid
 
 import random
 import unittest
