@@ -1,14 +1,14 @@
 #! usr/bin/env python
 
-from ...components.core import GameLoopEvents
-from ...components.core import GameConfig
-from ...components.core import GameLoop
-from ...components.core import GameScreen
-from ...components.core import Colors
+from components.core import GameLoopEvents
+from components.core import GameConfig
+from components.core import GameLoop
+from components.core import GameScreen
+from components.core import Colors
 
-from ...components.image import Image
+from components.image import Image
 
-from ...components.shapes import Point
+from components.shapes import Point
 
 import os
 
@@ -40,7 +40,7 @@ class ImageScreen(GameScreen):
     
     def setup(self):
         super(ImageScreen, self).setup()
-        self.__meteormon = Image(os.path.join("PyGame_Objects","sample_sprites","meteormon_clueless.png"))
+        self.__meteormon = Image(os.path.join("sample_sprites","meteormon_clueless.png"))
     
     def draw_screen(self, window):
         super(ImageScreen, self).draw_screen(window)
