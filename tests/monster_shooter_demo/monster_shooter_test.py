@@ -1,16 +1,16 @@
 #! usr/bin/env python
 
-from ...components.core import Colors
-from ...components.core import GameLoopEvents
-from ...components.core import GameConfig
-from ...components.core import GameLoop
-from ...components.core import GameScreen
+from components.core import Colors
+from components.core import GameLoopEvents
+from components.core import GameConfig
+from components.core import GameLoop
+from components.core import GameScreen
 
-from ...components.framework_exceptions import InstanceException
+from components.framework_exceptions import InstanceException
 
-from ...components.image import Image
+from components.image import Image
 
-from ...components.shapes import Point
+from components.shapes import Point
 
 from sprites import Zombie, Shooter, Bullet
 
@@ -91,14 +91,14 @@ class PVZMainScreen(GameScreen):
     def setup(self):
         super(PVZMainScreen, self).setup()
         # Preload monster sprites
-        meteormon_img = os.path.join("PyGame_Objects", "sample_sprites", "meteormon_clueless.png")
-        bakemon_img = os.path.join("PyGame_Objects", "sample_sprites", "bakemon_attack.png")
-        lalamon_img = os.path.join("PyGame_Objects", "sample_sprites", "lalamon_clueless.png")
-        tentacly_img = os.path.join("PyGame_Objects", "sample_sprites", "tentacly_angry.png")
+        meteormon_img = os.path.join("sample_sprites", "meteormon_clueless.png")
+        bakemon_img = os.path.join("sample_sprites", "bakemon_attack.png")
+        lalamon_img = os.path.join("sample_sprites", "lalamon_clueless.png")
+        tentacly_img = os.path.join("sample_sprites", "tentacly_angry.png")
         self.__monster_list = [meteormon_img, bakemon_img, lalamon_img, tentacly_img]
         
         # Load the character sprite
-        shooter_image = Image(os.path.join("PyGame_Objects","sample_sprites","seahomon_hero.png"))
+        shooter_image = Image(os.path.join("sample_sprites","seahomon_hero.png"))
         shooter_image.flip(True, False)
         
         shooter_image.position = Point(0, super(PVZMainScreen, self).screen_size[GameConfig.HEIGHT_INDEX] / 2)

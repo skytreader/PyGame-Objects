@@ -1,12 +1,12 @@
 #! usr/bin/env python
 
-from ...components.image import Image
+from components.image import Image
 
-from ...components.subscriber_pattern import Observer
+from components.subscriber_pattern import Observer
 
-from ...components.shapes import Point
+from components.shapes import Point
 
-from ...components.sprite import PyRoSprite
+from components.sprite import PyRoSprite
 
 import os
 
@@ -135,7 +135,7 @@ class Bullet(pygame.sprite.Sprite):
     def __init__(self, xpos, ypos):
         super(Bullet, self).__init__()
         
-        bullet_image = Image(os.path.join("PyGame_Objects", "sample_sprites", "bullet.png"))
+        bullet_image = Image(os.path.join("sample_sprites", "bullet.png"))
         bullet_image.position.x = xpos
         bullet_image.position.y = ypos
         
