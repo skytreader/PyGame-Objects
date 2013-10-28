@@ -21,6 +21,10 @@ I'm also working on adding new native drawing functionalities.
 `components` houses the main framework. `sample_sprites` contains the sprites I
 used for the test and demo files. `tests` contains, well, tests.
 
+Since I tried to follow PEP 328, it may not be that straightforward to run the
+tests. For convenience, navigate to the `runscripts` directory, pick the test
+(as directories) you would like to run, and execute the runscripts from there.
+
 The tests were written after every feature I finished. The tests are a mix of demos
 and unit tests. Every now and then, I also write some mini-games to compile
 demonstrations of some feature I'm working on.
