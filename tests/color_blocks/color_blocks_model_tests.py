@@ -2,7 +2,7 @@
 
 from helpers.grid import DimensionException
 
-from color_blocks_model import ColorBlocksModel
+from demo.color_blocks.color_blocks_model import ColorBlocksModel
 
 import unittest
 
