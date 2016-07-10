@@ -4,7 +4,7 @@ python:
 sudo: required
 dist: trusty
 before_install:
-    - sudo apt-get install -y build-dep python-pygame
+    - sudo apt-get build-dep -y python-pygame
 install: "pip install -r requirements.txt"
 script: "nosetests tests"
 after_success: "COVERALLS_REPO_TOKEN=$coveralls_token coveralls"
