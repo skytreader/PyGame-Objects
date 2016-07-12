@@ -1,7 +1,7 @@
 #! usr/bin/env python
 
-from subscriber_pattern import Observable
-from subscriber_pattern import Observer
+from subscriber_pattern import Publisher as Observable
+from subscriber_pattern import Subscriber as Observer
 
 import pygame
 

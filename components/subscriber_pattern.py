@@ -1,11 +1,14 @@
 """
-Classes necessary for the Observer pattern. Slightly patterned
-after Java's Observer pattern framework.
+Classes necessary for the Observer pattern. Slightly patterned after Java's
+Observer pattern framework. But I am calling it Subscriber because I am hipster.
+
+(I even think this is the proper term, with the PUB/SUB pattern referenced more
+frequently.)
 
 @author Chad Estioco
 """
 
-class Observable(object):
+class Publisher(object):
     
     def __init__(self):
         self.__observers = []
@@ -29,7 +32,7 @@ class Observable(object):
         for o in self.__observers:
             o.notify(self, arg_bundle)
 
-class Observer(object):
+class Subscriber(object):
     
     def notify(self, observed, arg_bundle = None):
         """
