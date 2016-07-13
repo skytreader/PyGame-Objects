@@ -1,4 +1,5 @@
 import unittest
+import uuid
 
 from components.subscriber_pattern import Publisher, Subscriber
 
@@ -10,6 +11,7 @@ class PublisherMock(Publisher):
 class SubscriberMock(Subscriber):
     
     def __init__(self):
+        super(SubscriberMock, self).__init__()
         self.notified = False
 
     def notify(self, observed, arg_bundle=None):

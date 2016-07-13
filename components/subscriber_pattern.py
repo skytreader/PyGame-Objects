@@ -1,3 +1,5 @@
+import uuid
+
 """
 Classes necessary for the Observer pattern. Slightly patterned after Java's
 Observer pattern framework. But I am calling it Subscriber because I am hipster.
@@ -33,6 +35,12 @@ class Publisher(object):
             o.notify(self, arg_bundle)
 
 class Subscriber(object):
+    
+    def __init__(self):
+        self.id = uuid.uuid1()
+
+    def __eq__(self, subscriber_):
+        return self.id == subscriber_.id
     
     def notify(self, observed, arg_bundle = None):
         """
