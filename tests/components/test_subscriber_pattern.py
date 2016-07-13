@@ -31,3 +31,13 @@ class SubscriberPatternTest(unittest.TestCase):
         self.publisher.subscribe(self.subscriber)
         self.publisher.notify_subscribers()
         self.assertTrue(self.subscriber.notified)
+
+    def test_unsubscribe(self):
+        self.assertFalse(self.subscriber.notified)
+        self.publisher.subscribe(self.subscriber)
+        self.publisher.notify_subscribers()
+        self.assertTrue(self.subscriber.notified)
+        self.subscriber.notified = False
+        self.publisher.unsubscribe(self.subscriber)
+        self.publisher.notify_subscribers()
+        self.assertFalse(self.subscriber.notified)
