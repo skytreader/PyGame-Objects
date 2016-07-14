@@ -22,3 +22,29 @@ class SnakeModelTests(unittest.TestCase):
 
     def test_move_snake_exceptions(self):
         self.assertRaises(ValueError, self.gm.move_snake, "a")
+
+    def test_move_snake(self):
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("u")
+        self.assertEqual((_snake_head[0]-1, _snake_head[1]), self.gm.snake_head)
+        self.assertTrue(_snake_head in self.gm.snake_joints)
+
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("r")
+        self.assertEqual((_snake_head[0], _snake_head[1]+1), self.gm.snake_head)
+
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("u")
+        self.assertEqual((_snake_head[0]-1, _snake_head[1]), self.gm.snake_head)
+
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("l")
+        self.assertEqual((_snake_head[0], _snake_head[1]-1), self.gm.snake_head)
+
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("l")
+        self.assertEqual((_snake_head[0], _snake_head[1]-1), self.gm.snake_head)
+
+        _snake_head = self.gm.snake_head
+        self.gm.move_snake("d")
+        self.assertEqual((_snake_head[0]+1, _snake_head[1]), self.gm.snake_head)

@@ -36,3 +36,6 @@ class GameModel(object):
     def move_snake(self, direction):
         if direction not in GameModel.SNAKE_MOVEMENTS:
             raise ValueError("Please see GameModel.SNAKE_MOVEMENTS for possible values")
+
+        new_vector_head = self.snake_head
+        self.snake_joints.insert(0, self.snake_head)
