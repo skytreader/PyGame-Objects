@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from helpers.grid import QuadraticGrid, DimensionException
+from components.helpers.grid import QuadraticGrid, DimensionException
 
 import random
 

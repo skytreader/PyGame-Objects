@@ -8,7 +8,7 @@ from components.core import GameScreen
 from components.shapes import Point
 from components.shapes import PointShape
 
-from helpers.grid import QuadraticGrid
+from components.helpers.grid import QuadraticGrid
 
 from color_blocks_model import ColorBlocksModel
 
