@@ -1,4 +1,4 @@
-import random
+from components.helpers.grid import Movements_2D
 
 class Snake(object):
     
@@ -8,7 +8,6 @@ class Snake(object):
 class GameModel(object):
     
     DEFAULT_SNAKE_SIZE = 3
-    SNAKE_MOVEMENTS = set(("u", "d", "l", "r"))
     
     def __init__(self, width, height):
         if width < (GameModel.DEFAULT_SNAKE_SIZE + 1) or height < (GameModel.DEFAULT_SNAKE_SIZE):
@@ -34,8 +33,9 @@ class GameModel(object):
         self.snake_joints.append((row, col + self.snake.size))
 
     def move_snake(self, direction):
-        if direction not in GameModel.SNAKE_MOVEMENTS:
-            raise ValueError("Please see GameModel.SNAKE_MOVEMENTS for possible values")
+        movector = Movements_2D.MOVEMAP.get(direction)
+        if movector is None:
+            raise ValueError("Invalid direction input %s." % direction)
 
-        new_vector_head = self.snake_head
         self.snake_joints.insert(0, self.snake_head)
+        self.snake_head = (self.snake_head[0] + movector[0], self.snake_head[1] + movector[1])
