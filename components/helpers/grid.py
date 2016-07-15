@@ -119,28 +119,12 @@ class QuadraticGrid(Grid):
             raise ValueError("Grid dimensions must be positive.")
         
         self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
-        self.__hv_neighbors = hv_neighbors
-        self.__diag_neighbors = diag_neighbors
+        self.hv_neighbors = hv_neighbors
+        self.diag_neighbors = diag_neighbors
     
     @property
     def grid(self):
         return self.__grid
-    
-    @property
-    def hv_neighbors(self):
-        return self.__hv_neighbors
-    
-    @hv_neighbors.setter
-    def hv_neighbors(self, hvn):
-        self.__hv_neighbors = hvn
-    
-    @property
-    def diag_neighbors(self):
-        return self.__diag_neighbors
-    
-    @diag_neighbors.setter
-    def diag_neighbors(self, dn):
-        self.__diag_neighbors = dn
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):
@@ -223,13 +207,15 @@ class QuadraticGrid(Grid):
         
         return adjacent
     
-    def get_adjacent(self, row, col):
+    def get_adjacent(self, point):
         """
         Returns a list of all the adjacent cells to block (row, col), depending
         on the set-up of the invoking object. The return list contains tuples of
         the index coordinates of the adjacent blocks.
         """
-        
+        row = point[0]
+        col = point[1]
+
         if type(row) != type(0) or type(col) != type(0):
             raise TypeError("Parameters should be of type int.")
         

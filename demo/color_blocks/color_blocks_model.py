@@ -110,7 +110,7 @@ class ColorBlocksModel(object):
             cur_block = adjacent_stack.pop()
             inspected.append(cur_block)
             adj_same_color.append(cur_block)
-            adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block[0], cur_block[1])
+            adjacent_blocks = self.quadratic_grid.get_adjacent(cur_block)
             adj_count = len(adjacent_blocks)
             
             for i in range(adj_count):
