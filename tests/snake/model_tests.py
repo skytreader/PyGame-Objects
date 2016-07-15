@@ -7,6 +7,14 @@ class SnakeModelTests(unittest.TestCase):
     def setUp(self):
         self.gm = GameModel(10, 10)
         self.gm.initialize()
+
+    def test_init(self):
+        snake_head = self.gm.snake_head
+        self.assertEqual(1, len(self.gm.snake_joints))
+        tail = self.gm.snake_joints[0]
+        self.assertEqual(tail[0], snake_head[0])
+        self.assertNotEqual(tail[1], snake_head[1])
+        self.assertTrue(self.gm.snake_head is not None)
     
     def test_constructor_exception(self):
         self.assertRaises(ValueError, GameModel, 0, 0)
@@ -48,3 +56,12 @@ class SnakeModelTests(unittest.TestCase):
         _snake_head = self.gm.snake_head
         self.gm.move_snake("d")
         self.assertEqual((_snake_head[0]+1, _snake_head[1]), self.gm.snake_head)
+
+    def test_bending(self):
+        snake_head = self.gm.snake_head
+        max_len = self.gm.snake.size
+        old_len = len(self.gm.snake_joints)
+        self.assertTrue(max_len >= old_len)
+        self.gm.move_snake("u")
+        self.assertTrue(len(self.gm.snake_joints) > old_len)
+        self.assertTrue(max_len >= len(self.gm.snake_joints))

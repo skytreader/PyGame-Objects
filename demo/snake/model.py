@@ -20,6 +20,9 @@ class GameModel(object):
         only be made from the snake's head and can only disappear from the
         snake's tail. The current location of the head is not considered a joint
         but the tail is.
+
+        At any given time, the length of this list cannot be greater than the
+        size of the snake.
         """
         self.snake_joints = []
         # The location of the snake's head.
