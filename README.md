@@ -54,3 +54,11 @@ for Milestone 1 and for the code at the repo head has been mixed at the wiki.
 Fortunately, they are not yet that different from each other and when and where
 they differ, it is easy to note. In the near future, I plan to include markdown
 files of the docs along with the code.
+
+# License
+
+All code in master (except when noted) are licensed under MIT.
+
+ALl sprites under `sample_sprites/tiles` are licensed under a
+[Creative Commons Attribution-ShareAlike 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
+license.
