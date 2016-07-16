@@ -2,7 +2,7 @@
 
 from components.image import Image
 
-from components.subscriber_pattern import Observer
+from components.subscriber_pattern import Subscriber as Observer
 
 from components.shapes import Point
 

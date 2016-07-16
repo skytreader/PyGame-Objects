@@ -91,14 +91,14 @@ class PVZMainScreen(GameScreen):
     def setup(self):
         super(PVZMainScreen, self).setup()
         # Preload monster sprites
-        meteormon_img = os.path.join("sample_sprites", "meteormon_clueless.png")
-        bakemon_img = os.path.join("sample_sprites", "bakemon_attack.png")
-        lalamon_img = os.path.join("sample_sprites", "lalamon_clueless.png")
-        tentacly_img = os.path.join("sample_sprites", "tentacly_angry.png")
+        meteormon_img = os.path.join("sample_sprites", "notmine", "meteormon_clueless.png")
+        bakemon_img = os.path.join("sample_sprites", "notmine", "bakemon_attack.png")
+        lalamon_img = os.path.join("sample_sprites", "notmine", "lalamon_clueless.png")
+        tentacly_img = os.path.join("sample_sprites", "notmine", "tentacly_angry.png")
         self.__monster_list = [meteormon_img, bakemon_img, lalamon_img, tentacly_img]
         
         # Load the character sprite
-        shooter_image = Image(os.path.join("sample_sprites","seahomon_hero.png"))
+        shooter_image = Image(os.path.join("sample_sprites", "notmine", "seahomon_hero.png"))
         shooter_image.flip(True, False)
         
         shooter_image.position = Point(0, super(PVZMainScreen, self).screen_size[GameConfig.HEIGHT_INDEX] / 2)

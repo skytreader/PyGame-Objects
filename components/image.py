@@ -1,6 +1,6 @@
 from drawable import Drawable
 
-from subscriber_pattern import Observable
+from subscriber_pattern import Publisher as Observable
 
 from shapes import Point
 
