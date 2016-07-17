@@ -33,7 +33,7 @@ class GameModel(object):
         row = len(self.grid_size[0]) / 2
         col = len(self.grid_size[1]) / 2
         self.snake_head = (row, col)
-        self.snake_joints.append((row, col + self.snake.size))
+        self.snake_joints.append((row, col - self.snake.size))
 
     def move_snake(self, direction):
         movector = Movements_2D.MOVEMAP.get(direction)

@@ -57,11 +57,31 @@ class SnakeModelTests(unittest.TestCase):
         self.gm.move_snake("d")
         self.assertEqual((_snake_head[0]+1, _snake_head[1]), self.gm.snake_head)
 
+    def test_keep_moving_right(self):
+        tail = self.gm.snake_joints[-1]
+        self.gm.move_snake("r")
+        self.assertEqual(self.gm.snake_joints[-1], (tail[0], tail[1] + 1))
+
+        tail = self.gm.snake_joints[-1]
+        self.gm.move_snake("r")
+        self.assertEqual(self.gm.snake_joints[-1], (tail[0], tail[1] + 1))
+
+    def test_no_180_turn(self):
+        """
+        The snake is initially oriented facing rightwards. Test that, from that
+        position, it can't suddenly go leftwards.
+        """
+        head = self.gm.snake_head
+        self.gm.move_snake("l")
+        self.assertEqual(head, self.gm.snake_head)
+
     def test_bending(self):
         snake_head = self.gm.snake_head
         max_len = self.gm.snake.size
         old_len = len(self.gm.snake_joints)
+        old_tail = self.gm.snake_joints[-1]
         self.assertTrue(max_len >= old_len)
         self.gm.move_snake("u")
         self.assertTrue(len(self.gm.snake_joints) > old_len)
         self.assertTrue(max_len >= len(self.gm.snake_joints))
+        self.assertEqual(self.gm.snake_joints[-1], (old_tail[0], old_tail[1] + 1))
