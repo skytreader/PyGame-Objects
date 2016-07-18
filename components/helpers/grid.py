@@ -21,7 +21,7 @@ class DimensionException(Exception):
     def __str__(self):
         return str(msg)
 
-class Movements_2D(object):
+class Movements_2D_Cartesian(object):
     """
     A collection of 2D vectors (in the linear algebra sense) which when added
     to other vectors produces the effect that the vectors "moved" in the
@@ -88,10 +88,21 @@ class Grid(Drawable):
 
 class QuadraticGrid(Grid):
     """
-    AKA Cartesian Grid.
+    AKA 2D Cartesian Grid.
     
     TODO: Raise errors for invalid indices.
     """
+
+    class Movements(object):
+        UP = (-1, 0)
+        DOWN = (1, 0)
+        LEFT = (0, -1)
+        RIGHT = (0, 1)
+
+        """
+        So that function interfaces can be consistent in this framework.
+        """
+        MOVEMAP = {'u': UP, 'd': DOWN, 'l': LEFT, 'r': RIGHT}
     
     def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True):
         """

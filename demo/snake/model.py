@@ -1,4 +1,4 @@
-from components.helpers.grid import Movements_2D
+from components.helpers.grid import QuadraticGrid
 
 class Snake(object):
     
@@ -36,7 +36,7 @@ class GameModel(object):
         self.snake_joints.append((row, col - self.snake.size))
 
     def move_snake(self, direction):
-        movector = Movements_2D.MOVEMAP.get(direction)
+        movector = QuadraticGrid.Movements.MOVEMAP.get(direction)
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
 
