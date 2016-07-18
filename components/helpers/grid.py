@@ -1,6 +1,7 @@
 #! usr/bin/env python
 
 from components.drawable import Drawable
+from components.framework_exceptions import VectorDirectionException
 
 import math
 
@@ -98,11 +99,37 @@ class QuadraticGrid(Grid):
         DOWN = (1, 0)
         LEFT = (0, -1)
         RIGHT = (0, 1)
+        STAY = (0, 0)
 
         """
         So that function interfaces can be consistent in this framework.
         """
         MOVEMAP = {'u': UP, 'd': DOWN, 'l': LEFT, 'r': RIGHT}
+
+        INVERSE_DIRECTION = {UP: DOWN, DOWN: UP, LEFT: RIGHT, RIGHT: LEFT}
+
+        @classmethod
+        def compute_direction(cls, tail, head):
+            """
+            Compute the direction at which the vector starting at tail and ending
+            at head is moving.
+
+            Assumes that the movement described is only along the grid lines.
+            """
+            if tail[0] == head[0]:
+                if tail[1] > head[1]:
+                    return cls.LEFT
+                elif tail[1] < head[1]:
+                    return cls.RIGHT
+                else:
+                    return cls.STAY
+            elif tail[1] == head[1]:
+                if tail[0] > head[0]:
+                    return cls.UP
+                else:
+                    return cls.DOWN # EQ case should've been caught above.
+            else:
+                raise VectorDirectionException("Given vector does not describe grid movement.")
     
     def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True):
         """

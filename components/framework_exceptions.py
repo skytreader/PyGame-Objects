@@ -7,3 +7,6 @@ class InstanceException(Exception):
     
     def __str__(self):
         return repr(self.value)
+
+class VectorDirectionException(Exception):
+    pass
