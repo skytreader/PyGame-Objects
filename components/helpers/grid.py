@@ -119,28 +119,12 @@ class QuadraticGrid(Grid):
             raise ValueError("Grid dimensions must be positive.")
         
         self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
-        self.__hv_neighbors = hv_neighbors
-        self.__diag_neighbors = diag_neighbors
+        self.hv_neighbors = hv_neighbors
+        self.diag_neighbors = diag_neighbors
     
     @property
     def grid(self):
         return self.__grid
-    
-    @property
-    def hv_neighbors(self):
-        return self.__hv_neighbors
-    
-    @hv_neighbors.setter
-    def hv_neighbors(self, hvn):
-        self.__hv_neighbors = hvn
-    
-    @property
-    def diag_neighbors(self):
-        return self.__diag_neighbors
-    
-    @diag_neighbors.setter
-    def diag_neighbors(self, dn):
-        self.__diag_neighbors = dn
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):
