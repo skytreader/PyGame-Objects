@@ -1,11 +1,36 @@
-#! usr/bin/env python
+import unittest
 
+from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
 import random
 import unittest
 
-class QuadraticGrid_Tests(unittest.TestCase):
+class QuadraticGridTests(unittest.TestCase):
+    
+    def test_movements(self):
+        left_vector = {"tail": (0, 1), "head": (0, 0)}
+        self.assertEquals(QuadraticGrid.Movements.compute_direction(**left_vector),
+          QuadraticGrid.Movements.LEFT)
+
+        right_vector = {"tail": (0, 0), "head": (0, 1)}
+        self.assertEquals(QuadraticGrid.Movements.compute_direction(**right_vector),
+          QuadraticGrid.Movements.RIGHT)
+
+        stay_vector = {"tail": (0, 0), "head": (0, 0)}
+        self.assertEquals(QuadraticGrid.Movements.compute_direction(**stay_vector),
+          QuadraticGrid.Movements.STAY)
+
+        up_vector = {"tail": (1, 0), "head": (0, 0)}
+        self.assertEquals(QuadraticGrid.Movements.compute_direction(**up_vector),
+          QuadraticGrid.Movements.UP)
+
+        down_vector = {"tail": (0, 0), "head": (1, 0)}
+        self.assertEquals(QuadraticGrid.Movements.compute_direction(**down_vector),
+          QuadraticGrid.Movements.DOWN)
+
+        self.assertRaises(VectorDirectionException,
+          QuadraticGrid.Movements.compute_direction, (1, 1), (2, 2))
     
     def __all_in(self, l1, l2):
         """
@@ -65,8 +90,3 @@ class QuadraticGrid_Tests(unittest.TestCase):
         
         self.assertFalse(l1 == l2)
         self.assertTrue(self.__all_in(l1, l2))
-        
-
-if __name__ == "__main__":
-    tests = unittest.TestLoader().loadTestsFromTestCase(QuadraticGrid_Tests)
-    unittest.TextTestRunner(verbosity=2).run(tests)
