@@ -22,22 +22,6 @@ class DimensionException(Exception):
     def __str__(self):
         return str(msg)
 
-class Movements_2D_Cartesian(object):
-    """
-    A collection of 2D vectors (in the linear algebra sense) which when added
-    to other vectors produces the effect that the vectors "moved" in the
-    described direction.
-    """
-    UP = (-1, 0)
-    DOWN = (1, 0)
-    LEFT = (0, -1)
-    RIGHT = (0, 1)
-
-    """
-    So that function interfaces can be consistent in this framework.
-    """
-    MOVEMAP = {'u': UP, 'd': DOWN, 'l': LEFT, 'r': RIGHT}
-
 class Grid(Drawable):
     """
     A grid must be drawable (and traversable)!
