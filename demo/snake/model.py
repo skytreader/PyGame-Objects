@@ -40,5 +40,20 @@ class GameModel(object):
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
 
+        current_direction = QuadraticGrid.Movements.compute_direction(
+          self.snake_joints[0], self.snake_head
+        )
+        inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
+
+        if movector == inverse_direction:
+            return
+
         self.snake_joints.insert(0, self.snake_head)
         self.snake_head = (self.snake_head[0] + movector[0], self.snake_head[1] + movector[1])
+
+        snake_tail_vector = QuadraticGrid.Movements.compute_direction(
+          self.snake_joints[-1], self.snake_joints[-2]
+        )
+
+        self.snake_joints[-1] = (self.snake_joints[-1][0] + snake_tail_vector[0],
+          self.snake_joints[-1][1] + snake_tail_vector[1])
