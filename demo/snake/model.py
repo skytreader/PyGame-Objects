@@ -26,6 +26,7 @@ class GameModel(object):
 
         self.grid_size = [[False for _ in range(width)] for __ in range(height)]
         self.snake = Snake(GameModel.DEFAULT_SNAKE_SIZE)
+        self.food_point = None
 
     @property
     def snake_joints(self):
@@ -64,3 +65,10 @@ class GameModel(object):
 
         self.snake_joints[-1] = (self.snake_joints[-1][0] + snake_tail_vector[0],
           self.snake_joints[-1][1] + snake_tail_vector[1])
+    
+    def grow_snake(self):
+        current_tail = (self.snake_joints[-2], self.snake_joints[-2])
+        direction = QuadraticGrid.Movements.compute_direction(current_tail)
+        new_tail_location = (self.snake_joints[-1][0] + direction[0],
+          self.snake_joints[-1][1] + direction[1])
+        self.snake_joints[-1] = new_tail_location
