@@ -54,11 +54,11 @@ class GameConfig(Observable):
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
     
-    def __init__(self):
+    def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
-        self.__clock_rate = 0
-        self.__window_size = [0, 0]
-        self.__window_title = ""
+        self.__clock_rate = clock_rate
+        self.__window_size = window_size if window_size else (0, 0)
+        self.__window_title = window_title if window_title else ""
     
     @property
     def clock_rate(self):
