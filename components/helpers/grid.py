@@ -161,6 +161,10 @@ class QuadraticGrid(Grid):
             return index - 1
     
     def __list_unique(self, *items):
+        """
+        More Pythonically, list(set(items)) but this preserves the order in which
+        the unique items first appeared.
+        """
         unique = []
         
         for i in items:
