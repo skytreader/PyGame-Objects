@@ -1,2 +1,2 @@
 cd ../..
-python -m tests.color_blocks.color_blocks_game
+python -m demo.color_blocks.color_blocks_game
