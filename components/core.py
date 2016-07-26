@@ -1,7 +1,7 @@
 #! usr/bin/env python
 
-from subscriber_pattern import Publisher as Observable
-from subscriber_pattern import Subscriber as Observer
+from subscriber_pattern import Publisher
+from subscriber_pattern import Subscriber
 
 import pygame
 
@@ -32,7 +32,7 @@ class Colors(object):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (218, 218, 218)
 
-class GameConfig(Observable):
+class GameConfig(Publisher):
     """
     Encapsulation of various configurations needed by a GameLoop object.
     
@@ -188,7 +188,7 @@ class GameScreen(object):
         """
         pass
     
-class GameLoopEvents(Observer):
+class GameLoopEvents(Subscriber):
     """
     The controller.
     
@@ -346,3 +346,6 @@ class GameLoopEvents(Observer):
         self.configurable_setup()
         self.game_screen.setup()
         self.attach_event_handlers()
+
+class GameModel(Publisher):
+    pass
