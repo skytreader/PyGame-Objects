@@ -1,4 +1,5 @@
 #! usr/bin/env python
+from __future__ import division
 
 from components.core import Colors
 from components.core import GameConfig
@@ -12,6 +13,7 @@ from components.helpers.grid import QuadraticGrid
 
 from color_blocks_model import ColorBlocksModel
 
+import math
 import pygame
 
 HEIGHT_OFFSET = 100
@@ -34,37 +36,13 @@ class ColorBlocksScreen(GameScreen):
           height.
         """
         super(ColorBlocksScreen, self).__init__(screen_size, ColorBlocksModel(grid_size[0], grid_size[1], 2))
-        self.__game_model = self.model
+        self.game_model = self.model
         # Instantiate an underlying grid model
-        # Python 2 automatically floors division. Beware when this code
-        # is run on Python 3!
-        self.__block_width = screen_size[0] / grid_size[0]
-        self.__block_height = (screen_size[1] - HEIGHT_OFFSET) / grid_size[1]
-        self.__grid_model = QuadraticGrid(screen_size[0] / self.block_width, (screen_size[1] - HEIGHT_OFFSET) / self.block_height)
-    
-    @property
-    def game_model(self):
-        return self.__game_model
-    
-    @property
-    def grid_model(self):
-        return self.__grid_model
-    
-    @property
-    def block_width(self):
-        return self.__block_width
-    
-    @property
-    def block_height(self):
-        return self.__block_height
-    
-    @property
-    def rect_list(self):
-        return self.__rect_list
-    
-    @property
-    def color_list(self):
-        return self.__color_list
+        self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
+        self.block_height = int(math.floor((screen_size[1] - HEIGHT_OFFSET) / grid_size[1]))
+        self.grid_model = QuadraticGrid(self.block_width, self.block_height)
+        self.rect_list = []
+        self.color_list = []
     
     def setup(self):
         self.represent_tiles()
@@ -76,8 +54,8 @@ class ColorBlocksScreen(GameScreen):
         # rect_list and color_list are associative arrays.
         # for the rect described in rect_list, its color is
         # in color_list.
-        self.__rect_list = []
-        self.__color_list = []
+        self.rect_list = []
+        self.color_list = []
         raw_grid = self.game_model.grid
         rowlen = len(raw_grid)
         collen = len(raw_grid[0])
@@ -120,8 +98,8 @@ class ColorBlocksEvents(GameLoopEvents):
     # Wow. Amusing that this works. Where'd they get the screen?
     def __mouse_click(self, event):
         pos = pygame.mouse.get_pos()
-        row_index = (pos[1] - HEIGHT_OFFSET) / screen.block_height
-        col_index = pos[0] / screen.block_width
+        row_index = int(math.floor((pos[1] - HEIGHT_OFFSET) / screen.block_height))
+        col_index = int(math.floor(pos[0] / screen.block_width))
         screen.game_model.score += screen.game_model.toggle(row_index, col_index)
         screen.game_model.falldown()
         screen.game_model.collapse()
