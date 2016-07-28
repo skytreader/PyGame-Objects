@@ -143,7 +143,7 @@ class GameLoop(object):
         
         pygame.quit()
 
-class GameScreen(object):
+class GameScreen(Subscriber):
     """
     The view.
     
@@ -156,7 +156,7 @@ class GameScreen(object):
     @author Chad Estioco
     """
     
-    def __init__(self, screen_dimensions):
+    def __init__(self, screen_dimensions, model):
         """
         Creates an instance of GameScreen. DO NOT instantiate images/surfaces here.
         Put instantiation code in setup() method.
@@ -167,7 +167,8 @@ class GameScreen(object):
           An iterable with at least two elements. See GameConfig.
         """
         self.__screen_dimensions = screen_dimensions
-        pass
+        self.model = model
+        self.model.subscribe(self)
     
     @property
     def screen_size(self):
@@ -175,7 +176,7 @@ class GameScreen(object):
     
     def setup(self):
         """
-        Put all image/surface instatiation code here.
+        Put all image/surface instantiation code here.
         """
         pass
     
