@@ -147,6 +147,21 @@ class QuadraticGrid(Grid):
     @property
     def grid(self):
         return self.__grid
+
+    @staticmethod
+    def cons_rect_list(grid, model, block_width, block_height, width_offset=0, height_offset=0):
+        rect_list = []
+        render_list = []
+        for i, row in enumerate(grid):
+            for j, col in enumerate(row):
+                upper_left_x = j * block_width + width_offset
+                upper_left_y = i * block_height + height_offset
+                rect = (uppper_left_x, upper_left_y, block_width, block_height)
+                rect_list.append(rect)
+
+                render_list.append(model.render(i, j))
+
+        return zip(rect_list, render_list)
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):

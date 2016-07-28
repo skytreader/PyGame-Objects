@@ -348,4 +348,6 @@ class GameLoopEvents(Subscriber):
         self.attach_event_handlers()
 
 class GameModel(Publisher):
-    pass
+    
+    def render(**kwargs):
+        raise NotImplementedError("No rendering shall occur.")
