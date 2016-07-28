@@ -1,10 +1,11 @@
 #! usr/bin/env python
 
+from components.core import GameModel
 from components.helpers.grid import QuadraticGrid, DimensionException
 
 import random
 
-class ColorBlocksModel(object):
+class ColorBlocksModel(GameModel):
     """
     A Color Blocks game will be represented by an n x m grid. Each cell
     will be represented by a character in ColorBlocksModel.BLOCKS . Since,
@@ -26,6 +27,7 @@ class ColorBlocksModel(object):
         @param min_score
           The minimum number of blocks required to make a score.
         """
+        super(ColorBlocksModel, self).__init__()
         
         # Let's add a minimum dimension of 3 x 3
         if grid_width < 3 or grid_height < 3:

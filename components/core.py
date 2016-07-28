@@ -350,5 +350,8 @@ class GameLoopEvents(Subscriber):
 
 class GameModel(Publisher):
     
+    def __init__(self):
+        super(GameModel, self).__init__()
+    
     def render(**kwargs):
         raise NotImplementedError("No rendering shall occur.")
