@@ -353,7 +353,7 @@ class GameModel(Publisher):
     def __init__(self):
         super(GameModel, self).__init__()
     
-    def render(**kwargs):
+    def render(self, **kwargs):
         """
         Helps GameScreens represent and render relevant parts of this model.
         Return an object which your GameScreen knows how to render.

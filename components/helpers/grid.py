@@ -150,16 +150,24 @@ class QuadraticGrid(Grid):
 
     @staticmethod
     def cons_rect_list(grid, model, block_width, block_height, width_offset=0, height_offset=0):
+        """
+        grid - An instance of this class.
+        model - An instance of components.core.GameModel
+        """
+        grid = grid.grid
         rect_list = []
         render_list = []
+        print "rowlen", len(grid)
+        print grid
         for i, row in enumerate(grid):
+            print "collen", len(row)
             for j, col in enumerate(row):
                 upper_left_x = j * block_width + width_offset
                 upper_left_y = i * block_height + height_offset
-                rect = (uppper_left_x, upper_left_y, block_width, block_height)
+                rect = (upper_left_x, upper_left_y, block_width, block_height)
                 rect_list.append(rect)
 
-                render_list.append(model.render(i, j))
+                render_list.append(model.render(row=i, col=j))
 
         return zip(rect_list, render_list)
     

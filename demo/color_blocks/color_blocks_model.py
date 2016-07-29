@@ -32,6 +32,9 @@ class ColorBlocksModel(GameModel):
         # Let's add a minimum dimension of 3 x 3
         if grid_width < 3 or grid_height < 3:
             raise DimensionException("Minimum grid dimensions is 3x3.")
+
+        print "grid_width", grid_width
+        print "grid_height", grid_height
         
         # TODO What the...
         untaken = ColorBlocksModel.UNTAKEN
@@ -84,14 +87,16 @@ class ColorBlocksModel(GameModel):
         """
         self.__self_setup(len(self.grid[0]), len(self.grid), self.min_score)
 
-    def render(**kwargs):
+    def render(self, **kwargs):
+        from color_blocks_game import ColorBlocksScreen
         i = kwargs.get("row")
         j = kwargs.get("col")
 
-        if self.grid.grid[i][j] == ColorBlocksModel.UNTAKEN:
+        print "Rendering", i, j
+        if self.grid[i][j] == ColorBlocksModel.UNTAKEN:
             return Colors.WHITE
         else:
-            color_index = int(self.grid.grid[i][j])
+            color_index = int(self.grid[i][j])
             return ColorBlocksScreen.COLOR_MAPPING[color_index]
     
     def toggle(self, row, col):

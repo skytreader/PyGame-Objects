@@ -36,6 +36,7 @@ class ColorBlocksScreen(GameScreen):
           height.
         """
         super(ColorBlocksScreen, self).__init__(screen_size, ColorBlocksModel(grid_size[0], grid_size[1], 2))
+        print "grid_size is", grid_size
         self.game_model = self.model
         # Instantiate an underlying grid model
         self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
@@ -54,24 +55,10 @@ class ColorBlocksScreen(GameScreen):
         # rect_list and color_list are associative arrays.
         # for the rect described in rect_list, its color is
         # in color_list.
-        self.rect_list = []
-        self.color_list = []
-        raw_grid = self.game_model.grid
-        rowlen = len(raw_grid)
-        collen = len(raw_grid[0])
-        
-        for i in range(rowlen):
-            for j in range(collen):
-                upper_left_x = j * self.block_width
-                upper_left_y = i * self.block_height + HEIGHT_OFFSET
-                rect = (upper_left_x, upper_left_y, self.block_width, self.block_height)
-                self.rect_list.append(rect)
-                
-                if raw_grid[i][j] == ColorBlocksModel.UNTAKEN:
-                    self.color_list.append(Colors.WHITE)
-                else:
-                    color_index = int(raw_grid[i][j])
-                    self.color_list.append(ColorBlocksScreen.COLOR_MAPPING[color_index])
+        self.rect_list, self.color_list = QuadraticGrid.cons_rect_list(
+          self.grid_model, self.model, self.block_width, self.block_height,
+          height_offset=HEIGHT_OFFSET
+        )
     
     def draw_screen(self, window):
         """
