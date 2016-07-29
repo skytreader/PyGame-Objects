@@ -83,6 +83,16 @@ class ColorBlocksModel(GameModel):
         color_blocks_model object.
         """
         self.__self_setup(len(self.grid[0]), len(self.grid), self.min_score)
+
+    def render(**kwargs):
+        i = kwargs.get("row")
+        j = kwargs.get("col")
+
+        if self.grid.grid[i][j] == ColorBlocksModel.UNTAKEN:
+            return Colors.WHITE
+        else:
+            color_index = int(self.grid.grid[i][j])
+            return ColorBlocksScreen.COLOR_MAPPING[color_index]
     
     def toggle(self, row, col):
         """

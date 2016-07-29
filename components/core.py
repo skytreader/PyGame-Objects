@@ -354,4 +354,8 @@ class GameModel(Publisher):
         super(GameModel, self).__init__()
     
     def render(**kwargs):
+        """
+        Helps GameScreens represent and render relevant parts of this model.
+        Return an object which your GameScreen knows how to render.
+        """
         raise NotImplementedError("No rendering shall occur.")
