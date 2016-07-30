@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from components.core import GameModel
+from components.core import Colors, GameModel
 from components.helpers.grid import QuadraticGrid, DimensionException
 
 import random
@@ -33,9 +33,6 @@ class ColorBlocksModel(GameModel):
         if grid_width < 3 or grid_height < 3:
             raise DimensionException("Minimum grid dimensions is 3x3.")
 
-        print "grid_width", grid_width
-        print "grid_height", grid_height
-        
         # TODO What the...
         untaken = ColorBlocksModel.UNTAKEN
         self.__self_setup(grid_width, grid_height, min_score)
@@ -92,7 +89,6 @@ class ColorBlocksModel(GameModel):
         i = kwargs.get("row")
         j = kwargs.get("col")
 
-        print "Rendering", i, j
         if self.grid[i][j] == ColorBlocksModel.UNTAKEN:
             return Colors.WHITE
         else:

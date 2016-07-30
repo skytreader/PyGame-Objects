@@ -157,10 +157,8 @@ class QuadraticGrid(Grid):
         grid = grid.grid
         rect_list = []
         render_list = []
-        print "rowlen", len(grid)
-        print grid
+
         for i, row in enumerate(grid):
-            print "collen", len(row)
             for j, col in enumerate(row):
                 upper_left_x = j * block_width + width_offset
                 upper_left_y = i * block_height + height_offset
@@ -169,7 +167,7 @@ class QuadraticGrid(Grid):
 
                 render_list.append(model.render(row=i, col=j))
 
-        return zip(rect_list, render_list)
+        return (rect_list, render_list)
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):

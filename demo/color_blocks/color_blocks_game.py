@@ -36,12 +36,11 @@ class ColorBlocksScreen(GameScreen):
           height.
         """
         super(ColorBlocksScreen, self).__init__(screen_size, ColorBlocksModel(grid_size[0], grid_size[1], 2))
-        print "grid_size is", grid_size
         self.game_model = self.model
         # Instantiate an underlying grid model
         self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
         self.block_height = int(math.floor((screen_size[1] - HEIGHT_OFFSET) / grid_size[1]))
-        self.grid_model = QuadraticGrid(self.block_width, self.block_height)
+        self.grid_model = QuadraticGrid(grid_size[0], grid_size[1])
         self.rect_list = []
         self.color_list = []
     
