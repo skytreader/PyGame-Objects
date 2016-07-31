@@ -32,6 +32,13 @@ class Colors(object):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (218, 218, 218)
 
+def for_notification(setter_fn):
+    def notifier(self, newval):
+        setter_fn(newval)
+        self.notify_subscribers()
+
+    return notifier
+
 class GameConfig(Publisher):
     """
     Encapsulation of various configurations needed by a GameLoop object.
@@ -44,7 +51,7 @@ class GameConfig(Publisher):
     
     Defaults:
         clock_rate = 0
-        window_size = [0, 0]
+        window_size = (0, 0)
         window_title = ""
     
     @author Chad Estioco
@@ -59,15 +66,15 @@ class GameConfig(Publisher):
         self.__clock_rate = clock_rate
         self.__window_size = window_size if window_size else (0, 0)
         self.__window_title = window_title if window_title else ""
-    
+
     @property
     def clock_rate(self):
         return self.__clock_rate
     
+    @for_notification
     @clock_rate.setter
     def clock_rate(self, rate):
         self.__clock_rate = rate
-        self.notify_subscribers()
     
     @property
     def window_size(self):
