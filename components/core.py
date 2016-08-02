@@ -35,16 +35,21 @@ class Colors(object):
 
 class forNotificationValue(object):
     
-    def __init__(self, publisher, name, val=None, decider_fn=None):
-        self.publisher = publisher
+    def __init__(self, name, publisher=None, val=None, decider_fn=None):
         self.__val = val
         self.name = name
         self.decider_fn = decider_fn if decider_fn else (lambda x: False)
+        self.publisher = publisher
+
+    def set_publisher(self, publisher):
+        self.publisher = publisher
 
     def __set__(self, obj, value):
+        print "In the class descriptor"
         if self.decider_fn(value):
             self.__val = value
-            self.publisher.notify_subscribers()
+            if self.publisher:
+                self.publisher.notify_subscribers()
         else:
             raise InvalidConfigStateException("Invalid value for %s" % self.name)
     
@@ -72,12 +77,15 @@ class GameConfig(Publisher):
     # Following constants for window_size
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
+
+    window_size = forNotificationValue("window_size", decider_fn=lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
     
     def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
         self.__clock_rate = clock_rate
         _window_size = window_size if window_size else (0, 0)
-        self.window_size = forNotificationValue(self, "window_size", _window_size, lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
+        self.window_size = _window_size
+        self.window_size.set_publisher(self)
         self.__window_title = window_title if window_title else ""
 
     @property
