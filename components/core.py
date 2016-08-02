@@ -1,5 +1,6 @@
 #! usr/bin/env python
 
+from framework_exceptions import InvalidConfigStateException
 from subscriber_pattern import Publisher
 from subscriber_pattern import Subscriber
 
@@ -32,12 +33,23 @@ class Colors(object):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (218, 218, 218)
 
-def for_notification(setter_fn):
-    def notifier(self, newval):
-        setter_fn(newval)
-        self.notify_subscribers()
+class forNotificationValue(object):
+    
+    def __init__(self, publisher, name, val=None, decider_fn=None):
+        self.publisher = publisher
+        self.__val = val
+        self.name = name
+        self.decider_fn = decider_fn if decider_fn else (lambda x: False)
 
-    return notifier
+    def __set__(self, obj, value):
+        if self.decider_fn(value):
+            self.__val = value
+            self.publisher.notify_subscribers()
+        else:
+            raise InvalidConfigStateException("Invalid value for %s" % self.name)
+    
+    def __get__(self, obj, obj_type):
+        return self.__val
 
 class GameConfig(Publisher):
     """
@@ -64,26 +76,26 @@ class GameConfig(Publisher):
     def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
         self.__clock_rate = clock_rate
-        self.__window_size = window_size if window_size else (0, 0)
+        _window_size = window_size if window_size else (0, 0)
+        self.window_size = forNotificationValue(self, "window_size", _window_size, lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
         self.__window_title = window_title if window_title else ""
 
     @property
     def clock_rate(self):
         return self.__clock_rate
     
-    @for_notification
     @clock_rate.setter
     def clock_rate(self, rate):
         self.__clock_rate = rate
     
-    @property
-    def window_size(self):
-        return self.__window_size
-    
-    @window_size.setter
-    def window_size(self, ws):
-        self.__window_size = ws
-        self.notify_subscribers()
+    #@property
+    #def window_size(self):
+    #    return self.__window_size
+    #
+    #@window_size.setter
+    #def window_size(self, ws):
+    #    self.__window_size = ws
+    #    self.notify_subscribers()
     
     @property
     def window_title(self):

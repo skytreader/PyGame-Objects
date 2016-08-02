@@ -10,3 +10,6 @@ class InstanceException(Exception):
 
 class VectorDirectionException(Exception):
     pass
+
+class InvalidConfigStateException(ValueError):
+    pass
