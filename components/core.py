@@ -78,15 +78,22 @@ class GameConfig(Publisher):
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
 
-    window_size = forNotificationValue("window_size", decider_fn=lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
+    #window_size = forNotificationValue("window_size", decider_fn=lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
     
     def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
         self.__clock_rate = clock_rate
         _window_size = window_size if window_size else (0, 0)
         self.window_size = _window_size
-        self.window_size.set_publisher(self)
+        #self.window_size.set_publisher(self)
         self.__window_title = window_title if window_title else ""
+
+    def _do_notify(fn):
+        def notif(self):
+            print "In the decorator"
+            fn(self, 0)
+            self.notify_subscribers()
+        return notif
 
     @property
     def clock_rate(self):
@@ -96,14 +103,15 @@ class GameConfig(Publisher):
     def clock_rate(self, rate):
         self.__clock_rate = rate
     
-    #@property
-    #def window_size(self):
-    #    return self.__window_size
-    #
-    #@window_size.setter
-    #def window_size(self, ws):
-    #    self.__window_size = ws
-    #    self.notify_subscribers()
+    @property
+    def window_size(self):
+        return self.__window_size
+    
+    @_do_notify
+    @window_size.setter
+    def window_size(self, ws):
+        self.__window_size = ws
+        #self.notify_subscribers()
     
     @property
     def window_title(self):
