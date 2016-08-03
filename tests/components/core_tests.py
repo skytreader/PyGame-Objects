@@ -12,10 +12,10 @@ class GameConfigTest(unittest.TestCase):
 
     def test_window_size_setter(self):
         self.assertFalse(self.watcher.notified)
-        self.game_config.window_size = (100, 100)
+        self.game_config.set_config_val("window_size", (100, 100))
         self.assertTrue(self.watcher.notified)
 
     def test_clock_rate_setter(self):
         self.assertFalse(self.watcher.notified)
-        self.game_config.clock_rate = 100
+        self.game_config.set_config_val("clock_rate", 100)
         self.assertTrue(self.watcher.notified)

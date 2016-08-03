@@ -33,29 +33,6 @@ class Colors(object):
     BLUE = (0, 0, 255)
     LIGHT_GRAY = (218, 218, 218)
 
-class forNotificationValue(object):
-    
-    def __init__(self, name, publisher=None, val=None, decider_fn=None):
-        self.__val = val
-        self.name = name
-        self.decider_fn = decider_fn if decider_fn else (lambda x: False)
-        self.publisher = publisher
-
-    def set_publisher(self, publisher):
-        self.publisher = publisher
-
-    def __set__(self, obj, value):
-        print "In the class descriptor"
-        if self.decider_fn(value):
-            self.__val = value
-            if self.publisher:
-                self.publisher.notify_subscribers()
-        else:
-            raise InvalidConfigStateException("Invalid value for %s" % self.name)
-    
-    def __get__(self, obj, obj_type):
-        return self.__val
-
 class GameConfig(Publisher):
     """
     Encapsulation of various configurations needed by a GameLoop object.
@@ -77,50 +54,20 @@ class GameConfig(Publisher):
     # Following constants for window_size
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
-
-    #window_size = forNotificationValue("window_size", decider_fn=lambda tpl: len(tpl) == 2 and tpl[0] >= 0 and tpl[1] >= 0)
     
     def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
-        self.__clock_rate = clock_rate
-        _window_size = window_size if window_size else (0, 0)
-        self.window_size = _window_size
-        #self.window_size.set_publisher(self)
-        self.__window_title = window_title if window_title else ""
+        self.__values = {}
+        self.__values["window_size"] = window_size
+        self.__values["window_title"] = window_title if window_title else ""
+        self.__values["clock_rate"] = clock_rate
 
-    def _do_notify(fn):
-        def notif(self):
-            print "In the decorator"
-            fn(self, 0)
-            self.notify_subscribers()
-        return notif
-
-    @property
-    def clock_rate(self):
-        return self.__clock_rate
-    
-    @clock_rate.setter
-    def clock_rate(self, rate):
-        self.__clock_rate = rate
-    
-    @property
-    def window_size(self):
-        return self.__window_size
-    
-    @_do_notify
-    @window_size.setter
-    def window_size(self, ws):
-        self.__window_size = ws
-        #self.notify_subscribers()
-    
-    @property
-    def window_title(self):
-        return self.__window_title
-    
-    @window_title.setter
-    def window_title(self, title):
-        self.__window_title = title
+    def set_config_val(self, config_key, val):
+        self.__values[config_key] = val
         self.notify_subscribers()
+
+    def get_config_val(self, config_key):
+        return self.__values.get(config_key)
 
 class GameLoop(object):
     """
