@@ -1,6 +1,6 @@
 import unittest
 
-from demo.snake.model import GameModel
+from demo.snake.model import GameModel, Snake
 
 class SnakeModelTests(unittest.TestCase):
     
@@ -87,4 +87,4 @@ class SnakeModelTests(unittest.TestCase):
         self.assertEqual(self.gm.snake_joints[-1], (old_tail[0], old_tail[1] + 1))
 
     def test_enumerate_snake_squares(self):
-        pass
+        snake = Snake()

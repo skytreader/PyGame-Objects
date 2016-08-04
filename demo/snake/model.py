@@ -3,7 +3,7 @@ from components.helpers.grid import QuadraticGrid
 
 class Snake(object):
     
-    def __init__(self, size):
+    def __init__(self):
         self.head = None
         """
         Sorted (row, col) tuples of the snake joints. Notice that joints can
@@ -49,7 +49,7 @@ class GameModel(object):
             raise ValueError("Please give enough room for the snake to move")
 
         self.grid_size = [[False for _ in range(width)] for __ in range(height)]
-        self.snake = Snake(GameModel.DEFAULT_SNAKE_SIZE)
+        self.snake = Snake()
         self.food_point = None
 
     @property
