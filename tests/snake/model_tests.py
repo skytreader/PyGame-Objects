@@ -101,7 +101,7 @@ class SnakeModelTests(unittest.TestCase):
         for r in range(3, 9):
             expected_squares.add((r, 3))
 
-        for r in range(4, 7):
+        for r in range(3, 7):
             expected_squares.add((r, 4))
 
         for c in range(4, 7):
