@@ -88,3 +88,23 @@ class SnakeModelTests(unittest.TestCase):
 
     def test_enumerate_snake_squares(self):
         snake = Snake()
+        snake.head = (6, 7)
+        snake.joints = [(6, 4), (3, 4), (3, 3), (8, 3), (8, 0), (0, 0)]
+        expected_squares = set()
+
+        for r in range(8):
+            expected_squares.add((r, 0))
+
+        for c in range(3):
+            expected_squares.add((8, c))
+
+        for r in range(3, 9):
+            expected_squares.add((r, 3))
+
+        for r in range(4, 7):
+            expected_squares.add((r, 4))
+
+        for c in range(4, 7):
+            expected_squares.add((6, c))
+
+        self.assertEquals(expected_squares, snake.enumerate_snake_squares())
