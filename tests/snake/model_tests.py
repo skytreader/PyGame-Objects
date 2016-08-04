@@ -77,7 +77,7 @@ class SnakeModelTests(unittest.TestCase):
 
     def test_bending(self):
         snake_head = self.gm.snake_head
-        max_len = self.gm.snake.size
+        max_len = GameModel.DEFAULT_SNAKE_SIZE
         old_len = len(self.gm.snake_joints)
         old_tail = self.gm.snake_joints[-1]
         self.assertTrue(max_len >= old_len)
@@ -85,3 +85,6 @@ class SnakeModelTests(unittest.TestCase):
         self.assertTrue(len(self.gm.snake_joints) > old_len)
         self.assertTrue(max_len >= len(self.gm.snake_joints))
         self.assertEqual(self.gm.snake_joints[-1], (old_tail[0], old_tail[1] + 1))
+
+    def test_enumerate_snake_squares(self):
+        pass

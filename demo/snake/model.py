@@ -1,9 +1,10 @@
+from __future__ import division
 from components.helpers.grid import QuadraticGrid
 
 class Snake(object):
     
     def __init__(self, size):
-        self.size = size
+        self.head = None
         """
         Sorted (row, col) tuples of the snake joints. Notice that joints can
         only be made from the snake's head and can only disappear from the
@@ -12,9 +13,32 @@ class Snake(object):
 
         At any given time, the length of this list cannot be greater than the
         size of the snake.
+
+        By convention, the first element of this list is the joint closest to
+        the head of the snake.
         """
         self.joints = []
-        self.head = None
+
+    def enumerate_snake_squares(self):
+        """
+        Returns a set of tuples indicating the squares the snake is occupying.
+        This does not take into account the grid in which the snake is moving.
+        """
+        snake_squares = set()
+        c_origin = self.head
+
+        for c_end in self.joints:
+            c_direction = QuadraticGrid.Movements.compute_direction(c_origin, c_end)
+            square = (c_origin[0] + c_direction[0], c_origin[1] + c_direction[1])
+            snake_squares.add(square)
+
+            while square != c_end:
+                square = (square[0] + c_direction[0], square[1] + c_direction[1])
+                snake_squares.add(square)
+
+            c_origin = c_end
+
+        return snake_squares
 
 class GameModel(object):
     
@@ -38,10 +62,10 @@ class GameModel(object):
 
     def initialize(self):
         # Relies on Python 2.x division behavior.
-        row = len(self.grid_size[0]) / 2
-        col = len(self.grid_size[1]) / 2
+        row = int(len(self.grid_size[0]) / 2)
+        col = int(len(self.grid_size[1]) / 2)
         self.snake.head = (row, col)
-        self.snake_joints.append((row, col - self.snake.size))
+        self.snake_joints.append((row, col - GameModel.DEFAULT_SNAKE_SIZE))
 
     def move_snake(self, direction):
         movector = QuadraticGrid.Movements.MOVEMAP.get(direction)
@@ -72,3 +96,6 @@ class GameModel(object):
         new_tail_location = (self.snake_joints[-1][0] + direction[0],
           self.snake_joints[-1][1] + direction[1])
         self.snake_joints[-1] = new_tail_location
+
+    def render(self, **kwargs):
+        pass
