@@ -110,6 +110,7 @@ class ColorBlocksEvents(GameLoopEvents):
 
 if __name__ == "__main__":
     config = GameConfig()
+    # HOW IS THIS STILL WORKING??!!??!??! CACHE?? MAGIC?????
     config.clock_rate = 12
     config.window_size = [500, 500 + HEIGHT_OFFSET]
     config.window_title = "Color Blocks Game"

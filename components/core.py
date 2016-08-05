@@ -37,7 +37,7 @@ class GameConfig(Publisher):
     """
     Encapsulation of various configurations needed by a GameLoop object.
     
-    All conifgurations are stored as public class attributes so you can
+    All configurations are stored as public class attributes so you can
     change them when and as you please.
     
     Right now, it only supports three configurations, clock rate, window
