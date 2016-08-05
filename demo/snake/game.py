@@ -2,6 +2,7 @@ from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameSc
 from components.helpers.grid import QuadraticGrid
 from model import SnakeGameModel
 
+import math
 import pygame
 
 class SnakeScreen(GameScreen):
@@ -11,8 +12,12 @@ class SnakeScreen(GameScreen):
         self.game_model = self.model
         self.game_model.initialize()
 
+        self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
+        self.block_height = int(math.floor(screen_size[1] / grid_size[1]))
+
     def draw_screen(self, window):
         snake_squares = self.game_model.snake.enumerate_snake_squares()
+        snake_squares = QuadraticGrid.make_rects(snake_squares, self.block_width, self.block_height)
 
         for snake_pos in snake_squares:
             pygame.draw.rect(window, Colors.BLACK, snake_pos, 0) 

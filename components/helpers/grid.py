@@ -168,6 +168,21 @@ class QuadraticGrid(Grid):
                 render_list.append(model.render(row=i, col=j))
 
         return (rect_list, render_list)
+
+    @staticmethod
+    def make_rects(coords, block_width, block_height, width_offset=0, height_offset=0):
+        """
+        Given a list of (row, col) coordinates, return a list containing the
+        rectangles that they represent.
+        """
+        rect_list = []
+
+        for c in coords:
+            upper_left_x = c[1] * block_width + width_offset
+            upper_left_y = c[0] * block_height + height_offset
+            rect_list.append((upper_left_x, upper_left_y, block_width, block_height))
+
+        return rect_list
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):
