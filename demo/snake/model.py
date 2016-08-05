@@ -64,11 +64,10 @@ class SnakeGameModel(GameModel):
         return self.snake.head
 
     def initialize(self):
-        # Relies on Python 2.x division behavior.
         row = int(len(self.grid_size[0]) / 2)
         col = int(len(self.grid_size[1]) / 2)
         self.snake.head = (row, col)
-        self.snake_joints.append((row, col - GameModel.DEFAULT_SNAKE_SIZE))
+        self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
 
     def move_snake(self, direction):
         movector = QuadraticGrid.Movements.MOVEMAP.get(direction)

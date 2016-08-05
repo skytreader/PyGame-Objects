@@ -9,9 +9,10 @@ class SnakeScreen(GameScreen):
     def __init__(self, screen_size, grid_size):
         super(SnakeScreen, self).__init__(screen_size, SnakeGameModel(grid_size[0], grid_size[1]))
         self.game_model = self.model
+        self.game_model.initialize()
 
     def draw_screen(self, window):
-        snake_squares = self.game_model.enumerate_snake_squares()
+        snake_squares = self.game_model.snake.enumerate_snake_squares()
 
         for snake_pos in snake_squares:
             pygame.draw.rect(window, Colors.BLACK, snake_pos, 0) 

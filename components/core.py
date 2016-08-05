@@ -116,7 +116,7 @@ class GameLoop(object):
         self.loop_events.loop_setup()
         
         while loop_control and self.__loop_events.loop_invariant():
-            clock.tick(self.__loop_events.config.clock_rate)
+            clock.tick(self.__loop_events.config.get_config_val("clock_rate"))
             for event in pygame.event.get():
                 self.__handle_event(event)
             
@@ -312,8 +312,8 @@ class GameLoopEvents(Subscriber):
         """
         Holds the set-up code affected by GameConfig.
         """
-        pygame.display.set_caption(self.config.window_title)
-        window = self.invoke_window(self.config.window_size)
+        pygame.display.set_caption(self.config.get_config_val("window_title"))
+        window = self.invoke_window(self.config.get_config_val("window_size"))
         window.fill(Colors.WHITE)
     
     def notify(self, observed, arg_bundle = None):
