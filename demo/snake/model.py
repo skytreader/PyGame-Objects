@@ -1,4 +1,6 @@
 from __future__ import division
+
+from components.core import GameModel
 from components.helpers.grid import QuadraticGrid
 
 class Snake(object):
@@ -40,12 +42,13 @@ class Snake(object):
 
         return snake_squares
 
-class GameModel(object):
+class SnakeGameModel(GameModel):
     
     DEFAULT_SNAKE_SIZE = 3
     
     def __init__(self, width, height):
-        if width < (GameModel.DEFAULT_SNAKE_SIZE + 1) or height < (GameModel.DEFAULT_SNAKE_SIZE):
+        super(SnakeGameModel, self).__init__()
+        if width < (SnakeGameModel.DEFAULT_SNAKE_SIZE + 1) or height < (SnakeGameModel.DEFAULT_SNAKE_SIZE):
             raise ValueError("Please give enough room for the snake to move")
 
         self.grid_size = [[False for _ in range(width)] for __ in range(height)]

@@ -1,14 +1,14 @@
-from components.core import Colors, GameConfig, GameLoopEvents, GameScreen
+from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameScreen
 from components.helpers.grid import QuadraticGrid
-from model import GameModel
+from model import SnakeGameModel
 
 import pygame
 
 class SnakeScreen(GameScreen):
     
     def __init__(self, screen_size, grid_size):
-        super(SnakeScreen, self).__init__(screen_size, grid_size)
-        self.game_model = GameModel(grid_size[0], grid_size[1])
+        super(SnakeScreen, self).__init__(screen_size, SnakeGameModel(grid_size[0], grid_size[1]))
+        self.game_model = self.model
 
     def draw_screen(self, window):
         snake_squares = self.game_model.enumerate_snake_squares()
