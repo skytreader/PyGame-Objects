@@ -35,13 +35,13 @@ class Colors(object):
 
 class GameConfig(Publisher):
     """
-    Encapsulation of various configurations needed by a GameLoop object.
-    
-    All configurations are stored as public class attributes so you can
-    change them when and as you please.
-    
-    Right now, it only supports three configurations, clock rate, window
-    size, and window title. I might add more as I go along.
+    Object to hold config values for games. Other components can subscribe to
+    their GameConfig to adapt as the GameConfig changes value. They will be
+    notified of the following in the arg_bundle:
+        
+        - config_key - of what changed.
+        - old_val - of the config key.
+        - new_val - of the config key.
     
     Defaults:
         clock_rate = 0
@@ -63,8 +63,12 @@ class GameConfig(Publisher):
         self.__values["clock_rate"] = clock_rate
 
     def set_config_val(self, config_key, val):
+        arg_bundle = {}
+        arg_bundle["config_key"] = config_key
+        arg_bundle["old_val"] = self.__values[config_key]
+        arg_bundle["new_val"] = val
         self.__values[config_key] = val
-        self.notify_subscribers()
+        self.notify_subscribers(arg_bundle)
 
     def get_config_val(self, config_key):
         return self.__values.get(config_key)
