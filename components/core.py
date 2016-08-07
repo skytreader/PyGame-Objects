@@ -58,7 +58,7 @@ class GameConfig(Publisher):
     def __init__(self, clock_rate=0, window_size=None, window_title=None):
         super(GameConfig, self).__init__()
         self.__values = {}
-        self.__values["window_size"] = window_size
+        self.__values["window_size"] = window_size if window_size else (0, 0)
         self.__values["window_title"] = window_title if window_title else ""
         self.__values["clock_rate"] = clock_rate
 

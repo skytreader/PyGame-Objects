@@ -1,13 +1,28 @@
-from test_subscriber_pattern import SubscriberMock
 from components.core import GameConfig
+from components.subscriber_pattern import Subscriber
 
 import unittest
+
+class ConfigSubscriberMock(Subscriber):
+    
+    def __init__(self):
+        super(ConfigSubscriberMock, self).__init__()
+        self.notified = False
+
+    def notify(self, observed, arg_bundle):
+        has_config_key = arg_bundle.get("config_key") is not None
+        has_old_val = arg_bundle.get("old_val") is not None
+        has_new_val = arg_bundle.get("new_val") is not None
+        self.notified = (
+          isinstance(observed, GameConfig) and has_config_key and has_old_val
+          and has_new_val
+        )
 
 class GameConfigTest(unittest.TestCase):
     
     def setUp(self):
         self.game_config = GameConfig()
-        self.watcher = SubscriberMock()
+        self.watcher = ConfigSubscriberMock()
         self.game_config.subscribe(self.watcher)
 
     def test_window_size_setter(self):
