@@ -1,5 +1,6 @@
-from components.core import GameConfig
+from components.core import GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.subscriber_pattern import Subscriber
+from mock import patch
 
 import unittest
 
@@ -18,6 +19,16 @@ class ConfigSubscriberMock(Subscriber):
           and has_new_val
         )
 
+class LoopEventsMock(GameLoopEvents):
+    
+    def __init__(self, config, screen):
+        super(LoopEventsMock, self).__init__(config, screen)
+        self.times_called = 0
+    
+    def loop_invariant(self):
+        self.times_called += 1
+        return self.times_called < 10
+
 class GameConfigTest(unittest.TestCase):
     
     def setUp(self):
@@ -34,3 +45,15 @@ class GameConfigTest(unittest.TestCase):
         self.assertFalse(self.watcher.notified)
         self.game_config.set_config_val("clock_rate", 100)
         self.assertTrue(self.watcher.notified)
+
+class DryRunTest(unittest.TestCase):
+
+    @patch("components.core.pygame.init", autospec=True)
+    def test_dry_run(self, pygame_init):
+        config = GameConfig()
+        model = GameModel()
+        screen = GameScreen(config.get_config_val("window_size"), model)
+        loop_events = LoopEventsMock(config, screen)
+        loop = GameLoop(loop_events)
+        loop.go()
+        self.assertTrue(pygame_init.called)
