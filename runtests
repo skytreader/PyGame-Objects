@@ -1,6 +1,6 @@
 #!/bin/bash
 
-XVFB=`which xvfb`
+XVFB=`which Xvfb`
 if [ "$?" -eq 1 ];
 then
     echo "Xvfb not found."
