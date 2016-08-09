@@ -1,0 +1,16 @@
+#!/bin/bash
+
+XVFB=`which xvfb`
+if [ "$?" -eq 1 ];
+then
+    echo "Xvfb not found."
+    exit 1
+fi
+
+$XVFB :99 -ac &
+PID_XVFB="$!"
+export DISPLAY=:99
+
+nosetests tests --with-xcoverage
+
+kill $PID_XVFB

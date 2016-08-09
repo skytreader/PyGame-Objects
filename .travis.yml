@@ -4,6 +4,7 @@ python:
 sudo: required
 dist: trusty
 before_install:
+    - sudo apt-get install -y xvfb
     - sudo apt-get install -y mercurial libfreetype6-dev
     - sudo apt-get build-dep -y python-pygame
     - pip install hg+http://bitbucket.org/pygame/pygame
@@ -11,6 +12,6 @@ before_install:
 install: 
     - pip install -r requirements.txt
     - pip install -r test-requirements.txt
-script: "nosetests tests --with-xcoverage"
+script: "./runtests"
 after_success: "COVERALLS_REPO_TOKEN=$coveralls_token coveralls"
 after_failure: "COVERALS_REPO_TOKEN=$coveralls_token coveralls"
