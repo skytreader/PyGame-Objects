@@ -48,8 +48,9 @@ class GameConfigTest(unittest.TestCase):
 
 class DryRunTest(unittest.TestCase):
 
+    @patch("components.core.pygame.time.Clock", autospec=True)
     @patch("components.core.pygame.init", autospec=True)
-    def test_dry_run(self, pygame_init):
+    def test_dry_run(self, pygame_init, clock):
         config = GameConfig()
         model = GameModel()
         screen = GameScreen(config.get_config_val("window_size"), model)
@@ -57,3 +58,4 @@ class DryRunTest(unittest.TestCase):
         loop = GameLoop(loop_events)
         loop.go()
         self.assertTrue(pygame_init.called)
+        self.assertTrue(clock.tick.called)
