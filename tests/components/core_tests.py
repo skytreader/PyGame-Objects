@@ -1,7 +1,8 @@
 from components.core import GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.subscriber_pattern import Subscriber
-from mock import patch
+from mock import MagicMock, Mock, patch
 
+import pygame
 import unittest
 
 class ConfigSubscriberMock(Subscriber):
@@ -47,15 +48,17 @@ class GameConfigTest(unittest.TestCase):
         self.assertTrue(self.watcher.notified)
 
 class DryRunTest(unittest.TestCase):
+    from components import core
 
     @patch("components.core.pygame.time.Clock", autospec=True)
     @patch("components.core.pygame.init", autospec=True)
-    def test_dry_run(self, pygame_init, clock):
+    def test_dry_run(self, pygame_init, clock_tick):
         config = GameConfig()
         model = GameModel()
         screen = GameScreen(config.get_config_val("window_size"), model)
         loop_events = LoopEventsMock(config, screen)
         loop = GameLoop(loop_events)
         loop.go()
+
         self.assertTrue(pygame_init.called)
-        self.assertTrue(clock.tick.called)
+        self.assertTrue(clock_tick.called)
