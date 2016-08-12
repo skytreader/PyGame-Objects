@@ -1,4 +1,5 @@
 The most awesome framework for PyGame you will ever encounter!
+[![Build Status](https://travis-ci.org/skytreader/PyGame-Objects.svg?branch=master)](https://travis-ci.org/skytreader/PyGame-Objects)
 
 **But** it's not there yet. Right now, it's just a simple abstraction for some
 commmon code patterns I find while using PyGame.
