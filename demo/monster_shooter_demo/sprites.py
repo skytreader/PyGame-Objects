@@ -1,18 +1,11 @@
 #! usr/bin/env python
 
 from components.image import Image
-
-from components.subscriber_pattern import Subscriber as Observer
-
 from components.shapes import Point
-
 from components.sprite import PyRoSprite
 
 import os
-
 import pygame
-
-import thread
 
 class PVZSprite(PyRoSprite):
     """
