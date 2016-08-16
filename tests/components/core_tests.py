@@ -56,9 +56,11 @@ class GameConfigTest(unittest.TestCase):
 class DryRunTest(unittest.TestCase):
     from components import core
 
+    @patch("components.core.pygame.quit", autospec=True)
+    @patch("components.core.pygame.display.flip", autospec=True)
     @patch("components.core.pygame.time.Clock", new_callable=make_mock_clock)
     @patch("components.core.pygame.init", autospec=True)
-    def test_dry_run(self, pygame_init, clock_tick):
+    def test_dry_run(self, pygame_init, clock_tick, flip, quit):
         config = GameConfig()
         model = GameModel()
         screen = GameScreen(config.get_config_val("window_size"), model)
@@ -68,3 +70,5 @@ class DryRunTest(unittest.TestCase):
 
         self.assertTrue(pygame_init.called)
         self.assertTrue(clock_tick.called)
+        self.assertTrue(flip.called)
+        self.assertTrue(quit.called)
