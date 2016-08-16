@@ -5,6 +5,12 @@ from mock import MagicMock, Mock, patch
 import pygame
 import unittest
 
+def make_mock_clock():
+    mock_clock = MagicMock()
+    mock_clock.tick.return_value = None
+
+    return mock_clock
+
 class ConfigSubscriberMock(Subscriber):
     
     def __init__(self):
@@ -50,7 +56,7 @@ class GameConfigTest(unittest.TestCase):
 class DryRunTest(unittest.TestCase):
     from components import core
 
-    @patch("components.core.pygame.time.Clock", autospec=True)
+    @patch("components.core.pygame.time.Clock", new_callable=make_mock_clock)
     @patch("components.core.pygame.init", autospec=True)
     def test_dry_run(self, pygame_init, clock_tick):
         config = GameConfig()
