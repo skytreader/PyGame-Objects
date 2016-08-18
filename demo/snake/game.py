@@ -24,12 +24,36 @@ class SnakeScreen(GameScreen):
 
 class SnakeGameEvents(GameLoopEvents):
     
+    PYGAME_TO_MOVE = {
+      pygame.K_UP: QuadraticGrid.Movements.UP,
+      pygame.K_DOWN: QuadraticGrid.Movements.DOWN,
+      pygame.K_RIGHT: QuadraticGrid.Movements.RIGHT,
+      pygame.K_LEFT: QuadraticGrid.Movements.LEFT 
+    }
+    
     def __init__(self, screen, config):
         super(SnakeGameEvents, self).__init__(screen, config)
 
     def loop_event(self):
         self.window.fill(Colors.WHITE)
         super(SnakeGameEvents, self).loop_event()
+
+    def __create_move_event_handler(self, key):
+        def event_handler(self, event):
+            movement = PYGAME_TO_MOVE[key]
+            self.screen.model.move_snake(movement)
+        
+        return event_handler
+
+    def attach_event_handlers(self):
+        self.add_event_handler(pygame.event.Event(pygame.K_UP),
+          self.__create_move_event_handler(pygame.K_UP))
+        self.add_event_handler(pygame.event.Event(pygame.K_DOWN),
+          self.__create_move_event_handler(pygame.K_DOWN))
+        self.add_event_handler(pygame.event.Event(pygame.K_LEFT),
+          self.__create_move_event_handler(pygame.K_LEFT))
+        self.add_event_handler(pygame.event.Event(pygame.K_RIGHT),
+          self.__create_move_event_handler(pygame.K_RIGHT))
 
 if __name__ == "__main__":
     config = GameConfig()
