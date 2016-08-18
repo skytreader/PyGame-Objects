@@ -40,20 +40,30 @@ class SnakeGameEvents(GameLoopEvents):
 
     def __create_move_event_handler(self, key):
         def event_handler(self, event):
+            print "moving"
             movement = PYGAME_TO_MOVE[key]
             self.screen.model.move_snake(movement)
         
         return event_handler
 
     def attach_event_handlers(self):
-        self.add_event_handler(pygame.event.Event(pygame.K_UP),
-          self.__create_move_event_handler(pygame.K_UP))
-        self.add_event_handler(pygame.event.Event(pygame.K_DOWN),
-          self.__create_move_event_handler(pygame.K_DOWN))
-        self.add_event_handler(pygame.event.Event(pygame.K_LEFT),
-          self.__create_move_event_handler(pygame.K_LEFT))
-        self.add_event_handler(pygame.event.Event(pygame.K_RIGHT),
-          self.__create_move_event_handler(pygame.K_RIGHT))
+        keydown_event = pygame.event.Event(pygame.KEYDOWN)
+        self.add_event_handler(keydown_event, {
+            GameLoopEvents.KEYCODE: pygame.K_UP,
+            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_UP)
+        })
+        self.add_event_handler(keydown_event, {
+            GameLoopEvents.KEYCODE: pygame.K_DOWN,
+            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_DOWN)
+        })
+        self.add_event_handler(keydown_event, {
+            GameLoopEvents.KEYCODE: pygame.K_LEFT,
+            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_LEFT)
+        })
+        self.add_event_handler(keydown_event, {
+            GameLoopEvents.KEYCODE: pygame.K_RIGHT,
+            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_RIGHT)
+        })
 
 if __name__ == "__main__":
     config = GameConfig()
