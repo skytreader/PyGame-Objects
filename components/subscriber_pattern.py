@@ -30,7 +30,7 @@ class Publisher(object):
                 self.__observers.pop(i)
                 return
     
-    def notify_subscribers(self, arg_bundle = None):
+    def notify_subscribers(self, **arg_bundle):
         for o in self.__observers:
             o.notify(self, arg_bundle)
 
@@ -42,7 +42,7 @@ class Subscriber(object):
     def __eq__(self, subscriber_):
         return self.id == subscriber_.id
     
-    def notify(self, observed, arg_bundle = None):
+    def notify(self, observed, **arg_bundle):
         """
         @param observed
           The observable object that trigerred the function call.

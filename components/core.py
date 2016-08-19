@@ -68,7 +68,7 @@ class GameConfig(Publisher):
         arg_bundle["old_val"] = self.__values[config_key]
         arg_bundle["new_val"] = val
         self.__values[config_key] = val
-        self.notify_subscribers(arg_bundle)
+        self.notify_subscribers(**arg_bundle)
 
     def get_config_val(self, config_key):
         return self.__values.get(config_key)
