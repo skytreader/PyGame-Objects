@@ -99,10 +99,8 @@ class ColorBlocksEvents(GameLoopEvents):
         button_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
         self.add_event_handler(button_down_event, self.__mouse_click)
         
-        new_game_dict = {}
-        new_game_dict[GameLoopEvents.KEYCODE] = pygame.K_F2
-        new_game_dict[GameLoopEvents.HANDLER] = self.__trigger_new_game
-        self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), new_game_dict)
+        new_game = GameLoopEvents.KeyboardHandlerMapping(pygame.K_F2, self.__trigger_new_game)
+        self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), new_game)
     
     def loop_event(self):
         self.window.fill(Colors.WHITE)
@@ -110,12 +108,11 @@ class ColorBlocksEvents(GameLoopEvents):
 
 if __name__ == "__main__":
     config = GameConfig()
-    # HOW IS THIS STILL WORKING??!!??!??! CACHE?? MAGIC?????
-    config.clock_rate = 12
-    config.window_size = [500, 500 + HEIGHT_OFFSET]
-    config.window_title = "Color Blocks Game"
+    config.set_config_val("clock_rate", 12)
+    config.set_config_val("window_size", [500, 500 + HEIGHT_OFFSET])
+    config.set_config_val("window_title", "Color Blocks Game")
     
-    screen = ColorBlocksScreen(config.window_size, [10, 10])
+    screen = ColorBlocksScreen(config.get_config_val("window_size"), [10, 10])
     loop_events = ColorBlocksEvents(config, screen)
     loop = GameLoop(loop_events)
     loop.go()
