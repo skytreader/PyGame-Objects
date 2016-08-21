@@ -25,10 +25,8 @@ class SnakeScreen(GameScreen):
 class SnakeGameEvents(GameLoopEvents):
     
     PYGAME_TO_MOVE = {
-      pygame.K_UP: QuadraticGrid.Movements.UP,
-      pygame.K_DOWN: QuadraticGrid.Movements.DOWN,
-      pygame.K_RIGHT: QuadraticGrid.Movements.RIGHT,
-      pygame.K_LEFT: QuadraticGrid.Movements.LEFT 
+      pygame.K_UP: 'u', pygame.K_DOWN: 'd', pygame.K_RIGHT: 'r',
+      pygame.K_LEFT: 'l' 
     }
     
     def __init__(self, screen, config):
@@ -39,21 +37,17 @@ class SnakeGameEvents(GameLoopEvents):
         super(SnakeGameEvents, self).loop_event()
 
     def __create_move_event_handler(self, key):
-        def event_handler(self, event):
-            print "moving"
-            movement = PYGAME_TO_MOVE[key]
+        def event_handler(event):
+            movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
             self.game_screen.model.move_snake(movement)
         
         return event_handler
-
-    def __up_handler(self, key):
-        self.game_screen.model.move_snake('u')
 
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
         self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
             keycode=pygame.K_UP,
-            handler=self.__up_handler
+            handler=self.__create_move_event_handler(pygame.K_UP)
         ))
         self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
             keycode=pygame.K_DOWN,
