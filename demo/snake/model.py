@@ -28,6 +28,7 @@ class Snake(object):
         """
         snake_squares = set()
         c_origin = self.head
+        snake_squares.add(self.head)
 
         for c_end in self.joints:
             c_direction = QuadraticGrid.Movements.compute_direction(c_origin, c_end)
@@ -91,6 +92,9 @@ class SnakeGameModel(GameModel):
 
         self.snake_joints[-1] = (self.snake_joints[-1][0] + snake_tail_vector[0],
           self.snake_joints[-1][1] + snake_tail_vector[1])
+
+        if self.snake_joints[-1] == self.snake_joints[-2]:
+            self.snake_joints.pop()
     
     def grow_snake(self):
         current_tail = (self.snake_joints[-2], self.snake_joints[-2])
