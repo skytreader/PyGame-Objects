@@ -42,28 +42,31 @@ class SnakeGameEvents(GameLoopEvents):
         def event_handler(self, event):
             print "moving"
             movement = PYGAME_TO_MOVE[key]
-            self.screen.model.move_snake(movement)
+            self.game_screen.model.move_snake(movement)
         
         return event_handler
 
+    def __up_handler(self, key):
+        self.game_screen.model.move_snake('u')
+
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
-        self.add_event_handler(keydown_event, {
-            GameLoopEvents.KEYCODE: pygame.K_UP,
-            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_UP)
-        })
-        self.add_event_handler(keydown_event, {
-            GameLoopEvents.KEYCODE: pygame.K_DOWN,
-            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_DOWN)
-        })
-        self.add_event_handler(keydown_event, {
-            GameLoopEvents.KEYCODE: pygame.K_LEFT,
-            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_LEFT)
-        })
-        self.add_event_handler(keydown_event, {
-            GameLoopEvents.KEYCODE: pygame.K_RIGHT,
-            GameLoopEvents.HANDLER: self.__create_move_event_handler(pygame.K_RIGHT)
-        })
+        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
+            keycode=pygame.K_UP,
+            handler=self.__up_handler
+        ))
+        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
+            keycode=pygame.K_DOWN,
+            handler=self.__create_move_event_handler(pygame.K_DOWN)
+        ))
+        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
+            keycode=pygame.K_LEFT,
+            handler=self.__create_move_event_handler(pygame.K_LEFT)
+        ))
+        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
+            keycode=pygame.K_RIGHT,
+            handler=self.__create_move_event_handler(pygame.K_RIGHT)
+        ))
 
 if __name__ == "__main__":
     config = GameConfig()
