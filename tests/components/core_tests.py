@@ -53,6 +53,17 @@ class GameConfigTest(unittest.TestCase):
         self.game_config.set_config_val("clock_rate", 100)
         self.assertTrue(self.watcher.notified)
 
+class GameScreenTest(unittest.TestCase):
+    
+    def test_debug_provisions(self):
+        config_debug = GameConfig(debug_mode=True)
+        screen_debug = GameScreen(config_debug, GameModel())
+        window_size_debug = config_debug.get_config_val("window_size")
+        self.assertEqual(
+            (window_size_debug[0], window_size_debug[1] + GameScreen.DEBUG_SPACE_PROVISIONS),
+            screen_debug.screen_size
+        )
+
 class DryRunTest(unittest.TestCase):
     from components import core
 
@@ -63,7 +74,7 @@ class DryRunTest(unittest.TestCase):
     def test_dry_run(self, pygame_init, clock_tick, flip, quit):
         config = GameConfig()
         model = GameModel()
-        screen = GameScreen(config.get_config_val("window_size"), model)
+        screen = GameScreen(config, model)
         loop_events = LoopEventsMock(config, screen)
         loop = GameLoop(loop_events)
         loop.go()

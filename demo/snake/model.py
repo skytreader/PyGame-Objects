@@ -96,6 +96,9 @@ class SnakeGameModel(GameModel):
         if self.snake_joints[-1] == self.snake_joints[-2]:
             self.snake_joints.pop()
     
+    def collides_with_self(self):
+        return self.snake_head in self.snake.enumerate_snake_squares()
+
     def grow_snake(self):
         current_tail = (self.snake_joints[-2], self.snake_joints[-2])
         direction = QuadraticGrid.Movements.compute_direction(current_tail)

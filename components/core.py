@@ -47,6 +47,7 @@ class GameConfig(Publisher):
         clock_rate = 0
         window_size = (0, 0)
         window_title = ""
+        debug_mode = False
     
     @author Chad Estioco
     """
@@ -55,12 +56,13 @@ class GameConfig(Publisher):
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
     
-    def __init__(self, clock_rate=0, window_size=None, window_title=None):
+    def __init__(self, clock_rate=0, window_size=None, window_title=None, debug_mode=False):
         super(GameConfig, self).__init__()
         self.__values = {}
         self.__values["window_size"] = window_size if window_size else (0, 0)
         self.__values["window_title"] = window_title if window_title else ""
         self.__values["clock_rate"] = clock_rate
+        self.__values["debug_mode"] = debug_mode
 
     def set_config_val(self, config_key, val):
         arg_bundle = {}
@@ -141,17 +143,21 @@ class GameScreen(Subscriber):
     
     @author Chad Estioco
     """
+
+    DEBUG_SPACE_PROVISIONS = 300
     
-    def __init__(self, screen_dimensions, model):
+    def __init__(self, game_config, model):
         """
         Creates an instance of GameScreen. DO NOT instantiate images/surfaces here.
         Put instantiation code in setup() method.
         
-        TODO: Take in a Model (for MVC).
-        
         @param screen_dimensions
           An iterable with at least two elements. See GameConfig.
         """
+        screen_dimensions = game_config.get_config_val("window_size")
+        if game_config.get_config_val("debug_mode"):
+            screen_dimensions = (screen_dimensions[0], screen_dimensions[1] + GameScreen.DEBUG_SPACE_PROVISIONS)
+
         self.__screen_dimensions = screen_dimensions
         self.model = model
         self.model.subscribe(self)

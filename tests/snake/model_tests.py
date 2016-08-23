@@ -91,7 +91,7 @@ class SnakeModelTests(unittest.TestCase):
         snake.head = (6, 7)
         snake.joints = [(6, 4), (3, 4), (3, 3), (8, 3), (8, 0), (0, 0)]
         expected_squares = set()
-        expected_squares.add(6, 7)
+        expected_squares.add((6, 7))
 
         for r in range(8):
             expected_squares.add((r, 0))
