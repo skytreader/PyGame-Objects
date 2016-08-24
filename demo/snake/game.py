@@ -7,8 +7,9 @@ import pygame
 
 class SnakeScreen(GameScreen):
     
-    def __init__(self, screen_size, grid_size):
-        super(SnakeScreen, self).__init__(screen_size, SnakeGameModel(grid_size[0], grid_size[1]))
+    def __init__(self, config, grid_size):
+        super(SnakeScreen, self).__init__(config, SnakeGameModel(grid_size[0], grid_size[1]))
+        screen_size = config.get_config_val("window_size")
         self.game_model = self.model
         self.game_model.initialize()
 
@@ -39,6 +40,7 @@ class SnakeGameEvents(GameLoopEvents):
     def __create_move_event_handler(self, key):
         def event_handler(event):
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
+            self.debug_queue.log(movement)
             self.game_screen.model.move_snake(movement)
         
         return event_handler
@@ -67,8 +69,9 @@ if __name__ == "__main__":
     config.set_config_val("clock_rate", 60)
     config.set_config_val("window_size", (600, 600))
     config.set_config_val("window_title", "SNAKE!")
+    config.set_config_val("debug_mode", True)
 
-    screen = SnakeScreen(config.get_config_val("window_size"), (10, 10))
+    screen = SnakeScreen(config, (10, 10))
     loop_events = SnakeGameEvents(config, screen)
     loop = GameLoop(loop_events)
     loop.go()

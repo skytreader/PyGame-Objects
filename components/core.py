@@ -21,6 +21,8 @@ Usage
   (5) Have fun!
 """
 
+pygame.font.init()
+
 class Colors(object):
     """
     A list of predefined colors.
@@ -346,10 +348,10 @@ class GameLoopEvents(Subscriber):
         # What if the config changes midrun and debug_queue is undefined?
         if self.config.get_config_val("debug_mode"):
             log = self.debug_queue.get_log()
-            original_window_size = self.get_config_val("window_size")
+            original_window_size = self.config.get_config_val("window_size")
 
             while log:
-                log_render = DebugLog.DEBUG_FONT.render(log)
+                log_render = DebugQueue.DEBUG_FONT.render(log, True, Colors.BLUE)
                 pos_y = original_window_size[0] + GameScreen.DEBUG_SPACE_PROVISIONS
                 self.window.blit(log_render, [pos_y, 10])
     
@@ -367,9 +369,7 @@ class GameLoopEvents(Subscriber):
     def loop_setup(self):
         """
         This code is executed after the GameLoop default set-up but before
-        GameLoop enters the loop. It is important that extensions of GameLoopEvents
-        call this method. This method already calls the setup() method of the
-        GameScreen attribute.
+        GameLoop enters the loop. It is important that extensions of GameLoopEvents call this method. This method already calls the setup() method of the GameScreen attribute.
         """
         self.configurable_setup()
         self.game_screen.setup()

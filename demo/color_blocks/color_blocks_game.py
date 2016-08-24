@@ -62,7 +62,7 @@ class ColorBlocksScreen(GameScreen):
     def draw_screen(self, window):
         """
         Right now, the _whole_ screen is allocated for the color blocks
-        grid. Later, we'll add a some margins for scores and shiz.
+        grid. Later, we'll add some margins for scores and shiz.
         
         And the color blocks won't be demarcated with lines. Not yet. Yes,
         messy, I know.
