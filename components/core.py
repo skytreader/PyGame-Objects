@@ -112,7 +112,7 @@ class GameLoop(object):
         
         The initializations GameLoop performs by default are the following:
           (1) Initialization of PyGame (pygame.init())
-          (2) Window invokation (GameLoopEvents.invoke_window()); background
+          (2) Window invocation (GameLoopEvents.invoke_window()); background
               color set-up and caption set-up
         """
         pygame.init()
@@ -180,6 +180,27 @@ class GameScreen(Subscriber):
           A Surface instance to draw on.
         """
         pass
+
+class DebugQueue(object):
+    """
+    Object to store debug logs which will be displayed on screen. At the core
+    this is just a Python list but I am wrapping this with an object since
+    Python's list a bit too dynamic and we don't want to mess wit debug logs.
+    """
+
+    DEBUG_FONT = pygame.font.Font(None, 18)
+    
+    def __init__(self):
+        self.q = []
+
+    def log(self, log):
+        self.q.append(log)
+
+    def get_log(self):
+        if self.q:
+            return self.q.pop(0)
+
+        return None
     
 class GameLoopEvents(Subscriber):
     """
@@ -209,6 +230,11 @@ class GameLoopEvents(Subscriber):
         """
         self.__config = config
         self.__game_screen = game_screen
+
+        if config.get_config_val("debug_mode"):
+            self.debug_queue = DebugQueue()
+        else:
+            self.debug_queue = None
         
         self.__config.subscribe(self)
         self.__event_handlers = {}
@@ -316,6 +342,16 @@ class GameLoopEvents(Subscriber):
         By default, this already draws the GameScreen object.
         """
         self.game_screen.draw_screen(self.window)
+
+        # What if the config changes midrun and debug_queue is undefined?
+        if self.config.get_config_val("debug_mode"):
+            log = self.debug_queue.get_log()
+            original_window_size = self.get_config_val("window_size")
+
+            while log:
+                log_render = DebugLog.DEBUG_FONT.render(log)
+                pos_y = original_window_size[0] + GameScreen.DEBUG_SPACE_PROVISIONS
+                self.window.blit(log_render, [pos_y, 10])
     
     def configurable_setup(self):
         """
