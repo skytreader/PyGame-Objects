@@ -353,7 +353,7 @@ class GameLoopEvents(Subscriber):
             original_window_size = self.config.get_config_val("window_size")
 
             log_render = DebugQueue.DEBUG_FONT.render("hello", True, Colors.BLUE)
-            pos_y = original_window_size[0] 
+            pos_y = original_window_size[0] + GameScreen.DEBUG_SPACE_PROVISIONS
             self.window.blit(log_render, [10, pos_y])
     
     def configurable_setup(self):
@@ -361,7 +361,7 @@ class GameLoopEvents(Subscriber):
         Holds the set-up code affected by GameConfig.
         """
         pygame.display.set_caption(self.config.get_config_val("window_title"))
-        window = self.invoke_window(self.config.get_config_val("window_size"))
+        window = self.invoke_window(self.game_screen.screen_size)
         window.fill(Colors.WHITE)
     
     def notify(self, observed, arg_bundle = None):
