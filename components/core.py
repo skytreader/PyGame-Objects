@@ -160,8 +160,6 @@ class GameScreen(Subscriber):
         if game_config.get_config_val("debug_mode"):
             screen_dimensions = (screen_dimensions[0], screen_dimensions[1] + GameScreen.DEBUG_SPACE_PROVISIONS)
 
-        print "screen dimensions", screen_dimensions
-
         self.__screen_dimensions = screen_dimensions
         self.model = model
         self.model.subscribe(self)
@@ -352,8 +350,8 @@ class GameLoopEvents(Subscriber):
             log = self.debug_queue.get_log()
             original_window_size = self.config.get_config_val("window_size")
 
-            log_render = DebugQueue.DEBUG_FONT.render("hello", True, Colors.BLUE)
-            pos_y = original_window_size[0] + GameScreen.DEBUG_SPACE_PROVISIONS
+            log_render = DebugQueue.DEBUG_FONT.render(log, True, Colors.BLUE)
+            pos_y = original_window_size[0] + 10
             self.window.blit(log_render, [10, pos_y])
     
     def configurable_setup(self):
