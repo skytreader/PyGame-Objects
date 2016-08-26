@@ -216,15 +216,17 @@ class DebugQueue(Subscriber):
             P = DISPLAY_PADDING
         """
         if self.game_screen.config.get_config_val("debug_mode"):
-            original_dims = self.game_screen.config.get_config_val("window_size")
-            yposgen = lambda x: (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + original_dims[1] + DebugQueue.DISPLAY_PADDING
             self.q.append(log)
             self.q_counter.append(0)
             
+    def display_logs(self):
+        original_dims = self.game_screen.config.get_config_val("window_size")
+        yposgen = lambda x: (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + original_dims[1] + DebugQueue.DISPLAY_PADDING
+        if self.window and self.q:
             for idx, val in enumerate(self.q):
                 mul = idx + 1
                 log_render = DebugQueue.FONT.render(val, True, Colors.BLUE)
-                self.window.blit(log_render, (original_dims[0], yposgen(mul)))
+                self.window.blit(log_render, (DebugQueue.DISPLAY_PADDING, yposgen(mul)))
 
     def get_log(self):
         if len(self.q):
@@ -372,15 +374,7 @@ class GameLoopEvents(Subscriber):
         By default, this already draws the GameScreen object.
         """
         self.game_screen.draw_screen(self.window)
-
-        # What if the config changes midrun and debug_queue is undefined?
-        #if self.config.get_config_val("debug_mode"):
-        #    log = self.debug_queue.get_log()
-        #    original_window_size = self.config.get_config_val("window_size")
-
-        #    log_render = DebugQueue.FONT.render(log, True, Colors.BLUE)
-        #    pos_y = original_window_size[0] + 10
-        #    self.window.blit(log_render, [10, pos_y])
+        self.debug_queue.display_logs()
     
     def configurable_setup(self):
         """
