@@ -183,17 +183,35 @@ class GameScreen(Subscriber):
         """
         pass
 
-class DebugQueue(object):
+class DebugQueue(Subscriber):
     """
     Object to store debug logs which will be displayed on screen. At the core
     this is just a Python list but I am wrapping this with an object since
     Python's list a bit too dynamic and we don't want to mess wit debug logs.
     """
 
-    DEBUG_FONT = pygame.font.Font(None, 18)
+    DISPLAY_PADDING = 12
+    LINE_DISTANCE = 4
+    FONT_SIZE = 18
+    FONT = pygame.font.Font(None, FONT_SIZE)
     
-    def __init__(self):
+    def __init__(self, game_screen):
         self.q = []
+        self.game_screen = game_screen
+        self.game_screen.config.subscribe(self)
+        self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
+        """
+        Position of current line always given by
+
+            Lc + h + P 
+
+         where:
+            L = LINE_DISTANCE
+            c = self.current_line_mul
+            h = original height of the window
+            P = DISPLAY_PADDING
+        """
+        self.current_line_mul = 1
 
     def log(self, log):
         self.q.append(log)
@@ -350,7 +368,7 @@ class GameLoopEvents(Subscriber):
             log = self.debug_queue.get_log()
             original_window_size = self.config.get_config_val("window_size")
 
-            log_render = DebugQueue.DEBUG_FONT.render(log, True, Colors.BLUE)
+            log_render = DebugQueue.FONT.render(log, True, Colors.BLUE)
             pos_y = original_window_size[0] + 10
             self.window.blit(log_render, [10, pos_y])
     
