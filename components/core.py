@@ -157,6 +157,7 @@ class GameScreen(Subscriber):
           An iterable with at least two elements. See GameConfig.
         """
         screen_dimensions = game_config.get_config_val("window_size")
+        self.config = game_config
         if game_config.get_config_val("debug_mode"):
             screen_dimensions = (screen_dimensions[0], screen_dimensions[1] + GameScreen.DEBUG_SPACE_PROVISIONS)
 
@@ -187,7 +188,7 @@ class DebugQueue(Subscriber):
     """
     Object to store debug logs which will be displayed on screen. At the core
     this is just a Python list but I am wrapping this with an object since
-    Python's list a bit too dynamic and we don't want to mess wit debug logs.
+    Python's list a bit too dynamic and we don't want to mess with debug logs.
     """
 
     DISPLAY_PADDING = 12
@@ -197,9 +198,12 @@ class DebugQueue(Subscriber):
     
     def __init__(self, game_screen):
         self.q = []
+        self.q_counter = []
         self.game_screen = game_screen
         self.game_screen.config.subscribe(self)
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
+
+    def log(self, log):
         """
         Position of current line always given by
 
@@ -211,10 +215,16 @@ class DebugQueue(Subscriber):
             h = original height of the window
             P = DISPLAY_PADDING
         """
-        self.current_line_mul = 1
-
-    def log(self, log):
-        self.q.append(log)
+        if self.game_screen.config.get_config_val("debug_mode"):
+            original_dims = self.game_screen.config.get_config_val("window_size")
+            yposgen = lambda x: (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + original_dims[1] + DebugQueue.DISPLAY_PADDING
+            self.q.append(log)
+            self.q_counter.append(0)
+            
+            for idx, val in enumerate(self.q):
+                mul = idx + 1
+                log_render = DebugQueue.FONT.render(val, True, Colors.BLUE)
+                self.window.blit(log_render, (original_dims[0], yposgen(mul)))
 
     def get_log(self):
         if len(self.q):
@@ -252,7 +262,7 @@ class GameLoopEvents(Subscriber):
         self.__game_screen = game_screen
 
         if config.get_config_val("debug_mode"):
-            self.debug_queue = DebugQueue()
+            self.debug_queue = DebugQueue(game_screen)
         else:
             self.debug_queue = None
         
@@ -364,13 +374,13 @@ class GameLoopEvents(Subscriber):
         self.game_screen.draw_screen(self.window)
 
         # What if the config changes midrun and debug_queue is undefined?
-        if self.config.get_config_val("debug_mode"):
-            log = self.debug_queue.get_log()
-            original_window_size = self.config.get_config_val("window_size")
+        #if self.config.get_config_val("debug_mode"):
+        #    log = self.debug_queue.get_log()
+        #    original_window_size = self.config.get_config_val("window_size")
 
-            log_render = DebugQueue.FONT.render(log, True, Colors.BLUE)
-            pos_y = original_window_size[0] + 10
-            self.window.blit(log_render, [10, pos_y])
+        #    log_render = DebugQueue.FONT.render(log, True, Colors.BLUE)
+        #    pos_y = original_window_size[0] + 10
+        #    self.window.blit(log_render, [10, pos_y])
     
     def configurable_setup(self):
         """
@@ -379,6 +389,9 @@ class GameLoopEvents(Subscriber):
         pygame.display.set_caption(self.config.get_config_val("window_title"))
         window = self.invoke_window(self.game_screen.screen_size)
         window.fill(Colors.WHITE)
+
+        if self.config.get_config_val("debug_mode"):
+            self.debug_queue.window = window
     
     def notify(self, observed, arg_bundle = None):
         self.__configurable_setup()
