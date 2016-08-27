@@ -1,9 +1,10 @@
-#! usr/bin/env python
+from __future__ import division
 
 from framework_exceptions import InvalidConfigStateException
 from subscriber_pattern import Publisher
 from subscriber_pattern import Subscriber
 
+import math
 import pygame
 
 """
@@ -198,41 +199,39 @@ class DebugQueue(Subscriber):
     
     def __init__(self, game_screen):
         self.q = []
-        self.q_counter = []
         self.game_screen = game_screen
         self.game_screen.config.subscribe(self)
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
+        self.original_dims = self.game_screen.config.get_config_val("window_size")
+        self.max_q_size = self.__get_max_log_display()
+        print "max size", self.max_q_size
 
     def log(self, log):
-        """
-        Position of current line always given by
-
-            Lc + h + P 
-
-         where:
-            L = LINE_DISTANCE
-            c = self.current_line_mul
-            h = original height of the window
-            P = DISPLAY_PADDING
-        """
         if self.game_screen.config.get_config_val("debug_mode"):
+            if len(self.q) == self.max_q_size:
+                self.q.pop(0)
             self.q.append(log)
-            self.q_counter.append(0)
+
+    def __yposgen(self, x):
+        return (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + self.original_dims[1] + DebugQueue.DISPLAY_PADDING
+
+    def __get_max_log_display(self):
+        """
+        Get the maximum number of lines displayable.
+        """
+        constants = self.original_dims[1] + DebugQueue.DISPLAY_PADDING - DebugQueue.LINE_DISTANCE
+        print "constants", constants
+        variabled = DebugQueue.LINE_DISTANCE + DebugQueue.FONT_SIZE
+        print "variabled", variabled
+        available_space = GameScreen.DEBUG_SPACE_PROVISIONS
+        return int(math.ceil((available_space - constants) / variabled))
             
     def display_logs(self):
-        original_dims = self.game_screen.config.get_config_val("window_size")
-        yposgen = lambda x: (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + original_dims[1] + DebugQueue.DISPLAY_PADDING
         if self.window and self.q:
             for idx, val in enumerate(self.q):
                 mul = idx + 1
                 log_render = DebugQueue.FONT.render(val, True, Colors.BLUE)
-                self.window.blit(log_render, (DebugQueue.DISPLAY_PADDING, yposgen(mul)))
-
-    def get_log(self):
-        if len(self.q):
-            return self.q.pop(0)
-
-        return None
+                self.window.blit(log_render, (DebugQueue.DISPLAY_PADDING, self.__yposgen(mul)))
     
 class GameLoopEvents(Subscriber):
     """
