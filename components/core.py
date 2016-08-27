@@ -204,7 +204,6 @@ class DebugQueue(Subscriber):
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
         self.original_dims = self.game_screen.config.get_config_val("window_size")
         self.max_q_size = self.__get_max_log_display()
-        print "max size", self.max_q_size
 
     def log(self, log):
         if self.game_screen.config.get_config_val("debug_mode"):
@@ -220,11 +219,9 @@ class DebugQueue(Subscriber):
         Get the maximum number of lines displayable.
         """
         constants = self.original_dims[1] + DebugQueue.DISPLAY_PADDING - DebugQueue.LINE_DISTANCE
-        print "constants", constants
         variabled = DebugQueue.LINE_DISTANCE + DebugQueue.FONT_SIZE
-        print "variabled", variabled
-        available_space = GameScreen.DEBUG_SPACE_PROVISIONS
-        return int(math.ceil((available_space - constants) / variabled))
+        available_space = self.original_dims[1] + GameScreen.DEBUG_SPACE_PROVISIONS
+        return int(math.floor((available_space - constants) / variabled))
             
     def display_logs(self):
         if self.window and self.q:
