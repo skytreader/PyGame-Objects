@@ -15,4 +15,4 @@ nosetests tests --with-xcoverage
 result=$?
 
 kill $PID_XVFB
-exit result
+exit $result
