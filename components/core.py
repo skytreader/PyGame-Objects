@@ -187,9 +187,7 @@ class GameScreen(Subscriber):
 
 class DebugQueue(Subscriber):
     """
-    Object to store debug logs which will be displayed on screen. At the core
-    this is just a Python list but I am wrapping this with an object since
-    Python's list a bit too dynamic and we don't want to mess with debug logs.
+    Handles on-screen display of logging.
     """
 
     DISPLAY_PADDING = 12
@@ -370,7 +368,8 @@ class GameLoopEvents(Subscriber):
         By default, this already draws the GameScreen object.
         """
         self.game_screen.draw_screen(self.window)
-        self.debug_queue.display_logs()
+        if self.debug_queue:
+            self.debug_queue.display_logs()
     
     def configurable_setup(self):
         """

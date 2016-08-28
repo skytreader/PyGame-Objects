@@ -1,4 +1,4 @@
-from components.core import GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
+from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.subscriber_pattern import Subscriber
 from mock import MagicMock, Mock, patch
 
@@ -63,6 +63,24 @@ class GameScreenTest(unittest.TestCase):
             (window_size_debug[0], window_size_debug[1] + GameScreen.DEBUG_SPACE_PROVISIONS),
             screen_debug.screen_size
         )
+
+class DebugQueueTest(unittest.TestCase):
+    
+    def test_log_q_growth(self):
+        config = GameConfig(debug_mode=True)
+        screen = GameScreen(config, GameModel())
+        debug_q = DebugQueue(screen)
+        # Python sorcery!
+        max_display = debug_q._DebugQueue__get_max_log_display()
+
+        for i in range(max_display):
+            self.assertTrue(len(debug_q.q) == i)
+            debug_q.log("log %s" % i)
+
+        self.assertTrue(len(debug_q.q) == max_display)
+        debug_q.log("more")
+        self.assertTrue(len(debug_q.q) == max_display)
+        self.assertTrue(debug_q.q[0] == "log 1")
 
 class DryRunTest(unittest.TestCase):
     from components import core
