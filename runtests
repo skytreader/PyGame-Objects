@@ -12,5 +12,7 @@ PID_XVFB="$!"
 export DISPLAY=:99
 
 nosetests tests --with-xcoverage
+local result=$?
 
 kill $PID_XVFB
+exit result
