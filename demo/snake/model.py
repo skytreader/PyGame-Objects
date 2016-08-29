@@ -52,7 +52,8 @@ class SnakeGameModel(GameModel):
         if width < (SnakeGameModel.DEFAULT_SNAKE_SIZE + 1) or height < (SnakeGameModel.DEFAULT_SNAKE_SIZE):
             raise ValueError("Please give enough room for the snake to move")
 
-        self.grid_size = [[False for _ in range(width)] for __ in range(height)]
+        self.width = width
+        self.height = height
         self.snake = Snake()
         self.food_point = None
 
@@ -65,8 +66,8 @@ class SnakeGameModel(GameModel):
         return self.snake.head
 
     def initialize(self):
-        row = int(len(self.grid_size[0]) / 2)
-        col = int(len(self.grid_size[1]) / 2)
+        row = self.height / 2
+        col = self.width / 2
         self.snake.head = (row, col)
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
 
