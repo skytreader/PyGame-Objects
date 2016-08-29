@@ -61,6 +61,6 @@ files of the docs along with the code.
 
 All code in master (except when noted) are licensed under MIT.
 
-ALl sprites under `sample_sprites/tiles` are licensed under a
+All sprites under `sample_sprites/tiles` are licensed under a
 [Creative Commons Attribution-ShareAlike 4.0](http://creativecommons.org/licenses/by-sa/4.0/)
 license.
