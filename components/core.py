@@ -388,7 +388,9 @@ class GameLoopEvents(Subscriber):
     def loop_setup(self):
         """
         This code is executed after the GameLoop default set-up but before
-        GameLoop enters the loop. It is important that extensions of GameLoopEvents call this method. This method already calls the setup() method of the GameScreen attribute.
+        GameLoop enters the loop. It is important that extensions of
+        GameLoopEvents call this method. This method already calls the setup()
+        method of the GameScreen attribute.
         """
         self.configurable_setup()
         self.game_screen.setup()
