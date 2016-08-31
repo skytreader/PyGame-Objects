@@ -67,6 +67,13 @@ class SnakeGameEvents(GameLoopEvents):
             handler=self.__create_move_event_handler(pygame.K_RIGHT)
         ))
 
+    def configurable_setup(self):
+        super(SnakeGameEvents, self).configurable_setup()
+        original_dims = self.config.get_config_val("window_size")
+        pygame.draw.line(self.window, Colors.BLACK, (10, 10), (0, original_dims[1]), 10)
+        pygame.draw.line(self.window, Colors.BLACK, (original_dims[0], 0), original_dims, 10)
+        pygame.display.update()
+
 if __name__ == "__main__":
     config = GameConfig()
     config.set_config_val("clock_rate", 60)
