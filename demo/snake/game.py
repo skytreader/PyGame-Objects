@@ -23,6 +23,14 @@ class SnakeScreen(GameScreen):
         for snake_pos in snake_squares:
             pygame.draw.rect(window, Colors.BLACK, snake_pos, 0) 
 
+    def draw_unchanging(self, window):
+        super(SnakeScreen, self).draw_unchanging(window)
+        original_dims = self.config.get_config_val("window_size")
+        pygame.draw.line(window, Colors.BLACK, (0, 0), (0, original_dims[1]), 10)
+        pygame.draw.line(window, Colors.BLACK, (0, 0), (original_dims[0], 0), 10)
+        pygame.draw.line(window, Colors.BLACK, (original_dims[0], 0), original_dims, 10)
+        pygame.draw.line(window, Colors.BLACK, (0, original_dims[1]), original_dims, 10)
+
 class SnakeGameEvents(GameLoopEvents):
     
     PYGAME_TO_MOVE = {
@@ -66,13 +74,6 @@ class SnakeGameEvents(GameLoopEvents):
             keycode=pygame.K_RIGHT,
             handler=self.__create_move_event_handler(pygame.K_RIGHT)
         ))
-
-    def configurable_setup(self):
-        super(SnakeGameEvents, self).configurable_setup()
-        original_dims = self.config.get_config_val("window_size")
-        pygame.draw.line(self.window, Colors.BLACK, (10, 10), (0, original_dims[1]), 10)
-        pygame.draw.line(self.window, Colors.BLACK, (original_dims[0], 0), original_dims, 10)
-        pygame.display.update()
 
 if __name__ == "__main__":
     config = GameConfig()

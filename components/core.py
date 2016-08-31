@@ -185,6 +185,17 @@ class GameScreen(Subscriber):
         """
         pass
 
+    def draw_unchanging(self, window):
+        """
+        Draw the unchanging aspects of your game screen, like the background.
+
+        This method is only provided for the sake of code organization. There
+        is nothing stopping you from drawing _everything_ in `draw_screen`.
+        However, you may want to focus that method for the possibly-changing
+        aspects of your display.
+        """
+        pass
+
 class DebugQueue(Subscriber):
     """
     Handles on-screen display of logging.
@@ -367,6 +378,7 @@ class GameLoopEvents(Subscriber):
         
         By default, this already draws the GameScreen object.
         """
+        self.game_screen.draw_unchanging(self.window)
         self.game_screen.draw_screen(self.window)
         if self.debug_queue:
             self.debug_queue.display_logs()
