@@ -34,8 +34,10 @@ class SnakeScreen(GameScreen):
 class SnakeGameEvents(GameLoopEvents):
     
     PYGAME_TO_MOVE = {
-      pygame.K_UP: 'u', pygame.K_DOWN: 'd', pygame.K_RIGHT: 'r',
-      pygame.K_LEFT: 'l' 
+      pygame.K_UP: QuadraticGrid.Movements.UP,
+      pygame.K_DOWN: QuadraticGrid.Movements.DOWN,
+      pygame.K_RIGHT: QuadraticGrid.Movements.RIGHT,
+      pygame.K_LEFT: QuadraticGrid.Movements.LEFT 
     }
     
     def __init__(self, screen, config):
@@ -49,7 +51,7 @@ class SnakeGameEvents(GameLoopEvents):
         def event_handler(event):
             height = self.game_screen.game_model.height
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
-            self.debug_queue.log(movement)
+            self.debug_queue.log(str(movement))
             self.debug_queue.log("grid height is %s" % height)
             self.game_screen.model.move_snake(movement)
             self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))

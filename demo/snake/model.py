@@ -72,7 +72,7 @@ class SnakeGameModel(GameModel):
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
 
     def move_snake(self, direction):
-        movector = QuadraticGrid.Movements.MOVEMAP.get(direction)
+        movector = direction
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
 

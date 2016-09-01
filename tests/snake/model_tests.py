@@ -1,5 +1,7 @@
 import unittest
 
+from components.helpers.grid import QuadraticGrid
+
 from demo.snake.model import SnakeGameModel, Snake
 
 class SnakeModelTests(unittest.TestCase):
@@ -28,42 +30,39 @@ class SnakeModelTests(unittest.TestCase):
         gm = SnakeGameModel(4, 4)
         self.assertTrue(gm.snake is not None)
 
-    def test_move_snake_exceptions(self):
-        self.assertRaises(ValueError, self.gm.move_snake, "a")
-
     def test_move_snake(self):
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("u")
+        self.gm.move_snake(QuadraticGrid.Movements.UP)
         self.assertEqual((_snake_head[0]-1, _snake_head[1]), self.gm.snake_head)
         self.assertTrue(_snake_head in self.gm.snake_joints)
 
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("r")
+        self.gm.move_snake(QuadraticGrid.Movements.RIGHT)
         self.assertEqual((_snake_head[0], _snake_head[1]+1), self.gm.snake_head)
 
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("u")
+        self.gm.move_snake(QuadraticGrid.Movements.UP)
         self.assertEqual((_snake_head[0]-1, _snake_head[1]), self.gm.snake_head)
 
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("l")
+        self.gm.move_snake(QuadraticGrid.Movements.LEFT)
         self.assertEqual((_snake_head[0], _snake_head[1]-1), self.gm.snake_head)
 
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("l")
+        self.gm.move_snake(QuadraticGrid.Movements.LEFT)
         self.assertEqual((_snake_head[0], _snake_head[1]-1), self.gm.snake_head)
 
         _snake_head = self.gm.snake_head
-        self.gm.move_snake("d")
+        self.gm.move_snake(QuadraticGrid.Movements.DOWN)
         self.assertEqual((_snake_head[0]+1, _snake_head[1]), self.gm.snake_head)
 
     def test_keep_moving_right(self):
         tail = self.gm.snake_joints[-1]
-        self.gm.move_snake("r")
+        self.gm.move_snake(QuadraticGrid.Movements.RIGHT)
         self.assertEqual(self.gm.snake_joints[-1], (tail[0], tail[1] + 1))
 
         tail = self.gm.snake_joints[-1]
-        self.gm.move_snake("r")
+        self.gm.move_snake(QuadraticGrid.Movements.RIGHT)
         self.assertEqual(self.gm.snake_joints[-1], (tail[0], tail[1] + 1))
 
     def test_no_180_turn(self):
@@ -72,7 +71,7 @@ class SnakeModelTests(unittest.TestCase):
         position, it can't suddenly go leftwards.
         """
         head = self.gm.snake_head
-        self.gm.move_snake("l")
+        self.gm.move_snake(QuadraticGrid.Movements.LEFT)
         self.assertEqual(head, self.gm.snake_head)
 
     def test_bending(self):
@@ -81,7 +80,7 @@ class SnakeModelTests(unittest.TestCase):
         old_len = len(self.gm.snake_joints)
         old_tail = self.gm.snake_joints[-1]
         self.assertTrue(max_len >= old_len)
-        self.gm.move_snake("u")
+        self.gm.move_snake(QuadraticGrid.Movements.UP)
         self.assertTrue(len(self.gm.snake_joints) > old_len)
         self.assertTrue(max_len >= len(self.gm.snake_joints))
         self.assertEqual(self.gm.snake_joints[-1], (old_tail[0], old_tail[1] + 1))
