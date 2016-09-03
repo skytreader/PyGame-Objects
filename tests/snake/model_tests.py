@@ -75,6 +75,12 @@ class SnakeModelTests(unittest.TestCase):
         self.assertRaises(VectorDirectionException, self.gm.move_snake, QuadraticGrid.Movements.LEFT)
         self.assertEqual(head, self.gm.snake_head)
 
+    def test_reversible(self):
+        original_head = self.gm.snake_head
+        self.gm.move_snake(QuadraticGrid.Movements.RIGHT, True)
+        self.gm.move_snake(QuadraticGrid.Movements.LEFT)
+        self.assertEqual(original_head, self.gm.snake_head)
+
     def test_bending(self):
         snake_head = self.gm.snake_head
         max_len = SnakeGameModel.DEFAULT_SNAKE_SIZE

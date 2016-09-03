@@ -57,6 +57,7 @@ class SnakeGameModel(GameModel):
         self.height = height
         self.snake = Snake()
         self.food_point = None
+        self.last_move_reversible = False
 
     @property
     def snake_joints(self):
@@ -82,7 +83,7 @@ class SnakeGameModel(GameModel):
         )
         inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
 
-        if movector == inverse_direction and not reversible:
+        if movector == inverse_direction and not self.last_move_reversible:
             raise VectorDirectionException("Impossible to reverse last movement.")
 
         self.snake_joints.insert(0, self.snake_head)
@@ -97,6 +98,8 @@ class SnakeGameModel(GameModel):
 
         if self.snake_joints[-1] == self.snake_joints[-2]:
             self.snake_joints.pop()
+
+        self.last_move_reversible = reversible
     
     def collides_with_self(self):
         return self.snake_head in self.snake.enumerate_snake_squares()
