@@ -1,6 +1,7 @@
 from __future__ import division
 
 from components.core import GameModel
+from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
 class Snake(object):
@@ -71,7 +72,7 @@ class SnakeGameModel(GameModel):
         self.snake.head = (row, col)
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
 
-    def move_snake(self, direction):
+    def move_snake(self, direction, reversible=False):
         movector = direction
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
@@ -81,8 +82,8 @@ class SnakeGameModel(GameModel):
         )
         inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
 
-        if movector == inverse_direction:
-            return
+        if movector == inverse_direction and not reversible:
+            raise VectorDirectionException("Impossible to reverse last movement.")
 
         self.snake_joints.insert(0, self.snake_head)
         self.snake.head = (self.snake_head[0] + movector[0], self.snake_head[1] + movector[1])

@@ -1,5 +1,6 @@
 import unittest
 
+from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
 from demo.snake.model import SnakeGameModel, Snake
@@ -71,7 +72,7 @@ class SnakeModelTests(unittest.TestCase):
         position, it can't suddenly go leftwards.
         """
         head = self.gm.snake_head
-        self.gm.move_snake(QuadraticGrid.Movements.LEFT)
+        self.assertRaises(VectorDirectionException, self.gm.move_snake, QuadraticGrid.Movements.LEFT)
         self.assertEqual(head, self.gm.snake_head)
 
     def test_bending(self):
