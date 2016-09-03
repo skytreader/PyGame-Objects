@@ -4,6 +4,7 @@ from framework_exceptions import InvalidConfigStateException
 from subscriber_pattern import Publisher
 from subscriber_pattern import Subscriber
 
+import logging
 import math
 import pygame
 
@@ -213,9 +214,13 @@ class DebugQueue(Subscriber):
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
         self.original_dims = self.game_screen.config.get_config_val("window_size")
         self.max_q_size = self.__get_max_log_display()
+        self.logger = logging.getLogger("pygame-objects-%s" % self.game_screen.config.get_config_val("window_title"))
+        self.logger.setLevel(logging.DEBUG)
+        self.logger.addHandler(logging.FileHandler("pygame-objects.log"))
 
     def log(self, log):
         if self.game_screen.config.get_config_val("debug_mode"):
+            self.logger.info(log)
             if len(self.q) == self.max_q_size:
                 self.q.pop(0)
             self.q.append(log)
