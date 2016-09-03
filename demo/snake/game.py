@@ -53,7 +53,7 @@ class SnakeGameEvents(GameLoopEvents):
             width = self.game_screen.game_model.width
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
             self.debug_queue.log(str(movement))
-            self.game_screen.model.move_snake(movement)
+            self.game_screen.model.move_snake(movement, True)
             self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
             new_head = self.game_screen.model.snake.head
 

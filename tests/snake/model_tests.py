@@ -77,9 +77,11 @@ class SnakeModelTests(unittest.TestCase):
 
     def test_reversible(self):
         original_head = self.gm.snake_head
+        original_joints = self.gm.snake_joints
         self.gm.move_snake(QuadraticGrid.Movements.RIGHT, True)
         self.gm.move_snake(QuadraticGrid.Movements.LEFT)
         self.assertEqual(original_head, self.gm.snake_head)
+        self.assertEqual(original_joints, self.gm.snake_joints)
 
     def test_bending(self):
         snake_head = self.gm.snake_head
