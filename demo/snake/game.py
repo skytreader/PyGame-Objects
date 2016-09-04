@@ -21,15 +21,15 @@ class SnakeScreen(GameScreen):
         snake_squares = QuadraticGrid.make_rects(snake_squares, self.block_width, self.block_height)
 
         for snake_pos in snake_squares:
-            pygame.draw.rect(window, Colors.BLACK, snake_pos, 0) 
+            pygame.draw.rect(window, Colors.MAX_BLACK, snake_pos, 0) 
 
     def draw_unchanging(self, window):
         super(SnakeScreen, self).draw_unchanging(window)
         original_dims = self.config.get_config_val("window_size")
-        pygame.draw.line(window, Colors.BLACK, (0, 0), (0, original_dims[1]), 10)
-        pygame.draw.line(window, Colors.BLACK, (0, 0), (original_dims[0], 0), 10)
-        pygame.draw.line(window, Colors.BLACK, (original_dims[0], 0), original_dims, 10)
-        pygame.draw.line(window, Colors.BLACK, (0, original_dims[1]), original_dims, 10)
+        pygame.draw.line(window, Colors.MAX_BLACK, (0, 0), (0, original_dims[1]), 10)
+        pygame.draw.line(window, Colors.MAX_BLACK, (0, 0), (original_dims[0], 0), 10)
+        pygame.draw.line(window, Colors.MAX_BLACK, (original_dims[0], 0), original_dims, 10)
+        pygame.draw.line(window, Colors.MAX_BLACK, (0, original_dims[1]), original_dims, 10)
 
 class SnakeGameEvents(GameLoopEvents):
     
