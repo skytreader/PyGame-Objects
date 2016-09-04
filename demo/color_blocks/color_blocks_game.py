@@ -20,9 +20,10 @@ HEIGHT_OFFSET = 100
 
 class ColorBlocksScreen(GameScreen):
     
-    COLOR_MAPPING = (Colors.LUCID_DARK, Colors.RED, Colors.GREEN, Colors.BLUE, Colors.LIGHT_GRAY)
+    COLOR_MAPPING = (Colors.LUCID_DARK, Colors.HUMAN_RED, Colors.HUMAN_GREEN,
+      Colors.HUMAN_BLUE, Colors.LIGHT_GRAY)
     
-    def __init__(self, screen_size, grid_size):
+    def __init__(self, config, grid_size):
         """
         Instantiates a ColorBlocksScreen instance.
         
@@ -35,7 +36,8 @@ class ColorBlocksScreen(GameScreen):
           is taken for the width while the second one is taken for the
           height.
         """
-        super(ColorBlocksScreen, self).__init__(screen_size, ColorBlocksModel(grid_size[0], grid_size[1], 2))
+        super(ColorBlocksScreen, self).__init__(config, ColorBlocksModel(grid_size[0], grid_size[1], 2))
+        screen_size = config.get_config_val("window_size")
         self.game_model = self.model
         # Instantiate an underlying grid model
         self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
@@ -73,7 +75,7 @@ class ColorBlocksScreen(GameScreen):
             pygame.draw.rect(window, self.color_list[i], self.rect_list[i], 0)
         
         score_font = pygame.font.Font(None, 25)
-        score = score_font.render("Score: " + str(self.game_model.score), True, Colors.RED)
+        score = score_font.render("Score: " + str(self.game_model.score), True, Colors.HUMAN_RED)
         window.blit(score, [10, 10])
 
 class ColorBlocksEvents(GameLoopEvents):
@@ -112,7 +114,7 @@ if __name__ == "__main__":
     config.set_config_val("window_size", [500, 500 + HEIGHT_OFFSET])
     config.set_config_val("window_title", "Color Blocks Game")
     
-    screen = ColorBlocksScreen(config.get_config_val("window_size"), [10, 10])
+    screen = ColorBlocksScreen(config, [10, 10])
     loop_events = ColorBlocksEvents(config, screen)
     loop = GameLoop(loop_events)
     loop.go()

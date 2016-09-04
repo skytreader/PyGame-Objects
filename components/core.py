@@ -31,10 +31,14 @@ class Colors(object):
     """
     LUCID_DARK = (90, 73, 64)
     WHITE = (255, 255, 255)
-    BLACK = (0, 0, 0)
-    RED = (255, 0, 0)
-    GREEN = (0, 255, 0)
-    BLUE = (0, 0, 255)
+    MAX_BLACK = (0, 0, 0)
+    MAX_RED = (255, 0, 0)
+    MAX_GREEN = (0, 255, 0)
+    MAX_BLUE = (0, 0, 255)
+
+    HUMAN_GREEN = (61, 153, 112) # olive
+    HUMAN_BLUE = (0, int("74", 16), int("d9", 16))
+    HUMAN_RED = (255, int("41", 16), int("36", 16))
     LIGHT_GRAY = (218, 218, 218)
 
 class GameConfig(Publisher):
@@ -241,7 +245,7 @@ class DebugQueue(Subscriber):
         if self.window and self.q:
             for idx, val in enumerate(self.q):
                 mul = idx + 1
-                log_render = DebugQueue.FONT.render(val, True, Colors.BLUE)
+                log_render = DebugQueue.FONT.render(val, True, Colors.HUMAN_BLUE)
                 self.window.blit(log_render, (DebugQueue.DISPLAY_PADDING, self.__yposgen(mul)))
     
 class GameLoopEvents(Subscriber):
