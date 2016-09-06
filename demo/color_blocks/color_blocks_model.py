@@ -90,7 +90,7 @@ class ColorBlocksModel(GameModel):
         j = kwargs.get("col")
 
         if self.grid[i][j] == ColorBlocksModel.UNTAKEN:
-            return Colors.WHITE
+            return Colors.MAX_WHITE
         else:
             color_index = int(self.grid[i][j])
             return ColorBlocksScreen.COLOR_MAPPING[color_index]

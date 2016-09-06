@@ -44,7 +44,7 @@ class SnakeGameEvents(GameLoopEvents):
         super(SnakeGameEvents, self).__init__(screen, config)
 
     def loop_event(self):
-        self.window.fill(Colors.WHITE)
+        self.window.fill(Colors.MAX_WHITE)
         super(SnakeGameEvents, self).loop_event()
 
     def __create_move_event_handler(self, key):

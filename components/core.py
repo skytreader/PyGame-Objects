@@ -401,7 +401,7 @@ class GameLoopEvents(Subscriber):
         """
         pygame.display.set_caption(self.config.get_config_val("window_title"))
         window = self.invoke_window(self.game_screen.screen_size)
-        window.fill(Colors.WHITE)
+        window.fill(Colors.MAX_WHITE)
 
         if self.config.get_config_val("debug_mode"):
             self.debug_queue.window = window

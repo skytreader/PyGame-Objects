@@ -105,7 +105,7 @@ class ColorBlocksEvents(GameLoopEvents):
         self.add_event_handler(pygame.event.Event(pygame.KEYDOWN), new_game)
     
     def loop_event(self):
-        self.window.fill(Colors.WHITE)
+        self.window.fill(Colors.MAX_WHITE)
         super(ColorBlocksEvents, self).loop_event()
 
 if __name__ == "__main__":
