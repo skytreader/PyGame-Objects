@@ -209,10 +209,11 @@ class DebugQueue(Subscriber):
     Handles on-screen display of logging.
     """
 
-    DISPLAY_PADDING = 12
-    LINE_DISTANCE = 4
+    DISPLAY_PADDING = 4
+    LINE_DISTANCE = 2
     FONT_SIZE = 18
     FONT = pygame.font.Font(None, FONT_SIZE)
+    LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
     
     def __init__(self, game_screen):
         self.q = []
@@ -221,9 +222,14 @@ class DebugQueue(Subscriber):
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
         self.original_dims = self.game_screen.config.get_config_val("window_size")
         self.max_q_size = self.__get_max_log_display()
+
+        log_formatter = logging.Formatter(DebugQueue.LOG_FORMAT)
+        file_handler = logging.FileHandler("pygame-objects.log")
+        file_handler.setFormatter(log_formatter)
+
         self.logger = logging.getLogger("pygame-objects-%s" % self.game_screen.config.get_config_val("window_title"))
         self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(logging.FileHandler("pygame-objects.log"))
+        self.logger.addHandler(file_handler)
 
     def log(self, log):
         if self.game_screen.config.get_config_val("debug_mode"):
