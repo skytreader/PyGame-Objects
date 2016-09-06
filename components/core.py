@@ -67,13 +67,15 @@ class GameConfig(Publisher):
     WIDTH_INDEX = 0
     HEIGHT_INDEX = 1
     
-    def __init__(self, clock_rate=0, window_size=None, window_title=None, debug_mode=False):
+    def __init__(self, clock_rate=0, window_size=None, window_title=None,
+      debug_mode=False, log_to_terminal=False):
         super(GameConfig, self).__init__()
         self.__values = {}
         self.__values["window_size"] = window_size if window_size else (0, 0)
         self.__values["window_title"] = window_title if window_title else ""
         self.__values["clock_rate"] = clock_rate
         self.__values["debug_mode"] = debug_mode
+        self.__values["log_to_terminal"] = log_to_terminal
 
     def set_config_val(self, config_key, val):
         arg_bundle = {}
@@ -224,6 +226,9 @@ class DebugQueue(Subscriber):
         self.max_q_size = self.__get_max_log_display()
 
         log_formatter = logging.Formatter(DebugQueue.LOG_FORMAT)
+        if self.game_screen.config.get_config_val("log_to_terminal"):
+            logging.basicConfig(format=DebugQueue.LOG_FORMAT)
+
         file_handler = logging.FileHandler("pygame-objects.log")
         file_handler.setFormatter(log_formatter)
 

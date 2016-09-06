@@ -91,6 +91,7 @@ if __name__ == "__main__":
     config.set_config_val("window_size", (600, 600))
     config.set_config_val("window_title", "SNAKE!")
     config.set_config_val("debug_mode", True)
+    config.set_config_val("log_to_terminal", True)
 
     screen = SnakeScreen(config, (10, 10))
     loop_events = SnakeGameEvents(config, screen)
