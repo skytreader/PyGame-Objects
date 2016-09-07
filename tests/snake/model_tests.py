@@ -83,6 +83,8 @@ class SnakeModelTests(unittest.TestCase):
         self.gm.move_snake(QuadraticGrid.Movements.LEFT)
         self.assertEqual(original_head, self.gm.snake_head)
         self.assertEqual(original_joints, self.gm.snake_joints)
+        print "original", original_squares
+        print "enum", self.gm.snake.enumerate_snake_squares()
         self.assertEqual(original_squares, self.gm.snake.enumerate_snake_squares())
 
     def test_bending(self):

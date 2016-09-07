@@ -55,9 +55,9 @@ class SnakeGameEvents(GameLoopEvents):
             width = self.game_screen.game_model.width
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
             try:
-                self.debug_queue.log(str(movement), logging.DEBUG)
                 self.game_screen.model.move_snake(movement, True)
                 self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
+                self.debug_queue.log(str(self.game_screen.model.snake.enumerate_snake_squares()))
                 new_head = self.game_screen.model.snake.head
 
                 if new_head[0] >= height or new_head[1] >= width or new_head[0] < 0 or new_head[1] < 0:
@@ -66,6 +66,8 @@ class SnakeGameEvents(GameLoopEvents):
                     self.game_screen.model.move_snake(inverse)
                     self.debug_queue.log("WALL COLLISION", logging.CRITICAL)
                     self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
+                else:
+                    self.game_screen.model.last_move_reversible = False
             except VectorDirectionException:
                 self.debug_queue.log("attempted 180 turn", logging.WARNING)
         
