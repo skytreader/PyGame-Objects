@@ -80,7 +80,7 @@ class DebugQueueTest(unittest.TestCase):
         self.assertTrue(len(debug_q.q) == max_display)
         debug_q.log("more")
         self.assertTrue(len(debug_q.q) == max_display)
-        self.assertTrue(debug_q.q[0] == "log 1")
+        self.assertTrue(debug_q.q[0].log == "log 1")
 
 class DryRunTest(unittest.TestCase):
     from components import core
