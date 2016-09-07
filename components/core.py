@@ -41,6 +41,18 @@ class Colors(object):
     HUMAN_RED = (255, int("41", 16), int("36", 16))
     LIGHT_GRAY = (218, 218, 218)
 
+    ADVENTURE_DARK = (4, 3, 3)
+    ADVENTURE_RED = (203, 27, 23)
+    ADVENTURE_GREEN = (88, 187, 30)
+    ADVENTURE_BLUE = (15, 98, 209)
+
+    NIGHT_DARK = (8, 2, 0)
+    NIGHT_RED = (228, 68, 41)
+    NIGHT_GREEN = (0, 174, 101)
+    NIGHT_BLUE = (0, 176, 233)
+    NIGHT_YELLOW = (254, 237, 0)
+    NIGHT_GRAY = (180, 177, 177)
+
     YELLOW = (255, int("dc", 16), 0)
     GOLD = (230, 220, 50)
 
@@ -211,11 +223,25 @@ class DebugQueue(Subscriber):
     Handles on-screen display of logging.
     """
 
+    class LogLine(object):
+        
+        def __init__(self, log, level):
+            self.log = log
+            self.level = level
+
     DISPLAY_PADDING = 4
     LINE_DISTANCE = 2
     FONT_SIZE = 18
     FONT = pygame.font.Font(None, FONT_SIZE)
     LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
+
+    LOG_COLORS = {
+        logging.CRITICAL: Colors.MAX_RED,
+        logging.ERROR: Colors.NIGHT_RED,
+        logging.WARNING: Colors.GOLD,
+        logging.INFO: Colors.HUMAN_BLUE,
+        logging.DEBUG: Colors.HUMAN_BLUE
+    }
     
     def __init__(self, game_screen):
         self.q = []
@@ -236,12 +262,12 @@ class DebugQueue(Subscriber):
         self.logger.setLevel(logging.DEBUG)
         self.logger.addHandler(file_handler)
 
-    def log(self, log):
+    def log(self, log, level=logging.INFO):
         if self.game_screen.config.get_config_val("debug_mode"):
-            self.logger.info(log)
+            self.logger.log(level, log)
             if len(self.q) == self.max_q_size:
                 self.q.pop(0)
-            self.q.append(log)
+            self.q.append(DebugQueue.LogLine(log, level))
 
     def __yposgen(self, x):
         return (DebugQueue.LINE_DISTANCE * (x - 1)) + (DebugQueue.FONT_SIZE * x) + self.original_dims[1] + DebugQueue.DISPLAY_PADDING
@@ -259,7 +285,8 @@ class DebugQueue(Subscriber):
         if self.window and self.q:
             for idx, val in enumerate(self.q):
                 mul = idx + 1
-                log_render = DebugQueue.FONT.render(val, True, Colors.HUMAN_BLUE)
+                color = DebugQueue.LOG_COLORS[val.level]
+                log_render = DebugQueue.FONT.render(val.log, True, color)
                 self.window.blit(log_render, (DebugQueue.DISPLAY_PADDING, self.__yposgen(mul)))
     
 class GameLoopEvents(Subscriber):

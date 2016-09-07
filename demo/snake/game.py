@@ -2,6 +2,7 @@ from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameSc
 from components.helpers.grid import QuadraticGrid
 from model import SnakeGameModel
 
+import logging
 import math
 import pygame
 
@@ -52,7 +53,7 @@ class SnakeGameEvents(GameLoopEvents):
             height = self.game_screen.game_model.height
             width = self.game_screen.game_model.width
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
-            self.debug_queue.log(str(movement))
+            self.debug_queue.log(str(movement), logging.DEBUG)
             self.game_screen.model.move_snake(movement, True)
             self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
             new_head = self.game_screen.model.snake.head
@@ -61,7 +62,7 @@ class SnakeGameEvents(GameLoopEvents):
                 inverse = QuadraticGrid.Movements.INVERSE_DIRECTION[movement]
                 self.debug_queue.log("moving to %s" % str(inverse))
                 self.game_screen.model.move_snake(inverse)
-                self.debug_queue.log("WALL COLLISION")
+                self.debug_queue.log("WALL COLLISION", logging.CRITICAL)
                 self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
         
         return event_handler
