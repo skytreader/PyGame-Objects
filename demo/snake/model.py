@@ -28,20 +28,16 @@ class Snake(object):
         This does not take into account the grid in which the snake is moving.
         """
         snake_squares = set()
-        print "ess the joints are", self.joints
         c_origin = self.head
-        print "adding", c_origin
         snake_squares.add(self.head)
 
         for c_end in self.joints:
             c_direction = QuadraticGrid.Movements.compute_direction(c_origin, c_end)
             square = (c_origin[0] + c_direction[0], c_origin[1] + c_direction[1])
-            print "adding", square
             snake_squares.add(square)
 
             while square != c_end:
                 square = (square[0] + c_direction[0], square[1] + c_direction[1])
-                print "adding", square
                 snake_squares.add(square)
 
             c_origin = c_end
@@ -92,31 +88,24 @@ class SnakeGameModel(GameModel):
             raise VectorDirectionException("Impossible to reverse last movement.")
 
         if movector == inverse_direction and self.last_move_reversible:
-            print "append last_tail", self.last_tail
             self.snake.joints.append(self.last_tail)
-            print "snake joints", self.snake.joints
-        else:
-            print "did not append last_tail"
 
         if movector != inverse_direction:
             self.snake_joints.insert(0, self.snake_head)
 
         self.snake.head = (self.snake_head[0] + movector[0], self.snake_head[1] + movector[1])
-
-        snake_tail_vector = QuadraticGrid.Movements.compute_direction(
-          self.snake_joints[-1], self.snake_joints[-2]
-        )
         self.last_tail = self.snake_joints[-1]
 
-        self.snake_joints[-1] = (self.snake_joints[-1][0] + snake_tail_vector[0],
-          self.snake_joints[-1][1] + snake_tail_vector[1])
+        if movector != inverse_direction:
+            snake_tail_vector = QuadraticGrid.Movements.compute_direction(
+              self.snake_joints[-1], self.snake_joints[-2]
+            )
 
-        print "neg 1", self.snake_joints[-1]
-        print "neg 2", self.snake_joints[-2]
-        print "equality", self.snake.joints[-1] == self.snake.joints[-2]
+            self.snake_joints[-1] = (self.snake_joints[-1][0] + snake_tail_vector[0],
+              self.snake_joints[-1][1] + snake_tail_vector[1])
+
         if self.snake_joints[-1] == self.snake_joints[-2]:
             self.snake_joints.pop()
-            print "popped", self.snake.joints
 
         self.last_move_reversible = reversible
     
