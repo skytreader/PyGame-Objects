@@ -81,11 +81,14 @@ class SnakeModelTests(unittest.TestCase):
         original_squares = self.gm.snake.enumerate_snake_squares()
         self.gm.move_snake(QuadraticGrid.Movements.RIGHT, True)
         self.gm.move_snake(QuadraticGrid.Movements.LEFT)
-        self.assertEqual(original_head, self.gm.snake_head)
-        self.assertEqual(original_joints, self.gm.snake_joints)
+        self.assertEqual(original_head, self.gm.snake.head)
+        self.assertEqual(original_joints, self.gm.snake.joints)
+        print "before ess joints", self.gm.snake.joints
+        print "calling for new_squares"
+        new_squares = self.gm.snake.enumerate_snake_squares()
         print "original", original_squares
-        print "enum", self.gm.snake.enumerate_snake_squares()
-        self.assertEqual(original_squares, self.gm.snake.enumerate_snake_squares())
+        print "enum", new_squares
+        self.assertEqual(original_squares, new_squares)
 
     def test_bending(self):
         snake_head = self.gm.snake_head
