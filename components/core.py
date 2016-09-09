@@ -468,4 +468,10 @@ class GameModel(Publisher):
         Helps GameScreens represent and render relevant parts of this model.
         Return an object which your GameScreen knows how to render.
         """
-        raise NotImplementedError("No rendering shall occur.")
+        pass
+
+    def is_endgame(self):
+        """
+        Determines whether the game is in an end state.
+        """
+        return False
