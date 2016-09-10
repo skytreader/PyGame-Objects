@@ -178,11 +178,18 @@ class QuadraticGrid(Grid):
         rect_list = []
 
         for c in coords:
-            upper_left_x = c[1] * block_width + width_offset
-            upper_left_y = c[0] * block_height + height_offset
-            rect_list.append((upper_left_x, upper_left_y, block_width, block_height))
+            rect_list.append(QuadraticGrid.make_rect(c, block_width, block_height, width_offset, height_offset))
 
         return rect_list
+
+    @staticmethod
+    def make_rect(c, block_width, block_height, width_offset=0, height_offset=0):
+        """
+        Given a point in a grid c, create a rectangle out of it.
+        """
+        upper_left_x = c[1] * block_width + width_offset
+        upper_left_y = c[0] * block_height + height_offset
+        return (upper_left_x, upper_left_y, block_width, block_height)
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):

@@ -25,6 +25,10 @@ class SnakeScreen(GameScreen):
         for snake_pos in snake_squares:
             pygame.draw.rect(window, Colors.MAX_BLACK, snake_pos, 0) 
 
+        if self.game_model.food_point:
+            fp_rect = QuadraticGrid.make_rect(self.game_model.food_point, self.block_width, self.block_height)
+            pygame.draw.rect(window, Colors.NIGHT_GRAY, fp_rect, 0)
+
     def draw_unchanging(self, window):
         super(SnakeScreen, self).draw_unchanging(window)
         original_dims = self.config.get_config_val("window_size")

@@ -4,6 +4,8 @@ from components.core import GameModel
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
+import random
+
 class Snake(object):
     
     def __init__(self):
@@ -77,6 +79,7 @@ class SnakeGameModel(GameModel):
         col = self.width / 2
         self.snake.head = (row, col)
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
+        self.food_point = (random.randint(0, self.height - 1), random.randint(0, self.width - 1))
 
     def move_snake(self, direction, reversible=False):
         movector = direction
