@@ -91,6 +91,9 @@ class SnakeGameModel(GameModel):
         col = self.width / 2
         self.snake.head = (row, col)
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
+        self.__generate_food_point()
+
+    def __generate_food_point(self):
         self.food_point = (random.randint(0, self.height - 1), random.randint(0, self.width - 1))
 
     def move_snake(self, direction, reversible=False):
@@ -117,6 +120,11 @@ class SnakeGameModel(GameModel):
             self.snake_joints.insert(0, self.snake_head)
 
         self.snake.head = (self.snake_head[0] + movector[0], self.snake_head[1] + movector[1])
+
+        if self.snake.head == self.food_point:
+            self.snake.grow()
+            self.__generate_food_point()
+
         self.last_tail = self.snake_joints[-1]
 
         if movector != inverse_direction:
