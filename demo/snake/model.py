@@ -94,7 +94,16 @@ class SnakeGameModel(GameModel):
         self.__generate_food_point()
 
     def __generate_food_point(self):
-        self.food_point = (random.randint(0, self.height - 1), random.randint(0, self.width - 1))
+        """
+        Assumes that the snake is already present and initialized.
+        """
+        snake_squares = self.snake.enumerate_snake_squares()
+        self.food_point = (random.randint(0, self.height - 1),
+          random.randint(0, self.width - 1))
+
+        while self.food_point in snake_squares:
+            self.food_point = (random.randint(0, self.height - 1),
+              random.randint(0, self.width - 1))
 
     def move_snake(self, direction, reversible=False):
         movector = direction
