@@ -122,6 +122,16 @@ class SnakeModelTests(unittest.TestCase):
         self.assertEquals(expected_squares, snake.enumerate_snake_squares())
 
     def test_grow(self):
-        original_length = len(self.gm.snake.enumerate_snake_squares())
+        original_squares = self.gm.snake.enumerate_snake_squares()
+        original_length = len(original_squares)
         self.gm.snake.grow()
-        self.assertEqual(original_length + 1, len(self.gm.snake.enumerate_snake_squares()))
+        grown_squares = self.gm.snake.enumerate_snake_squares()
+        self.assertEqual(original_length + 1, len(grown_squares))
+
+        # At this point, the snake is just "initialized" so the tail has only
+        # one element.
+        original_tail_vector = (self.gm.snake.joints[0], self.gm.snake.head)
+        # We don't care how growth happens so...
+        new_head = self.gm.snake.joints[-2] if len(self.gm.snake.joints) > 1 else self.gm.snake.head
+        new_tail_vector = (self.gm.snake.joints[-1], new_head)
+        self.assertEqual(original_tail_vector, new_tail_vector)
