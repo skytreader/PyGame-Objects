@@ -46,6 +46,18 @@ class Snake(object):
 
         return snake_squares
 
+    def grow(self):
+        current_tail = None
+        if len(self.joints) == 1:
+            current_tail = (self.head, self.joints[0])
+        else:
+            current_tail = (self.joints[-2], self.joints[-1])
+
+        direction = QuadraticGrid.Movements.compute_direction(current_tail[0], current_tail[1])
+        new_tail_location = (self.joints[-1][0] + direction[0],
+          self.joints[-1][1] + direction[1])
+        self.joints[-1] = new_tail_location
+
 class SnakeGameModel(GameModel):
     
     DEFAULT_SNAKE_SIZE = 3
@@ -122,13 +134,6 @@ class SnakeGameModel(GameModel):
     
     def collides_with_self(self):
         return self.snake_head in self.snake.enumerate_snake_squares()
-
-    def grow_snake(self):
-        current_tail = (self.snake_joints[-2], self.snake_joints[-2])
-        direction = QuadraticGrid.Movements.compute_direction(current_tail)
-        new_tail_location = (self.snake_joints[-1][0] + direction[0],
-          self.snake_joints[-1][1] + direction[1])
-        self.snake_joints[-1] = new_tail_location
 
     def render(self, **kwargs):
         pass

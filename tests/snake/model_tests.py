@@ -120,3 +120,8 @@ class SnakeModelTests(unittest.TestCase):
             expected_squares.add((6, c))
 
         self.assertEquals(expected_squares, snake.enumerate_snake_squares())
+
+    def test_grow(self):
+        original_length = len(self.gm.snake.enumerate_snake_squares())
+        self.gm.snake.grow()
+        self.assertEqual(original_length + 1, len(self.gm.snake.enumerate_snake_squares()))
