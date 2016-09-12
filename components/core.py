@@ -34,6 +34,8 @@ class Colors(object):
     MAX_RED = (255, 0, 0)
     MAX_GREEN = (0, 255, 0)
     MAX_BLUE = (0, 0, 255)
+    DIM_GRAY = (108, 108, 108)
+    EBONY = (83, 93, 80)
 
     LUCID_DARK = (90, 73, 64)
     HUMAN_GREEN = (61, 153, 112) # olive

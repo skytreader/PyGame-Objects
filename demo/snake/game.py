@@ -20,10 +20,11 @@ class SnakeScreen(GameScreen):
 
     def draw_screen(self, window):
         snake_squares = self.game_model.snake.enumerate_snake_squares()
-        snake_squares = QuadraticGrid.make_rects(snake_squares, self.block_width, self.block_height)
 
         for snake_pos in snake_squares:
-            pygame.draw.rect(window, Colors.MAX_BLACK, snake_pos, 0) 
+            color = Colors.DIM_GRAY if snake_pos == self.game_model.snake.head else Colors.EBONY
+            snake_pos = QuadraticGrid.make_rect(snake_pos, self.block_width, self.block_height)
+            pygame.draw.rect(window, color, snake_pos, 0) 
 
         if self.game_model.food_point:
             fp_rect = QuadraticGrid.make_rect(self.game_model.food_point, self.block_width, self.block_height)
