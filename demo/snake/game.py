@@ -9,6 +9,9 @@ import pygame
 
 class SnakeScreen(GameScreen):
     
+    GAME_OVER_FONT_SIZE = 28
+    GAME_OVER_FONT = pygame.font.Font("fonts/forcedsquare/forcedsquare.ttf", GAME_OVER_FONT_SIZE)
+    
     def __init__(self, config, grid_size):
         super(SnakeScreen, self).__init__(config, SnakeGameModel(grid_size[0], grid_size[1]))
         screen_size = config.get_config_val("window_size")
@@ -29,6 +32,12 @@ class SnakeScreen(GameScreen):
         if self.game_model.food_point:
             fp_rect = QuadraticGrid.make_rect(self.game_model.food_point, self.block_width, self.block_height)
             pygame.draw.rect(window, Colors.NIGHT_GRAY, fp_rect, 0)
+
+        if self.game_model.is_endgame():
+            # Render a "Game Over" sign
+            game_over_render = SnakeScreen.GAME_OVER_FONT.render("GAME OVER", True, Colors.HUMAN_RED)
+            window.blit(game_over_render, (50, 50))
+
 
     def draw_unchanging(self, window):
         super(SnakeScreen, self).draw_unchanging(window)
@@ -71,6 +80,11 @@ class SnakeGameEvents(GameLoopEvents):
                     self.game_screen.model.move_snake(inverse)
                     self.debug_queue.log("WALL COLLISION", logging.CRITICAL)
                     self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
+                    self.game_screen.model.endgame = True
+                elif self.game_screen.model.snake.head in self.game_screen.model.snake.enumerate_snake_squares(False):
+                    inverse = QuadraticGrid.Movements.INVERSE_DIRECTION[movement]
+                    self.game_screen.model.move_snake(inverse)
+                    self.game_screen.model.endgame = True
                 else:
                     self.game_screen.model.last_move_reversible = False
             except VectorDirectionException:

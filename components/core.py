@@ -464,6 +464,7 @@ class GameModel(Publisher):
     
     def __init__(self):
         super(GameModel, self).__init__()
+        self.endgame = False
     
     def render(self, **kwargs):
         """
@@ -471,9 +472,3 @@ class GameModel(Publisher):
         Return an object which your GameScreen knows how to render.
         """
         pass
-
-    def is_endgame(self):
-        """
-        Determines whether the game is in an end state.
-        """
-        return False

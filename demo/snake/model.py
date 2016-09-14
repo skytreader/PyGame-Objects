@@ -24,14 +24,15 @@ class Snake(object):
         """
         self.joints = []
 
-    def enumerate_snake_squares(self):
+    def enumerate_snake_squares(self, include_head=True):
         """
         Returns a set of tuples indicating the squares the snake is occupying.
         This does not take into account the grid in which the snake is moving.
         """
         snake_squares = set()
         c_origin = self.head
-        snake_squares.add(self.head)
+        if include_head:
+            snake_squares.add(self.head)
 
         for c_end in self.joints:
             c_direction = QuadraticGrid.Movements.compute_direction(c_origin, c_end)
@@ -106,6 +107,9 @@ class SnakeGameModel(GameModel):
               random.randint(0, self.width - 1))
 
     def move_snake(self, direction, reversible=False):
+        if self.endgame:
+            return
+
         movector = direction
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
@@ -117,7 +121,7 @@ class SnakeGameModel(GameModel):
         try:
             inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
         except KeyError:
-            self.endgame = True
+            pass
 
         if movector == inverse_direction and not self.last_move_reversible:
             raise VectorDirectionException("Impossible to reverse last movement.")
