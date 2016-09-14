@@ -234,7 +234,7 @@ class DebugQueue(Subscriber):
     DISPLAY_PADDING = 4
     LINE_DISTANCE = 2
     FONT_SIZE = 18
-    FONT = pygame.font.Font(None, FONT_SIZE)
+    FONT = pygame.font.Font("fonts/inconsolata/Inconsolata-Regular.ttf", FONT_SIZE)
     LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
     LOG_COLORS = {
