@@ -62,6 +62,8 @@ class SnakeGameEvents(GameLoopEvents):
     def loop_event(self):
         self.window.fill(Colors.MAX_WHITE)
         super(SnakeGameEvents, self).loop_event()
+        current_direction = self.game_screen.game_model.snake.get_orientation()
+        self.game_screen.game_model.move_snake(current_direction)
 
     def __create_move_event_handler(self, key):
         def event_handler(event):

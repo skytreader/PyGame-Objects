@@ -58,6 +58,14 @@ class Snake(object):
         new_tail_location = (self.joints[-1][0] + direction[0],
           self.joints[-1][1] + direction[1])
         self.joints[-1] = new_tail_location
+    
+    def get_orientation(self):
+        """
+        Returns the direction in which the snake is "facing".
+        """
+        return QuadraticGrid.Movements.compute_direction(
+            self.joints[0], self.head
+        )
 
 class SnakeGameModel(GameModel):
     
@@ -114,9 +122,7 @@ class SnakeGameModel(GameModel):
         if movector is None:
             raise ValueError("Invalid direction input %s." % direction)
 
-        current_direction = QuadraticGrid.Movements.compute_direction(
-          self.snake_joints[0], self.snake_head
-        )
+        current_direction = self.snake.get_orientation()
         inverse_direction = None
         try:
             inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
