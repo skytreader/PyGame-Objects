@@ -198,15 +198,10 @@ class PVZLoop(GameLoop):
     
     def __init__(self, events):
         """
-        FIXME: Is this Pythonic enough?
-        
         @param events
           Must be an instance of PVZEvents.
         """
-        if isinstance(events, PVZEvents):
-            super(PVZLoop, self).__init__(events)
-        else:
-            raise TypeError("PVZLoop expects an instance of PVZEvents")
+        super(PVZLoop, self).__init__(events)
     
 
 config = GameConfig()
