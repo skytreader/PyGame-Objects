@@ -1,15 +1,8 @@
 #! usr/bin/env python
 
-from components.core import Colors
-from components.core import GameLoopEvents
-from components.core import GameConfig
-from components.core import GameLoop
-from components.core import GameScreen
-
+from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameModel, GameScreen
 from components.framework_exceptions import InstanceException
-
 from components.image import Image
-
 from components.shapes import Point
 
 from sprites import Zombie, Shooter, Bullet
@@ -28,8 +21,8 @@ A shooting game inspired by Plants vs Zombies.
 
 class PVZMainScreen(GameScreen):
     
-    def __init__(self, screen_dimensions):
-        super(PVZMainScreen, self).__init__(screen_dimensions)
+    def __init__(self, config):
+        super(PVZMainScreen, self).__init__(config, GameModel())
         self.__monster_sprite_group = pygame.sprite.Group()
         self.__player_sprite_group = pygame.sprite.Group()
         self.__bullet_sprite_group = pygame.sprite.Group()
@@ -133,7 +126,7 @@ class PVZMainScreen(GameScreen):
         self.bullet_sprite_group.update()
         
         font = pygame.font.Font(None, 25)
-        score = font.render("Score: " + str(self.score), True, Colors.RED)
+        score = font.render("Score: " + str(self.score), True, Colors.MAX_RED)
         window.blit(score, [100, 100])
 
 class PVZEvents(GameLoopEvents):
@@ -143,7 +136,7 @@ class PVZEvents(GameLoopEvents):
         self.__meteormon = None
     
     def loop_event(self):
-        self.window.fill(Colors.WHITE)
+        self.window.fill(Colors.MAX_WHITE)
         
         if random.random() <= 0.3:
             monster_index = random.randint(0, len(self.game_screen.monster_list) - 1)
@@ -173,26 +166,19 @@ class PVZEvents(GameLoopEvents):
         
     def loop_setup(self):
         super(PVZEvents, self).loop_setup()
-        pygame.key.set_repeat(self.config.clock_rate, self.config.clock_rate)
+        clock_rate = self.config.get_config_val("clock_rate")
+        pygame.key.set_repeat(clock_rate, clock_rate)
     
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
         
-        up_dict = {}
-        up_dict[GameLoopEvents.KEYCODE] = pygame.K_UP
-        up_dict[GameLoopEvents.HANDLER] = self.move_shooter
+        up_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_UP, self.move_shooter)
+        down_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_DOWN, self.move_shooter)
+        shoot_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_RETURN, self.game_screen.shoot)
         
-        down_dict = {}
-        down_dict[GameLoopEvents.KEYCODE] = pygame.K_DOWN
-        down_dict[GameLoopEvents.HANDLER] = self.move_shooter
-        
-        shoot_dict = {}
-        shoot_dict[GameLoopEvents.KEYCODE] = pygame.K_RETURN
-        shoot_dict[GameLoopEvents.HANDLER] = self.game_screen.shoot
-        
-        self.add_event_handler(keydown_event, up_dict)
-        self.add_event_handler(keydown_event, down_dict)
-        self.add_event_handler(keydown_event, shoot_dict)
+        self.add_event_handler(keydown_event, up_event_handler)
+        self.add_event_handler(keydown_event, down_event_handler)
+        self.add_event_handler(keydown_event, shoot_event_handler)
         
 class PVZLoop(GameLoop):
     
@@ -205,11 +191,11 @@ class PVZLoop(GameLoop):
     
 
 config = GameConfig()
-config.window_size = [500, 500]
-config.clock_rate = 12
-config.window_title = "PvZ Clone Demo"
+config.set_config_val("window_size", [500, 500])
+config.set_config_val("clock_rate", 12)
+config.set_config_val("window_title", "PvZ Clone Demo")
 
-screen = PVZMainScreen(config.window_size)
+screen = PVZMainScreen(config)
 
 image_gle = PVZEvents(config, screen)
 gl = PVZLoop(image_gle)
