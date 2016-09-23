@@ -158,8 +158,16 @@ class SnakeGameModel(GameModel):
             self.snake_joints.pop()
 
         self.last_move_reversible = reversible
+        self.endgame = self.__collides_with_walls() or self.__collides_with_self()
+
+        if not self.endgame:
+            print "ok"
+
+    def __collides_with_walls(self):
+        return (self.snake.head[0] >= self.height or self.snake.head[1] >= self.width or
+          self.snake.head[0] < 0 or self.snake.head[1] < 0)
     
-    def collides_with_self(self):
+    def __collides_with_self(self):
         return self.snake_head in self.snake.enumerate_snake_squares()
 
     def render(self, **kwargs):

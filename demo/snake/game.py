@@ -38,6 +38,8 @@ class SnakeScreen(GameScreen):
             game_over_render = SnakeScreen.GAME_OVER_FONT.render("GAME OVER", True, Colors.HUMAN_RED)
             window.blit(game_over_render, (50, 50))
 
+        current_direction = self.game_model.snake.get_orientation()
+        self.game_model.move_snake(current_direction)
 
     def draw_unchanging(self, window):
         super(SnakeScreen, self).draw_unchanging(window)
@@ -62,8 +64,6 @@ class SnakeGameEvents(GameLoopEvents):
     def loop_event(self):
         self.window.fill(Colors.MAX_WHITE)
         super(SnakeGameEvents, self).loop_event()
-        current_direction = self.game_screen.game_model.snake.get_orientation()
-        self.game_screen.game_model.move_snake(current_direction)
 
     def __create_move_event_handler(self, key):
         def event_handler(event):
@@ -120,6 +120,7 @@ if __name__ == "__main__":
     config.set_config_val("window_title", "SNAKE!")
     config.set_config_val("debug_mode", True)
     config.set_config_val("log_to_terminal", True)
+    config.set_config_val("difficulty", 1)
 
     screen = SnakeScreen(config, (10, 10))
     loop_events = SnakeGameEvents(config, screen)
