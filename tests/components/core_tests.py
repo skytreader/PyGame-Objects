@@ -19,11 +19,10 @@ class ConfigSubscriberMock(Subscriber):
 
     def notify(self, observed, arg_bundle):
         has_config_key = arg_bundle.get("config_key") is not None
-        has_old_val = arg_bundle.get("old_val") is not None
+        has_old_val = arg_bundle["old_val"]
         has_new_val = arg_bundle.get("new_val") is not None
         self.notified = (
-          isinstance(observed, GameConfig) and has_config_key and has_old_val
-          and has_new_val
+          isinstance(observed, GameConfig) and has_config_key and has_new_val
         )
 
 class LoopEventsMock(GameLoopEvents):
@@ -51,6 +50,11 @@ class GameConfigTest(unittest.TestCase):
     def test_clock_rate_setter(self):
         self.assertFalse(self.watcher.notified)
         self.game_config.set_config_val("clock_rate", 100)
+        self.assertTrue(self.watcher.notified)
+
+    def test_custom_key_setter(self):
+        self.assertFalse(self.watcher.notified)
+        self.game_config.set_config_val("quick brown foxkcd", 1)
         self.assertTrue(self.watcher.notified)
 
 class GameScreenTest(unittest.TestCase):
