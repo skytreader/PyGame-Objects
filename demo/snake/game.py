@@ -1,6 +1,7 @@
 from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameScreen
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
+from components.helpers.scheduler import Scheduler
 from model import SnakeGameModel
 
 import logging
@@ -21,6 +22,13 @@ class SnakeScreen(GameScreen):
         self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
         self.block_height = int(math.floor(screen_size[1] / grid_size[1]))
 
+        self.automove_schedule = Scheduler(config.get_config_val("clock_rate"),
+          1, self.__automove_snake)
+
+    def __automove_snake(self):
+        current_direction = self.game_model.snake.get_orientation()
+        self.game_model.move_snake(current_direction)
+
     def draw_screen(self, window):
         snake_squares = self.game_model.snake.enumerate_snake_squares()
 
@@ -38,8 +46,7 @@ class SnakeScreen(GameScreen):
             game_over_render = SnakeScreen.GAME_OVER_FONT.render("GAME OVER", True, Colors.HUMAN_RED)
             window.blit(game_over_render, (50, 50))
 
-        current_direction = self.game_model.snake.get_orientation()
-        self.game_model.move_snake(current_direction)
+        self.automove_schedule.event()
 
     def draw_unchanging(self, window):
         super(SnakeScreen, self).draw_unchanging(window)

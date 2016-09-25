@@ -32,3 +32,6 @@ class Scheduler(object):
 
         if self.event_count < self.event_frequency:
             self.__event()
+            self.event_count += 1
+
+        self.time += 1
