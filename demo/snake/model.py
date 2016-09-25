@@ -160,9 +160,6 @@ class SnakeGameModel(GameModel):
         self.last_move_reversible = reversible
         self.endgame = self.__collides_with_walls() or self.__collides_with_self()
 
-        if not self.endgame:
-            print "ok"
-
     def __collides_with_walls(self):
         return (self.snake.head[0] >= self.height or self.snake.head[1] >= self.width or
           self.snake.head[0] < 0 or self.snake.head[1] < 0)
