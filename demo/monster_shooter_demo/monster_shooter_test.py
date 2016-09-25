@@ -113,7 +113,7 @@ class PVZMainScreen(GameScreen):
     def draw_screen(self, window):
         if self.end_game:
             font = pygame.font.Font(None, 25)
-            end_message = font.render("GAME OVER", True, Colors.RED)
+            end_message = font.render("GAME OVER", True, Colors.MAX_RED)
             window.blit(end_message, [100, 100])
             return
         
@@ -192,7 +192,7 @@ class PVZLoop(GameLoop):
 
 config = GameConfig()
 config.set_config_val("window_size", [500, 500])
-config.set_config_val("clock_rate", 12)
+config.set_config_val("clock_rate", 60)
 config.set_config_val("window_title", "PvZ Clone Demo")
 
 screen = PVZMainScreen(config)
