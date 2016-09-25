@@ -168,7 +168,7 @@ class SnakeGameModel(GameModel):
           self.snake.head[0] < 0 or self.snake.head[1] < 0)
     
     def __collides_with_self(self):
-        return self.snake_head in self.snake.enumerate_snake_squares()
+        return self.snake_head in self.snake.enumerate_snake_squares(False)
 
     def render(self, **kwargs):
         pass
