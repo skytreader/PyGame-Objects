@@ -74,9 +74,13 @@ class SnakeGameEvents(GameLoopEvents):
 
     def __create_move_event_handler(self, key):
         def event_handler(event):
+            current_direction = self.game_screen.model.snake.get_orientation()
             height = self.game_screen.game_model.height
             width = self.game_screen.game_model.width
             movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
+            if current_direction == movement:
+                return
+
             try:
                 self.game_screen.model.move_snake(movement, True)
                 self.debug_queue.log("snake head now at %s" % str(self.game_screen.model.snake.head))
