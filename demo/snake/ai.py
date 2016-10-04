@@ -14,7 +14,7 @@ class WindowedCount(object):
     def incr(self, count_key):
         assert self.record_size <= self.window_size
         if self.record_size == self.window_size:
-            oldest_entry = heapq.heappop(self.timeheap)
+            oldest_entry = heapq.heappop(self.timeheap)[1]
             self.window_counts[oldest_entry] -= 1
             self.record_size -= 1
 
@@ -24,6 +24,8 @@ class WindowedCount(object):
             self.window_counts[count_key] += 1
         else:
             self.window_counts[count_key] = 1
+
+        self.record_size += 1
 
         heapq.heappush(self.timeheap, (time.time(), count_key))
 
