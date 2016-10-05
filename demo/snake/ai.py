@@ -41,9 +41,9 @@ class SpawnManager(object):
         count = self.global_counts.get(movement)
 
         if count:
-            self.global_counts[count_key] += 1
+            self.global_counts[movement] += 1
         else:
-            self.global_counts[count_key] = 1
+            self.global_counts[movement] = 1
 
     def get_spawn(self):
         pass

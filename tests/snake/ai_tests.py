@@ -1,7 +1,9 @@
 from __future__ import division
 
+from components.helpers.grid import QuadraticGrid
 from demo.snake.ai import SpawnManager, WindowedCount
 
+import random
 import unittest
 
 class WindowedCountTests(unittest.TestCase):
@@ -38,3 +40,19 @@ class SpawnManagerTests(unittest.TestCase):
     
     def setUp(self):
         self.spawn_manager = SpawnManager()
+
+    def test_note_movement(self):
+        def make_moves(movement):
+            spam = random.randint(1, 4)
+            for _ in range(spam):
+                self.spawn_manager.note_movement(movement)
+
+        make_moves(QuadraticGrid.Movements.UP)
+        make_moves(QuadraticGrid.Movements.DOWN)
+        make_moves(QuadraticGrid.Movements.LEFT)
+        make_moves(QuadraticGrid.Movements.RIGHT)
+
+        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.UP] > 0)
+        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.DOWN] > 0)
+        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.LEFT] > 0)
+        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.RIGHT] > 0)
