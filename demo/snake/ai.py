@@ -7,7 +7,7 @@ class WindowedCount(object):
     
     def __init__(self, window=8):
         self.window_size = window
-        self.window_counts = {}
+        self.counts = {}
         self.record_size = 0
         self.timeheap = []
 
@@ -15,15 +15,15 @@ class WindowedCount(object):
         assert self.record_size <= self.window_size
         if self.record_size == self.window_size:
             oldest_entry = heapq.heappop(self.timeheap)[1]
-            self.window_counts[oldest_entry] -= 1
+            self.counts[oldest_entry] -= 1
             self.record_size -= 1
 
-        count = self.window_counts.get(count_key)
+        count = self.counts.get(count_key)
         
         if count:
-            self.window_counts[count_key] += 1
+            self.counts[count_key] += 1
         else:
-            self.window_counts[count_key] = 1
+            self.counts[count_key] = 1
 
         self.record_size += 1
 
