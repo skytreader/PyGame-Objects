@@ -56,3 +56,11 @@ class SpawnManagerTests(unittest.TestCase):
         self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.DOWN] > 0)
         self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.LEFT] > 0)
         self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.RIGHT] > 0)
+
+    def test_get_spawn(self):
+        # Initial case, jsut test that it will return something acceptable
+        food_coords = self.spawn_manager.get_spawn(4, 6)
+        self.assertTrue(food_coords[0] >= 0)
+        self.assertTrue(food_coords[0] < 4)
+        self.assertTrue(food_coords[1] >= 0)
+        self.assertTrue(food_coords[1] < 6)

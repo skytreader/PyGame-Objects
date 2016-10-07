@@ -1,6 +1,7 @@
 from components.helpers.grid import QuadraticGrid
 
 import heapq
+import random
 import time
 
 class WindowedCount(object):
@@ -45,5 +46,21 @@ class SpawnManager(object):
         else:
             self.global_counts[movement] = 1
 
-    def get_spawn(self):
-        pass
+    def get_spawn(self, grid_width, grid_height):
+        """
+        Even for power players, this method will not be called "too fast" for
+        computers.
+
+        The only caveat here is that the counts may update while we are doing
+        statistics on them.
+        """
+        ranker = []
+
+        for k in self.global_counts.keys():
+            heapq.heappush(ranker, (self.global_counts[k], k))
+
+        if len(ranker) < 2:
+            return (random.randint(0, grid_width), random.randint(0, grid_height))
+
+        top1 = heapq.heappop(ranker)
+        top2 = heapq.heappop(ranker)
