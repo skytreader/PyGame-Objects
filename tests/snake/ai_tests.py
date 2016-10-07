@@ -1,6 +1,7 @@
 from __future__ import division
 
 from components.helpers.grid import QuadraticGrid
+from demo.snake.model import Snake
 from demo.snake.ai import SpawnManager, WindowedCount
 
 import random
@@ -39,7 +40,8 @@ class WindowedCountTests(unittest.TestCase):
 class SpawnManagerTests(unittest.TestCase):
     
     def setUp(self):
-        self.spawn_manager = SpawnManager()
+        self.spawn_manager_rect = SpawnManager(4, 6)
+        self.spawn_manager_playtest = SpawnManager(10, 10)
 
     def test_note_movement(self):
         def make_moves(movement):
@@ -58,9 +60,16 @@ class SpawnManagerTests(unittest.TestCase):
         self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.RIGHT] > 0)
 
     def test_get_spawn(self):
-        # Initial case, jsut test that it will return something acceptable
-        food_coords = self.spawn_manager.get_spawn(4, 6)
+        # Initial case, just test that it will return something acceptable
+        # The snake head is irrelevant here.
+        food_coords = self.spawn_manager_rect.get_spawn(Snake())
         self.assertTrue(food_coords[0] >= 0)
         self.assertTrue(food_coords[0] < 4)
         self.assertTrue(food_coords[1] >= 0)
         self.assertTrue(food_coords[1] < 6)
+
+        # Construct a snake that loops around itself.
+        snake = Snake()
+        snake.head = (3, 7)
+        snake.joints = [(6, 7), (6, 3), (5, 3), (5, 2), (7, 2), (7, 8), (3, 8)]
+        food_coords = self.spawn_manager_playtest.get_spawn(snake)

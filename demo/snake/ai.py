@@ -21,8 +21,7 @@ class WindowedCount(object):
 
         count = self.counts.get(count_key)
         
-        if count:
-            self.counts[count_key] += 1
+        if count: self.counts[count_key] += 1
         else:
             self.counts[count_key] = 1
 
@@ -32,9 +31,15 @@ class WindowedCount(object):
 
 class SpawnManager(object):
     
-    def __init__(self, window=8):
+    QUADRATIC_DIRECTIONS = set(QuadraticGrid.Movements.UP,
+      QuadraticGrid.Movements.DOWN, QuadraticGrid.Movements.LEFT,
+      QuadraticGrid.Movements.RIGHT)
+    
+    def __init__(self, grid_width, grid_height, window=8):
         self.global_counts = {}
         self.window_counts = WindowedCount()
+        self.grid_width = grid_width
+        self.grid_height = grid_height
 
     def note_movement(self, movement):
         self.window_counts.incr(movement)
@@ -46,7 +51,7 @@ class SpawnManager(object):
         else:
             self.global_counts[movement] = 1
 
-    def get_spawn(self, grid_width, grid_height):
+    def get_spawn(self, snake_squares):
         """
         Even for power players, this method will not be called "too fast" for
         computers.
@@ -60,7 +65,10 @@ class SpawnManager(object):
             heapq.heappush(ranker, (self.global_counts[k], k))
 
         if len(ranker) < 2:
-            return (random.randint(0, grid_width), random.randint(0, grid_height))
+            return (random.randint(0, self.grid_width), random.randint(0, self.grid_height))
 
         top1 = heapq.heappop(ranker)
         top2 = heapq.heappop(ranker)
+        tops = set(top1, top2)
+        bottom = SpawnManager.QUADRATIC_DIRECTIONS - tops
+        lucky_bottom = random.choice(bottom)
