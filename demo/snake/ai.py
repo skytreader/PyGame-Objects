@@ -31,9 +31,9 @@ class WindowedCount(object):
 
 class SpawnManager(object):
     
-    QUADRATIC_DIRECTIONS = set(QuadraticGrid.Movements.UP,
+    QUADRATIC_DIRECTIONS = set((QuadraticGrid.Movements.UP,
       QuadraticGrid.Movements.DOWN, QuadraticGrid.Movements.LEFT,
-      QuadraticGrid.Movements.RIGHT)
+      QuadraticGrid.Movements.RIGHT))
     
     def __init__(self, grid_width, grid_height, window=8):
         self.global_counts = {}
@@ -51,7 +51,7 @@ class SpawnManager(object):
         else:
             self.global_counts[movement] = 1
 
-    def get_spawn(self, snake_squares):
+    def get_spawn(self, snake):
         """
         Even for power players, this method will not be called "too fast" for
         computers.
@@ -60,6 +60,7 @@ class SpawnManager(object):
         statistics on them.
         """
         ranker = []
+        snake_squares = snake.enumerate_snake_squares()
 
         for k in self.global_counts.keys():
             heapq.heappush(ranker, (self.global_counts[k], k))
@@ -72,3 +73,9 @@ class SpawnManager(object):
         tops = set(top1, top2)
         bottom = SpawnManager.QUADRATIC_DIRECTIONS - tops
         lucky_bottom = random.choice(bottom)
+        food = snake.head
+
+        while food in snake_squares:
+            food = (food[0] + lucky_bottom[0], food[1] + lucky_bottom[1])
+
+        return food

@@ -47,17 +47,17 @@ class SpawnManagerTests(unittest.TestCase):
         def make_moves(movement):
             spam = random.randint(1, 4)
             for _ in range(spam):
-                self.spawn_manager.note_movement(movement)
+                self.spawn_manager_rect.note_movement(movement)
 
         make_moves(QuadraticGrid.Movements.UP)
         make_moves(QuadraticGrid.Movements.DOWN)
         make_moves(QuadraticGrid.Movements.LEFT)
         make_moves(QuadraticGrid.Movements.RIGHT)
 
-        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.UP] > 0)
-        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.DOWN] > 0)
-        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.LEFT] > 0)
-        self.assertTrue(self.spawn_manager.global_counts[QuadraticGrid.Movements.RIGHT] > 0)
+        self.assertTrue(self.spawn_manager_rect.global_counts[QuadraticGrid.Movements.UP] > 0)
+        self.assertTrue(self.spawn_manager_rect.global_counts[QuadraticGrid.Movements.DOWN] > 0)
+        self.assertTrue(self.spawn_manager_rect.global_counts[QuadraticGrid.Movements.LEFT] > 0)
+        self.assertTrue(self.spawn_manager_rect.global_counts[QuadraticGrid.Movements.RIGHT] > 0)
 
     def test_get_spawn(self):
         # Initial case, just test that it will return something acceptable
@@ -72,4 +72,7 @@ class SpawnManagerTests(unittest.TestCase):
         snake = Snake()
         snake.head = (3, 7)
         snake.joints = [(6, 7), (6, 3), (5, 3), (5, 2), (7, 2), (7, 8), (3, 8)]
+        snake_squares = snake.enumerate_snake_squares()
         food_coords = self.spawn_manager_playtest.get_spawn(snake)
+
+        self.assertTrue(food_coords not in snake_squares)
