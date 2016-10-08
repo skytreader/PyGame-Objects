@@ -66,7 +66,7 @@ class SpawnManager(object):
             heapq.heappush(ranker, (self.global_counts[k], k))
 
         if len(ranker) < 2:
-            return (random.randint(0, self.grid_width), random.randint(0, self.grid_height))
+            return (random.randint(0, self.grid_width - 1), random.randint(0, self.grid_height - 1))
 
         top1 = heapq.heappop(ranker)
         top2 = heapq.heappop(ranker)
