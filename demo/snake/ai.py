@@ -1,3 +1,4 @@
+from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
 import heapq
@@ -51,6 +52,18 @@ class SpawnManager(object):
         else:
             self.global_counts[movement] = 1
 
+    def __is_snake_limited(self, snake, proposed_food_pos):
+        if proposed_food_pos == QuadraticGrid.Movements.UP:
+            return snake.head[0] == 0
+        elif proposed_food_pos == QuadraticGrid.Movements.DOWN:
+            return snake.head[0] == (self.grid_height - 1)
+        elif proposed_food_pos == QuadraticGrid.Movements.LEFT:
+            return snake.head[1] == 0
+        elif proposed_food_pos == QuadraticGrid.Movements.RIGHT:
+            return snake.head[1] == (self.grid_width - 1)
+        else:
+            raise VectorDirectionException("Proposed food position is not a cardinal direction.")
+
     def get_spawn(self, snake):
         """
         Even for power players, this method will not be called "too fast" for
@@ -70,12 +83,19 @@ class SpawnManager(object):
 
         top1 = heapq.heappop(ranker)
         top2 = heapq.heappop(ranker)
-        tops = set(top1, top2)
-        bottom = SpawnManager.QUADRATIC_DIRECTIONS - tops
-        lucky_bottom = random.choice(bottom)
+        unchosen = set(top1, top2)
+        bottom = SpawnManager.QUADRATIC_DIRECTIONS - unchosen
+        chosen = random.choice(bottom)
+        
+        if self.__is_snake_limited(snake, chosen):
+            unchosen.add(chosen)
+            # This must be a singleton
+            last = SpawnManager.QUADRATIC_DIRECTIONS - unchosen
+            chosen = last.pop()
+
         food = snake.head
 
         while food in snake_squares:
-            food = (food[0] + lucky_bottom[0], food[1] + lucky_bottom[1])
+            food = (food[0] + chosen[0], food[1] + chosen[1])
 
         return food
