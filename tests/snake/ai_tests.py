@@ -2,7 +2,7 @@ from __future__ import division
 
 from components.helpers.grid import QuadraticGrid
 from demo.snake.model import Snake
-from demo.snake.ai import SpawnManager, WindowedCount
+from demo.snake.ai import SimpleRankSpawnManager, SpawnManagerIgnoramus, WindowedCount
 
 import random
 import unittest
@@ -37,11 +37,11 @@ class WindowedCountTests(unittest.TestCase):
         self.assertEquals(half, self.windowed_count.counts["eggs"])
         self.assertEquals(1, self.windowed_count.counts["spam&eggs"])
 
-class SpawnManagerTests(unittest.TestCase):
+class SimpleRankSpawnManagerTests(unittest.TestCase):
     
     def setUp(self):
-        self.spawn_manager_rect = SpawnManager(4, 6)
-        self.spawn_manager_playtest = SpawnManager(10, 10)
+        self.spawn_manager_rect = SimpleRankSpawnManager(4, 6)
+        self.spawn_manager_playtest = SimpleRankSpawnManager(10, 10)
 
     def test_note_movement(self):
         def make_moves(movement):
@@ -77,4 +77,19 @@ class SpawnManagerTests(unittest.TestCase):
         # Repeat 100 times so that the test may include all branches
         for _ in range(100):
             food_coords = self.spawn_manager_playtest.get_spawn(snake)
+            self.assertTrue(food_coords not in snake_squares)
+
+class SpawnManagerIgnoramusTests(unittest.TestCase):
+    
+    def setUp(self):
+        self.spawn_manager = SpawnManagerIgnoramus(10, 10)
+
+    def test_get_spawn(self):
+        snake = Snake()
+        snake.head = (3, 7)
+        snake.joints = [(6, 7), (6, 3), (5, 3), (5, 2), (7, 2), (7, 8), (3, 8)]
+        snake_squares = snake.enumerate_snake_squares()
+
+        for _ in range(100):
+            food_coords = self.spawn_manager.get_spawn(snake)
             self.assertTrue(food_coords not in snake_squares)

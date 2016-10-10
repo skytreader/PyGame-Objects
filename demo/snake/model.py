@@ -4,6 +4,7 @@ from components.core import GameModel
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
+import ai
 import random
 
 class Snake(object):
@@ -83,6 +84,7 @@ class SnakeGameModel(GameModel):
         self.last_move_reversible = False
         self.last_tail = None
         self.endgame = False
+        self.food_spawn_manager = ai.SpawnManagerIgnoramus(width, height)
 
     def is_endgame(self):
         return self.endgame
@@ -106,13 +108,7 @@ class SnakeGameModel(GameModel):
         """
         Assumes that the snake is already present and initialized.
         """
-        snake_squares = self.snake.enumerate_snake_squares()
-        self.food_point = (random.randint(0, self.height - 1),
-          random.randint(0, self.width - 1))
-
-        while self.food_point in snake_squares:
-            self.food_point = (random.randint(0, self.height - 1),
-              random.randint(0, self.width - 1))
+        self.food_point = self.food_spawn_manager.get_spawn(self.snake)
 
     def move_snake(self, direction, reversible=False):
         if self.endgame:

@@ -52,6 +52,21 @@ class SpawnManager(object):
         else:
             self.global_counts[movement] = 1
 
+    def get_spawn(self, snake):
+        """
+        Even for power players, this method will not be called "too fast" for
+        computers.
+
+        The only caveat here is that the counts may update while we are doing
+        statistics on them.
+        """
+        raise NotImplementedError("Not a complete SpawnManager class")
+
+class SimpleRankSpawnManager(SpawnManager):
+    
+    def __init__(self, grid_width, grid_height, window=8):
+        super(SimpleRankSpawnManager, self).__init__(grid_width, grid_height, window)
+
     def __is_snake_limited(self, snake, proposed_food_pos):
         if proposed_food_pos == QuadraticGrid.Movements.UP:
             return snake.head[0] == 0
@@ -65,13 +80,6 @@ class SpawnManager(object):
             raise VectorDirectionException("Proposed food position is not a cardinal direction.")
 
     def get_spawn(self, snake):
-        """
-        Even for power players, this method will not be called "too fast" for
-        computers.
-
-        The only caveat here is that the counts may update while we are doing
-        statistics on them.
-        """
         ranker = []
         snake_squares = snake.enumerate_snake_squares()
 
@@ -104,3 +112,19 @@ class SpawnManager(object):
             food = (food[0] + chosen[0], food[1] + chosen[1])
 
         return food
+
+class SpawnManagerIgnoramus(SpawnManager):
+    
+    def __init__(self, grid_width, grid_height, window=8):
+        super(SpawnManagerIgnoramus, self).__init__(grid_width, grid_height, window)
+
+    def get_spawn(self, snake):
+        snake_squares = snake.enumerate_snake_squares()
+        food_point = (random.randint(0, self.grid_height - 1),
+          random.randint(0, self.grid_width - 1))
+
+        while food_point in snake_squares:
+            food_point = (random.randint(0, self.grid_height - 1),
+              random.randint(0, self.grid_width - 1))
+
+        return food_point
