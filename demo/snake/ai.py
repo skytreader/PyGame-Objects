@@ -79,7 +79,12 @@ class SpawnManager(object):
             heapq.heappush(ranker, (self.global_counts[k], k))
 
         if len(ranker) < 2:
-            return (random.randint(0, self.grid_width - 1), random.randint(0, self.grid_height - 1))
+            candidate = (random.randint(0, self.grid_width - 1), random.randint(0, self.grid_height - 1))
+
+            while candidate in snake_squares:
+                candidate = (random.randint(0, self.grid_width - 1), random.randint(0, self.grid_height - 1))
+
+            return candidate
 
         top1 = heapq.heappop(ranker)
         top2 = heapq.heappop(ranker)

@@ -73,6 +73,8 @@ class SpawnManagerTests(unittest.TestCase):
         snake.head = (3, 7)
         snake.joints = [(6, 7), (6, 3), (5, 3), (5, 2), (7, 2), (7, 8), (3, 8)]
         snake_squares = snake.enumerate_snake_squares()
-        food_coords = self.spawn_manager_playtest.get_spawn(snake)
 
-        self.assertTrue(food_coords not in snake_squares)
+        # Repeat 100 times so that the test may include all branches
+        for _ in range(100):
+            food_coords = self.spawn_manager_playtest.get_spawn(snake)
+            self.assertTrue(food_coords not in snake_squares)
