@@ -111,6 +111,7 @@ class GameConfig(Publisher):
         value.
         """
         json_parser = JsonConfigParser()
+        json_parser.parse_config(f)
         for config in json_parser.config_vals.keys():
             self.set_config_val(config, json_parser.config_vals[config])
 

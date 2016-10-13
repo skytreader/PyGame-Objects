@@ -1,7 +1,9 @@
 from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.subscriber_pattern import Subscriber
 from mock import MagicMock, Mock, patch
+from StringIO import StringIO
 
+import json
 import pygame
 import unittest
 
@@ -41,6 +43,7 @@ class GameConfigTest(unittest.TestCase):
         self.game_config = GameConfig()
         self.watcher = ConfigSubscriberMock()
         self.game_config.subscribe(self.watcher)
+        self.titled_config = GameConfig(window_title="Your Majesty")
 
     def test_window_size_setter(self):
         self.assertFalse(self.watcher.notified)
@@ -56,6 +59,47 @@ class GameConfigTest(unittest.TestCase):
         self.assertFalse(self.watcher.notified)
         self.game_config.set_config_val("quick brown foxkcd", 1)
         self.assertTrue(self.watcher.notified)
+
+    def test_load_from_file_expected(self):
+        expected_json_newbies = """{
+    "song": "Lost Stars",
+    "artist": "Adam Levine",
+    "player": "Spotify"
+}"""
+        preload_title = self.titled_config.get_config_val("window_title")
+        self.assertTrue(preload_title is not None)
+        self.titled_config.load_from_file(StringIO(expected_json_newbies))
+        postload_title = self.titled_config.get_config_val("window_title")
+        self.assertEqual(preload_title, postload_title)
+
+        json_confs = json.loads(expected_json_newbies)
+        
+        for key in json_confs.keys():
+            self.assertEqual(self.titled_config.get_config_val(key), json_confs[key])
+    
+    def test_load_from_file_unwanted(self):
+        unwanted_json = """[
+    {"song": "Lost Stars"},
+    {"artist": "Adam Levine"},
+    {"player": "Spotify"}
+]"""
+        preload_title = self.titled_config.get_config_val("window_title")
+        self.assertTrue(preload_title is not None)
+
+        with self.assertRaises(AttributeError):
+            self.titled_config.load_from_file(StringIO(unwanted_json))
+
+        postload_title = self.titled_config.get_config_val("window_title")
+        self.assertEquals(preload_title, postload_title)
+    
+    def test_load_from_file_replacing(self):
+        replacing_json = '{"window_title": "Your Royal Highness"}'
+        preload_title = self.titled_config.get_config_val("window_title")
+        self.assertTrue(preload_title is not None)
+        self.titled_config.load_from_file(StringIO(replacing_json))
+        postload_title = self.titled_config.get_config_val("window_title")
+        self.assertEqual(postload_title, "Your Royal Highness")
+        self.assertNotEqual(preload_title, postload_title)
 
 class GameScreenTest(unittest.TestCase):
     
