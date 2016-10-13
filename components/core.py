@@ -1,5 +1,6 @@
 from __future__ import division
 
+from config import JsonConfigParser
 from framework_exceptions import InvalidConfigStateException
 from subscriber_pattern import Publisher
 from subscriber_pattern import Subscriber
@@ -101,6 +102,17 @@ class GameConfig(Publisher):
 
     def get_config_val(self, config_key):
         return self.__values.get(config_key)
+
+    def load_from_file(self, f):
+        """
+        This will only overwrite the config values present in the file. So if
+        the current config object has the key value "spam" but the file does not,
+        after invoking this method, the key "spam" should still have its original
+        value.
+        """
+        json_parser = JsonConfigParser()
+        for config in json_parser.config_vals.keys():
+            self.set_config_val(config, json_parser.config_vals[config])
 
 class GameLoop(object):
     """
