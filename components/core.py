@@ -68,12 +68,8 @@ class GameConfig(Publisher):
         - config_key - of what changed.
         - old_val - of the config key.
         - new_val - of the config key.
-    
-    Defaults:
-        clock_rate = 0
-        window_size = (0, 0)
-        window_title = ""
-        debug_mode = False
+
+    The defaults are listed [in the wiki](https://github.com/skytreader/PyGame-Objects/wiki/Framework-Walkthrough#gameconfig).
     
     @author Chad Estioco
     """
