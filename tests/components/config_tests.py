@@ -1,7 +1,13 @@
 from StringIO import StringIO
-from components.config import JsonConfigParser
+from components.config import ConfigParser, JsonConfigParser
 
 import unittest
+
+class ConfigParserTests(unittest.TestCase):
+    
+    def test_parse_config(self):
+        with self.assertRaises(NotImplementedError):
+            ConfigParser().parse_config(StringIO(""))
 
 class JsonConfigParserTests(unittest.TestCase):
     
