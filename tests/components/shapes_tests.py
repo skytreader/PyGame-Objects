@@ -62,6 +62,17 @@ class shapes_tests(unittest.TestCase):
         triangle.set_scale(500, 500, 10, 10)
         self.assertTrue(triangle.point_list == triangle_scaled)
 
+    def test_equality(self):
+        four_points = PointShape()
+        four_points.add_point(Point(3, 4))
+        four_points.add_point(Point(5, 1))
+        four_points.add_point(Point(8, 10))
+        four_points.add_point(Point(6, 9))
+
+        self.assertTrue(four_points == four_points)
+        self.assertFalse(four_points == self.__shape)
+        self.assertTrue(four_points == self.__four_points)
+
 class collisionbox_tests(unittest.TestCase):
     
     def setUp(self):
