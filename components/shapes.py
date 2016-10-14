@@ -1,7 +1,10 @@
+from __future__ import division
+
 from core import Colors
 from drawable import Drawable
 from collidable import Collidable
 
+import math
 import pygame
 
 """

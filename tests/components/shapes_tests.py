@@ -1,4 +1,4 @@
-#! usr/bin/env python
+from __future__ import division
 
 from components.shapes import PointShape
 from components.shapes import Point
@@ -100,9 +100,12 @@ class collisionbox_tests(unittest.TestCase):
         self.assertTrue(not b1.__eq__(b4))
         self.assertTrue(not b1.__eq__(b5))
 
-if __name__ == "__main__":
-    tests = unittest.TestLoader().loadTestsFromTestCase(shapes_tests)
-    unittest.TextTestRunner(verbosity=2).run(tests)
+class PointTests(unittest.TestCase):
     
-    tests = unittest.TestLoader().loadTestsFromTestCase(collisionbox_tests)
-    unittest.TextTestRunner(verbosity=2).run(tests)
+    def test_distance(self):
+        origin = Point(0, 0)
+        p1 = Point(4, 2)
+
+        self.assertAlmostEqual(4.472135954, origin.distance(p1))
+        self.assertAlmostEqual(origin.distance(p1), p1.distance(origin))
+        self.assertEqual(0, origin.distance(origin))
