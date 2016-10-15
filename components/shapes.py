@@ -52,11 +52,7 @@ class PointShape(Drawable):
             self.__point_list = point_list
             self.__set_box()
             
-        self.__line_color = line_color
-    
-    @property
-    def line_color(self):
-        return self.__line_color
+        self.line_color = line_color
     
     def add_point(self, p, index = None):
         """
@@ -215,24 +211,8 @@ class CollisionBox(Collidable):
     
     def __init__(self, upper_left = None, lower_right = None):
         super(CollisionBox, self).__init__()
-        self.__upper_left = upper_left
-        self.__lower_right = lower_right
-    
-    @property
-    def upper_left(self):
-        return self.__upper_left
-    
-    @property
-    def lower_right(self):
-        return self.__lower_right
-    
-    @upper_left.setter
-    def upper_left(self, point):
-        self.__upper_left = point
-    
-    @lower_right.setter
-    def lower_right(self, point):
-        self.__lower_right = point
+        self.upper_left = upper_left
+        self.lower_right = lower_right
     
     @property
     def width(self):
@@ -268,24 +248,8 @@ class Point:
     """
     
     def __init__(self, x, y):
-        self.__x = x
-        self.__y = y
-    
-    @property
-    def x(self):
-        return self.__x
-    
-    @property
-    def y(self):
-        return self.__y
-    
-    @x.setter
-    def x(self, new_x):
-        self.__x = new_x
-    
-    @y.setter
-    def y(self, new_y):
-        self.__y = new_y
+        self.x = x
+        self.y = y
     
     def get_list(self):
         return [self.x, self.y]
