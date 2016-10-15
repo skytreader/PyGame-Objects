@@ -96,9 +96,9 @@ class SimpleRankSpawnManager(SpawnManager):
 
         top1 = heapq.heappop(ranker)
         top2 = heapq.heappop(ranker)
-        unchosen = set(top1, top2)
+        unchosen = set((top1, top2))
         bottom = SpawnManager.QUADRATIC_DIRECTIONS - unchosen
-        chosen = random.choice(bottom)
+        chosen = random.choice(list(bottom))
         
         if self.__is_snake_limited(snake, chosen):
             unchosen.add(chosen)

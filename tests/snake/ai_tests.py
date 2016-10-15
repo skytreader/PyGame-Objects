@@ -79,6 +79,16 @@ class SimpleRankSpawnManagerTests(unittest.TestCase):
             food_coords = self.spawn_manager_playtest.get_spawn(snake)
             self.assertTrue(food_coords not in snake_squares)
 
+        movements = (QuadraticGrid.Movements.UP, QuadraticGrid.Movements.DOWN,
+          QuadraticGrid.Movements.LEFT, QuadraticGrid.Movements.RIGHT)
+
+        for _ in range(100):
+            self.spawn_manager_playtest.note_movement(random.choice(movements))
+
+        for _ in range(100):
+            food_coords = self.spawn_manager_playtest.get_spawn(snake)
+            self.assertTrue(food_coords not in snake_squares)
+
 class SpawnManagerIgnoramusTests(unittest.TestCase):
     
     def setUp(self):
