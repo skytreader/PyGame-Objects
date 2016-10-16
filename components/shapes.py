@@ -254,12 +254,20 @@ class Point:
     def get_list(self):
         return [self.x, self.y]
     
-    def distance(self, another_point):
+    def distance(self, another_point, take_root=True):
+        """
+        Pass take_root=False if you are just comparing points relative to each
+        other and the actual distance is not needed. This will not perform the
+        square root operation and is potentially faster.
+        """
         dx = self.x - another_point.x
         dy = self.y - another_point.y
         square_sum = (dx ** 2) + (dy ** 2)
         
-        return math.sqrt(square_sum)
+        if take_root:
+            return math.sqrt(square_sum)
+        else:
+            return square_sum
     
     def __eq__(self, other_point):
         return self.x == other_point.x and self.y == other_point.y

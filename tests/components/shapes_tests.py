@@ -109,3 +109,7 @@ class PointTests(unittest.TestCase):
         self.assertAlmostEqual(4.472135954, origin.distance(p1))
         self.assertAlmostEqual(origin.distance(p1), p1.distance(origin))
         self.assertEqual(0, origin.distance(origin))
+
+        self.assertEqual(20, origin.distance(p1, False))
+        self.assertEqual(origin.distance(p1, False), p1.distance(origin, False))
+        self.assertEqual(0, origin.distance(origin, False))

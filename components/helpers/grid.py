@@ -31,34 +31,6 @@ class Grid(Drawable):
         super(Drawable, self).__init__()
         pass
     
-    @property
-    def x_offset(self):
-        return self.__x_offset
-    
-    @x_offset.setter
-    def x_offset(self, x):
-        self.__x_offset = x
-    
-    @property
-    def y_offset(self):
-        return self.__y_offset
-    
-    @y_offset.setter
-    def y_offset(self, y):
-        self.__y_offset = y
-    
-    @property
-    def color_mapping(self):
-        """
-        color_mapping is a dictionary with grid symbols as keys
-        and colors as values.
-        """
-        return self.__color_mapping
-    
-    @color_mapping.setter
-    def color_mapping(self, mapping):
-        self.__color_mapping = mapping
-    
     def draw(self, window):
         """
         Subclasses must implement this!
