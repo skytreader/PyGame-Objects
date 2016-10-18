@@ -9,7 +9,7 @@ class Event(object):
         self.times_called = 0
 
     def happen(self):
-        self.times_called = 3
+        self.times_called += 1
 
 class SchedulerTests(unittest.TestCase):
     
@@ -25,7 +25,7 @@ class SchedulerTests(unittest.TestCase):
         for _ in range(SchedulerTests.MOCK_FRAME_RATE):
             self.scheduler.event()
 
-        self.assertEquals(Scheduler.MOCK_EVENT_FREQUENCY, self.event.times_called)
+        self.assertEquals(SchedulerTests.MOCK_EVENT_FREQUENCY, self.event.times_called)
 
         for _ in range(SchedulerTests.MOCK_FRAME_RATE):
             self.scheduler.event()
