@@ -109,3 +109,15 @@ END"""
             sections["yay"] = self.yay
             sections["START"] = spam_start
             BranchingDialog(sections, self.start)
+
+class DialogSectionTests(unittest.TestCase):
+    
+    def test_str(self):
+        dialog = DialogSection("prompt", "reply", ["dne", "END"])
+        dialog_str = """prompt
+
+reply
+
+dne, END"""
+        
+        self.assertEqual(dialog_str, str(dialog))
