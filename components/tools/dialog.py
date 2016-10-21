@@ -1,9 +1,15 @@
 class DialogSection(object):
     
     def __init__(self, prompt, reply, cont):
+        """
+        Where prompt and reply are dialog strings while cont is a list of strings.
+        """
         self.prompt = prompt
         self.reply = reply
         self.cont = cont
+
+    def __enum_cont(self):
+        return ",".join(self.cont)
 
     def __str__(self):
         return "\n\n".join((self.prompt, self.reply, self.cont))
@@ -18,9 +24,9 @@ class BranchingDialog(object):
         aggregate = []
 
         if self.start:
-            aggregate.append("START:%s" % self.start)
+            aggregate.append("[START]\n%s" % self.start)
         else:
-            aggregate.append("START:")
+            aggregate.append("[START]\n")
 
         for section in self.sections.keys():
             aggregate.append("[%s]" % section)

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from components.tools import dialog
 
 import unittest
@@ -36,7 +37,7 @@ The Spaniard owns the
 lolwat, sorrySayThatAgain, END
 
 [sorrySayThatAgain]
-Cooper’s. Where does not live on different beverages and placing it back to the
+Cooper's. Where does not live on different beverages and placing it back to the
 factor metastatement looks for a suggested solution, or to read or to post your
 own different pets, drink different pets, drink different beverages and smoke
 different brands of
@@ -63,7 +64,7 @@ because the term metastatement, which calls the factor | term /
 
 Milk is drunk in the metastatement for expressions expects a term, that function
 that recognizes the number is and integer consisting of either the top of a
-floor adjacent to Cooper’s. Where does not live on either 0 or to post your own
+floor adjacent to Cooper's. Where does not live on either 0 or to post your own
 solution or run a factor, and Mr. P. engage in the
 
 END"""
