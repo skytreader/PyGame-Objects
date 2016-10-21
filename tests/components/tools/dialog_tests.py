@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-from components.tools import dialog
+
+from components.framework_exceptions import MalformedDialogException
+from components.tools.dialog import BranchingDialog, DialogSection
 
 import unittest
 
@@ -68,3 +70,42 @@ floor adjacent to Cooper's. Where does not live on either 0 or to post your own
 solution or run a factor, and Mr. P. engage in the
 
 END"""
+
+class BranchingDialogTests(unittest.TestCase):
+    
+    def setUp(self):
+        self.simple_dialog = """[START]
+hi
+
+hello, yay, END
+
+[hello]
+hello
+
+um
+
+yay, END
+
+[yay]
+yay
+
+awesome
+
+END"""
+        
+        self.start = DialogSection(prompt="hi", reply=None, cont=["hello", "yay", "END"])
+        self.hello = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
+        self.yay = DialogSection(prompt="yay", reply="awesome", cont=["END"])
+
+    def test_construction_exceptions(self):
+        with self.assertRaises(MalformedDialogException):
+            spam_start = DialogSection(prompt="hi", reply="hello", cont="END")
+            BranchingDialog(None, spam_start)
+
+        with self.assertRaises(MalformedDialogException):
+            spam_start = DialogSection(prompt="abc", reply="def", cont="END")
+            sections = {}
+            sections["hello"] = self.hello
+            sections["yay"] = self.yay
+            sections["START"] = spam_start
+            BranchingDialog(sections, self.start)

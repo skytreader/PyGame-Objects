@@ -1,7 +1,6 @@
 from __future__ import division
 
 from config import JsonConfigParser
-from framework_exceptions import InvalidConfigStateException
 from subscriber_pattern import Publisher
 from subscriber_pattern import Subscriber
 

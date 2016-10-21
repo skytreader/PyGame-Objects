@@ -1,5 +1,6 @@
-class DialogSection(object):
-    
+from components.framework_exceptions import MalformedDialogException
+
+class DialogSection(object): 
     def __init__(self, prompt, reply, cont):
         """
         Where prompt and reply are dialog strings while cont is a list of strings.
@@ -17,6 +18,17 @@ class DialogSection(object):
 class BranchingDialog(object):
     
     def __init__(self, sections, start):
+        """
+        sections - dictionary of labels to sections. The labels START and END
+        should not be used. May be empty or None.
+        start - the special START section.
+        """
+        if start.reply is not None:
+            raise MalformedDialogException("The START section's reply should be None.")
+
+        if sections and ("START" in sections.keys() or "END" in sections.keys()):
+            raise MalformedDialogException("Special START/END sections must not be specified.")
+
         self.sections = sections
         self.start = start
 

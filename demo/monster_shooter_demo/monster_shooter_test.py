@@ -1,7 +1,6 @@
 #! usr/bin/env python
 
 from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameModel, GameScreen
-from components.framework_exceptions import InstanceException
 from components.image import Image
 from components.shapes import Point
 
