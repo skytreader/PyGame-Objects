@@ -10,7 +10,7 @@ class DialogSection(object):
 
 class BranchingDialog(object):
     
-    def __init__(self, sections, start=None):
+    def __init__(self, sections, start):
         self.sections = sections
         self.start = start
 

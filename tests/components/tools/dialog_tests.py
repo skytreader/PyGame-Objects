@@ -2,7 +2,7 @@ from components.tools import dialog
 
 import unittest
 
-class DialogTests(unittest.TestCase):
+class DialogParserTests(unittest.TestCase):
     
     def setUp(self):
         self.sample_dialog = """[START]
