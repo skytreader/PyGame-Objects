@@ -79,19 +79,21 @@ hi
 
 hello, yay, END
 
-[hello]
-hello
-
-um
-
-yay, END
-
 [yay]
+
 yay
 
 awesome
 
-END"""
+END
+
+[hello]
+
+hello
+
+um
+
+yay, END"""
         
         self.start = DialogSection(prompt="hi", reply=None, cont=["hello", "yay", "END"])
         self.hello = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
@@ -109,6 +111,14 @@ END"""
             sections["yay"] = self.yay
             sections["START"] = spam_start
             BranchingDialog(sections, self.start)
+    
+    def test_happy_construction(self):
+        sections = {}
+        sections["hello"] = self.hello
+        sections["yay"] = self.yay
+        dialog = BranchingDialog(sections, self.start)
+
+        self.assertEqual(self.simple_dialog, str(dialog))
 
 class DialogSectionTests(unittest.TestCase):
     

@@ -13,7 +13,10 @@ class DialogSection(object):
         return ", ".join(self.cont)
 
     def __str__(self):
-        return "\n\n".join((self.prompt, self.reply, self.__enum_cont()))
+        if self.reply:
+            return "\n\n".join((self.prompt, self.reply, self.__enum_cont()))
+        else:
+            return "\n\n".join((self.prompt, self.__enum_cont()))
 
 class BranchingDialog(object):
     
