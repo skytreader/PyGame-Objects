@@ -13,10 +13,13 @@ class DialogSection(object):
         return ", ".join(self.cont)
 
     def __str__(self):
+        # All these conditionals are necssary to handle the START section
         if self.reply:
             return "\n\n".join((self.prompt, self.reply, self.__enum_cont()))
-        else:
+        elif self.prompt:
             return "\n\n".join((self.prompt, self.__enum_cont()))
+        else:
+            return "\n%s" % self.__enum_cont()
 
 class BranchingDialog(object):
     

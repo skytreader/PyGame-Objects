@@ -94,8 +94,28 @@ hello
 um
 
 yay, END"""
+        self.simple_startless = """[START]
+
+hello, yay, END
+
+[yay]
+
+yay
+
+awesome
+
+END
+
+[hello]
+
+hello
+
+um
+
+yay, END"""
         
         self.start = DialogSection(prompt="hi", reply=None, cont=["hello", "yay", "END"])
+        self.startless = DialogSection(prompt=None, reply=None, cont=["hello", "yay", "END"])
         self.hello = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
         self.yay = DialogSection(prompt="yay", reply="awesome", cont=["END"])
 
@@ -119,6 +139,14 @@ yay, END"""
         dialog = BranchingDialog(sections, self.start)
 
         self.assertEqual(self.simple_dialog, str(dialog))
+
+    def test_happy_construction_startless(self):
+        sections = {}
+        sections["hello"] = self.hello
+        sections["yay"] = self.yay
+        dialog = BranchingDialog(sections, self.startless)
+
+        self.assertEqual(self.simple_startless, str(dialog))
 
 class DialogSectionTests(unittest.TestCase):
     
