@@ -21,6 +21,16 @@ class DialogSection(object):
         else:
             return "\n%s" % self.__enum_cont()
 
+    def __eq__(self, other):
+        try:
+            return (self.prompt == other.prompt and self.reply == other.reply and
+              frozenset(self.cont) == frozenset(other.cont))
+        except:
+            return False
+
+    def __hash__(self):
+        return hash((self.prompt, self.reply, frozenset(self.cont)))
+
 class BranchingDialog(object):
     
     def __init__(self, sections, start):
@@ -51,3 +61,12 @@ class BranchingDialog(object):
             aggregate.append(str(self.sections[section]))
 
         return "\n\n".join(aggregate)
+
+    def __eq__(self, other):
+        try:
+            return self.sections == other.sections and self.start == other.start
+        except:
+            return False
+
+    def __hash__(self):
+        return hash((self.sections, self.start))

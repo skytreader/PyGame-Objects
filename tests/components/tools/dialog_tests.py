@@ -148,7 +148,38 @@ yay, END"""
 
         self.assertEqual(self.simple_startless, str(dialog))
 
+    def test_eq(self):
+        sections = {}
+        sections["hello"] = self.hello
+        sections["yay"] = self.yay
+        dialog = BranchingDialog(sections, self.start)
+        self.assertEqual(dialog, dialog)
+
+        dialog_clone = BranchingDialog(sections, self.start)
+        self.assertEqual(dialog, dialog_clone)
+        self.assertEqual(dialog_clone, dialog)
+
+        dialog_clone2 = BranchingDialog(sections, self.start)
+        self.assertEqual(dialog_clone, dialog_clone2)
+        self.assertEqual(dialog, dialog_clone)
+        self.assertEqual(dialog, dialog_clone2)
+
+        self.assertFalse(dialog == None)
+
 class DialogSectionTests(unittest.TestCase):
+    
+    def setUp(self):
+        self.hello = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
+
+    def test_eq(self):
+        self.assertTrue(self.hello == self.hello)
+        hello_clone = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
+        self.assertTrue(self.hello == hello_clone)
+        self.assertTrue(hello_clone == self.hello)
+        hello_clone2 = DialogSection(prompt="hello", reply="um", cont=["yay", "END"])
+        self.assertTrue(hello_clone == hello_clone2)
+        self.assertTrue(self.hello == hello_clone2)
+        self.assertFalse(self.hello == None)
     
     def test_str(self):
         dialog = DialogSection("prompt", "reply", ["dne", "END"])
