@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from components.framework_exceptions import MalformedDialogException
-from components.tools.dialog import BranchingDialog, DialogSection
+from components.tools.dialog import BranchingDialog, BranchingDialogParser, DialogSection
 
 import unittest
 
@@ -79,7 +79,7 @@ END"""
         self.lolwat = DialogSection(
             prompt="Mr. P.: Now I know them",
             reply="Norwegian lives in Hanoi where V[i,w] is driven by the term -> factor metastatement, which identifies the factor metastatement. The next to the expression, even between the exercise in the expression, evaluates them, and combines them into a solution. The parser is driven by a higher floor adjacent to a function that recognizes that the term metastatement, which recognizes factors.",
-            cont=["kfine", "u_ok", "sorrySayThatAgain"
+            cont=["kfine", "u_ok", "sorrySayThatAgain"]
         )
         self.u_ok = DialogSection(
             prompt="Edouard Lucas, whom we have a computer to do all of a known as the expression, evaluates an infix arithmetic expression. When you are welcome to read or run a suggested solution, or to post your own solution or to post your own solution or leave it, this variant of the interest of 23. Parentheses may change the order of.",
@@ -104,6 +104,30 @@ END"""
         sections["sorrySayThatAgain"] = self.sorrySayThatAgain
 
         self.branching_dialog = BranchingDialog(sections, self.start_section)
+
+    def test_eq(self):
+        parser = BranchingDialogParser()
+        self.assertEqual(self.branching_dialog, parser.parse(self.sample_dialog))
+
+    def test_regexes(self):
+        self.assertTrue(BranchingDialogParser.EMPTY_LINE.match(""))
+        self.assertTrue(BranchingDialogParser.EMPTY_LINE.match(" "))
+        self.assertTrue(BranchingDialogParser.EMPTY_LINE.match("\t"))
+        self.assertFalse(BranchingDialogParser.EMPTY_LINE.match("__"))
+
+        self.assertTrue(BranchingDialogParser.SECTION_DECLARATION.match("[START]"))
+        self.assertTrue(BranchingDialogParser.SECTION_DECLARATION.match("[spam]"))
+        self.assertTrue(BranchingDialogParser.SECTION_DECLARATION.match("[a12_-bb.ae]"))
+        self.assertFalse(BranchingDialogParser.SECTION_DECLARATION.match("[new section]"))
+        self.assertFalse(BranchingDialogParser.SECTION_DECLARATION.match("newsection"))
+        self.assertFalse(BranchingDialogParser.SECTION_DECLARATION.match("[spam,]"))
+
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("something"))
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam1, spam2"))
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam2,spam2"))
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam1,    spam2"))
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam1,\tspam2"))
+        self.assertFalse(BranchingDialogParser.LABEL_LIST.match("spam1 spam2"))
 
 class BranchingDialogTests(unittest.TestCase):
     

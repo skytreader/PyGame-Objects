@@ -1,5 +1,7 @@
 from components.framework_exceptions import MalformedDialogException
 
+import re
+
 class DialogSection(object): 
     def __init__(self, prompt, reply, cont):
         """
@@ -70,3 +72,39 @@ class BranchingDialog(object):
 
     def __hash__(self):
         return hash((self.sections, self.start))
+
+class BranchingDialogParser(object):
+    
+    EMPTY_LINE = re.compile(r"^\s*$")
+    __LABEL_RE = r"[a-zA-Z_\.\-0-9]+"
+    SECTION_DECLARATION = re.compile(r"^\[%s\]$" % __LABEL_RE)
+    LABEL_LIST = re.compile(r"^%s(,\s*%s)*$" % (__LABEL_RE, __LABEL_RE))
+    
+    def parse(self, dialog):
+        return self.__parse(dialog.split("\n"))
+
+    def __parse(self, lstring):
+        lineno = 0
+        def eat_empty_lines():
+            while BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
+                lineno += 1
+
+        def get_section():
+            """
+            Assumes that the line pointed to by `lineno` is the start of a
+            section.
+            """
+            if BranchingDialogParser.SECTION_DECLARATION.match(lstring[lineno]):
+                label = lstring[lineno][1:-1]
+                eat_empty_lines()
+
+                option = []
+                while not BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
+                    option.append(lstring[lineno])
+                    lineno += 1
+                option_s = " ".join(option)
+                eat_empty_lines()
+            else:
+                raise MalformedDialogException("Failed to parse.")
+
+        return ""
