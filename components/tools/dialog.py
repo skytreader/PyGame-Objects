@@ -88,14 +88,16 @@ class BranchingDialogParser(object):
         l = 0
         print lineno
         def eat_empty_lines():
+            _l = lineno
             while BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
-                lineno += 1
+                _l += 1
 
         def get_section():
             """
             Assumes that the line pointed to by `lineno` is the start of a
             section.
             """
+            _l = lineno
             eat_empty_lines()
             if BranchingDialogParser.SECTION_DECLARATION.match(lstring[lineno]):
                 label = lstring[lineno][1:-1]
