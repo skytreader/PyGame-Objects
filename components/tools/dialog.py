@@ -85,6 +85,8 @@ class BranchingDialogParser(object):
 
     def __parse(self, lstring):
         lineno = 0
+        l = 0
+        print lineno
         def eat_empty_lines():
             while BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
                 lineno += 1
@@ -94,6 +96,7 @@ class BranchingDialogParser(object):
             Assumes that the line pointed to by `lineno` is the start of a
             section.
             """
+            eat_empty_lines()
             if BranchingDialogParser.SECTION_DECLARATION.match(lstring[lineno]):
                 label = lstring[lineno][1:-1]
                 eat_empty_lines()
@@ -104,7 +107,28 @@ class BranchingDialogParser(object):
                     lineno += 1
                 option_s = " ".join(option)
                 eat_empty_lines()
-            else:
-                raise MalformedDialogException("Failed to parse.")
 
-        return ""
+                reply = []
+                while not BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
+                    reply.append(lstring[lineno])
+                    lineno += 1
+                reply_s = " ".join(reply) if reply else None
+                eat_empty_lines()
+
+                if BranchingDialogParser.LABEL_LIST.match(lstring[lineno]):
+                    labels = lstring[lineno].split(",\s*")
+                    return (label, DialogSection(prompt=option_s, reply=reply_s, cont=labels))
+                else:
+                    raise MalformedDialogException("Failed to parse: expected label list.")
+            else:
+                raise MalformedDialogException("Failed to parse: expected section declaration.")
+
+        sections = {}
+        start = get_section()
+        _section = get_section()
+
+        while _section:
+            sections[_section[0]] = _section[1]
+            _section = get_section()
+
+        return BranchingDialog(sections, start)
