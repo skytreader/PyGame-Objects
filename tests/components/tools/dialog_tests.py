@@ -106,6 +106,16 @@ END"""
         self.branching_dialog = BranchingDialog(sections, self.start_section)
 
     def test_eq(self):
+        sections = {}
+        sections["lolwat"] = self.lolwat
+        sections["kfine"] = self.kfine
+        sections["u_ok"] = self.u_ok
+        sections["sorrySayThatAgain"] = self.sorrySayThatAgain
+        bd = BranchingDialog(sections, self.start_section)
+
+        self.assertEqual(self.branching_dialog, bd)
+
+    def test_parsing(self):
         parser = BranchingDialogParser()
         self.assertEqual(self.branching_dialog, parser.parse(self.sample_dialog))
 

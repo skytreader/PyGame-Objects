@@ -66,7 +66,9 @@ class BranchingDialog(object):
 
     def __eq__(self, other):
         try:
+            print "comparing start"
             print "start eq? %s" % (self.start == other.start)
+            print "comparing sections"
             print "sections eq? %s" % (self.sections == other.sections)
             return self.sections == other.sections and self.start == other.start
         except:
@@ -100,6 +102,7 @@ class BranchingDialogParser(object):
             eat_empty_lines()
             if BranchingDialogParser.SECTION_DECLARATION.match(lstring[self.__lineno]):
                 label = lstring[self.__lineno][1:-1]
+                self.__lineno += 1
                 eat_empty_lines()
 
                 option = []
@@ -120,6 +123,7 @@ class BranchingDialogParser(object):
 
                 if BranchingDialogParser.LABEL_LIST.match(lstring[self.__lineno]):
                     labels = lstring[self.__lineno].split(",\s*")
+                    labels = re.split(r",\s*", lstring[self.__lineno])
                     self.__lineno += 1
                     return (label, DialogSection(prompt=option_s, reply=reply_s, cont=labels))
                 else:
