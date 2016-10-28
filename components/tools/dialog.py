@@ -66,10 +66,6 @@ class BranchingDialog(object):
 
     def __eq__(self, other):
         try:
-            print "comparing start"
-            print "start eq? %s" % (self.start == other.start)
-            print "comparing sections"
-            print "sections eq? %s" % (self.sections == other.sections)
             return self.sections == other.sections and self.start == other.start
         except:
             return False
@@ -133,13 +129,9 @@ class BranchingDialogParser(object):
 
         sections = {}
         start = get_section(False)[1]
-        _section = get_section()
 
-        while _section:
-            sections[_section[0]] = _section[1]
+        while self.__lineno < len(lstring):
             _section = get_section()
-
-            if self.__lineno >= len(lstring):
-                break
+            sections[_section[0]] = _section[1]
 
         return BranchingDialog(sections, start)
