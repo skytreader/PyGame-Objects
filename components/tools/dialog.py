@@ -66,6 +66,8 @@ class BranchingDialog(object):
 
     def __eq__(self, other):
         try:
+            print "start eq? %s" % (self.start == other.start)
+            print "sections eq? %s" % (self.sections == other.sections)
             return self.sections == other.sections and self.start == other.start
         except:
             return False
@@ -87,10 +89,10 @@ class BranchingDialogParser(object):
         self.__lineno = 0
         l = 0
         def eat_empty_lines():
-            while BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
+            while self.__lineno < len(lstring) and BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
                 self.__lineno += 1
 
-        def get_section():
+        def get_section(normal=True):
             """
             Assumes that the line pointed to by `lineno` is the start of a
             section.
@@ -107,27 +109,33 @@ class BranchingDialogParser(object):
                 option_s = " ".join(option)
                 eat_empty_lines()
 
-                reply = []
-                while not BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
-                    reply.append(lstring[self.__lineno])
-                    self.__lineno += 1
-                reply_s = " ".join(reply) if reply else None
-                eat_empty_lines()
+                reply_s = None
+                if normal:
+                    reply = []
+                    while not BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
+                        reply.append(lstring[self.__lineno])
+                        self.__lineno += 1
+                    reply_s = " ".join(reply) if reply else None
+                    eat_empty_lines()
 
                 if BranchingDialogParser.LABEL_LIST.match(lstring[self.__lineno]):
                     labels = lstring[self.__lineno].split(",\s*")
+                    self.__lineno += 1
                     return (label, DialogSection(prompt=option_s, reply=reply_s, cont=labels))
                 else:
-                    raise MalformedDialogException("Failed to parse: expected label list.")
+                    raise MalformedDialogException("Failed to parse: expected label list, got: %s" % lstring[self.__lineno])
             else:
-                raise MalformedDialogException("Failed to parse: expected section declaration.")
+                raise MalformedDialogException("Failed to parse: expected section declaration, got: %s" % lstring[self.__lineno])
 
         sections = {}
-        start = get_section()
+        start = get_section(False)[1]
         _section = get_section()
 
         while _section:
             sections[_section[0]] = _section[1]
             _section = get_section()
+
+            if self.__lineno >= len(lstring):
+                break
 
         return BranchingDialog(sections, start)

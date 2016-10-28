@@ -128,6 +128,8 @@ END"""
         self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam1,    spam2"))
         self.assertTrue(BranchingDialogParser.LABEL_LIST.match("spam1,\tspam2"))
         self.assertFalse(BranchingDialogParser.LABEL_LIST.match("spam1 spam2"))
+        
+        self.assertTrue(BranchingDialogParser.LABEL_LIST.match("lolwat, u_ok, sorrySayThatAgain"))
 
 class BranchingDialogTests(unittest.TestCase):
     
