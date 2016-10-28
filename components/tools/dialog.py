@@ -84,41 +84,38 @@ class BranchingDialogParser(object):
         return self.__parse(dialog.split("\n"))
 
     def __parse(self, lstring):
-        lineno = 0
+        self.__lineno = 0
         l = 0
-        print lineno
         def eat_empty_lines():
-            _l = lineno
-            while BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
-                _l += 1
+            while BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
+                self.__lineno += 1
 
         def get_section():
             """
             Assumes that the line pointed to by `lineno` is the start of a
             section.
             """
-            _l = lineno
             eat_empty_lines()
-            if BranchingDialogParser.SECTION_DECLARATION.match(lstring[lineno]):
-                label = lstring[lineno][1:-1]
+            if BranchingDialogParser.SECTION_DECLARATION.match(lstring[self.__lineno]):
+                label = lstring[self.__lineno][1:-1]
                 eat_empty_lines()
 
                 option = []
-                while not BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
-                    option.append(lstring[lineno])
-                    lineno += 1
+                while not BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
+                    option.append(lstring[self.__lineno])
+                    self.__lineno += 1
                 option_s = " ".join(option)
                 eat_empty_lines()
 
                 reply = []
-                while not BranchingDialogParser.EMPTY_LINE.match(lstring[lineno]):
-                    reply.append(lstring[lineno])
-                    lineno += 1
+                while not BranchingDialogParser.EMPTY_LINE.match(lstring[self.__lineno]):
+                    reply.append(lstring[self.__lineno])
+                    self.__lineno += 1
                 reply_s = " ".join(reply) if reply else None
                 eat_empty_lines()
 
-                if BranchingDialogParser.LABEL_LIST.match(lstring[lineno]):
-                    labels = lstring[lineno].split(",\s*")
+                if BranchingDialogParser.LABEL_LIST.match(lstring[self.__lineno]):
+                    labels = lstring[self.__lineno].split(",\s*")
                     return (label, DialogSection(prompt=option_s, reply=reply_s, cont=labels))
                 else:
                     raise MalformedDialogException("Failed to parse: expected label list.")
