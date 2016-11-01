@@ -28,7 +28,7 @@ class PointShape(Drawable):
     possible to define a circle using this class though it
     will be cumbersome.
     
-    Specify the Points in the order with which you would like
+    Call `add_points` in the order with which you would like
     them connected. The last point will be automatically
     connected to the first point.
     
@@ -161,10 +161,8 @@ class PointShape(Drawable):
         return point
     
     def set_scale(self, new_width, new_height, old_width, old_height):
-        # Python 2 automatically floors division. Beware when this code
-        # is run on Python 3!
-        width_scale = float(new_width) / old_width
-        height_scale = float(new_height) / old_height
+        width_scale = new_width / old_width
+        height_scale = new_height / old_height
         
         # Scale the x
         self.point_list = map(lambda point: self.__x_set(point, point.x * width_scale), self.point_list)
