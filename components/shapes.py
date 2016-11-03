@@ -161,6 +161,16 @@ class PointShape(Drawable):
         return point
     
     def set_scale(self, new_width, new_height, old_width, old_height):
+        """
+        This method relies on the following assumptions:
+
+          1. The shape is currently in a canvas of size `old_width` by `old_height`
+          2. We want to put the shape in a new canvas of size `new_width` by
+          `new height`.
+
+        This is handled more generally by a linear transformation and this method
+        will be deprecated soon.
+        """
         width_scale = new_width / old_width
         height_scale = new_height / old_height
         
@@ -168,6 +178,13 @@ class PointShape(Drawable):
         self.point_list = map(lambda point: self.__x_set(point, point.x * width_scale), self.point_list)
         # Scale the y
         self.point_list = map(lambda point: self.__y_set(point, point.y * height_scale), self.point_list)
+
+    def invariant_scale(self, scale_factor):
+        """
+        Performs a scale linear transformation on this shape. The shape is scaled
+        by the given scale_factor.
+        """
+        self.point_list = [Point(p.x * scale_factor, p.y * scale_factor) for p in self.point_list]
     
     def __eq__(self, other_shape):
         """

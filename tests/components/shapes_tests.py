@@ -61,12 +61,19 @@ class shapes_tests(unittest.TestCase):
         triangle_scaled = [Point(5 * 50, 50), Point(50, 50 * 7), Point(50 * 8, 50 * 7)]
         triangle.set_scale(500, 500, 10, 10)
         self.assertTrue(triangle.point_list == triangle_scaled)
-    
-    def test_set_scale_shrink(self):
-        big_square = PointShape([Point(1, 1), Point(1, 5), Point(5, 5), Point(5, 1)])
-        small_square = PointShape([Point(2, 2), Point(2, 4), Point(4, 4), Point(4, 2)])
 
-        big_square.set_scale(5, 5, 3, 3)
+    def test_invariant_scale_grow(self):
+        small_square = PointShape([Point(1, 1), Point(1, 2), Point(2, 2), Point(2, 1)])
+        small_square.invariant_scale(2)
+
+        scaled_square = PointShape([Point(2, 2), Point(2, 4), Point(4, 4), Point(4, 2)])
+        self.assertEqual(scaled_square, small_square)
+    
+    def test_invariant_scale_shrink(self):
+        big_square = PointShape([Point(2, 2), Point(2, 4), Point(4, 4), Point(4, 2)])
+        small_square = PointShape([Point(1, 1), Point(1, 2), Point(2, 2), Point(2, 1)])
+
+        big_square.invariant_scale(0.5)
         self.assertEqual(big_square, small_square)
 
     def test_equality(self):
