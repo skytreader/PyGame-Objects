@@ -41,7 +41,7 @@ class PointShape(Drawable):
         """
         #Wonder what will happen if I call the super constructor
         #being that the super class got no constructor?
-        super(PointShape, self).__init__()
+        super(PointShape, self).__init__(None)
         
         # This box does not exist anywhere in the visible screen
         self.__collision_box = CollisionBox(Point(-1,-1), Point(-1,-1))

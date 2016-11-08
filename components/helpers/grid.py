@@ -28,7 +28,7 @@ class Grid(Drawable):
     """
     
     def __init__(self, draw_width=-1, draw_height=-1, draw_offset=None):
-        super(Drawable, self).__init__(draw_offset)
+        super(Grid, self).__init__(draw_offset)
     
     def draw(self, window):
         """
