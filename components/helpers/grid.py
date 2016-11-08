@@ -27,7 +27,7 @@ class Grid(Drawable):
     A grid must be drawable (and traversable)!
     """
     
-    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=None):
+    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=0):
         super(Grid, self).__init__(draw_offset)
     
     def draw(self, window):
