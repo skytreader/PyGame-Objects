@@ -22,22 +22,6 @@ class Button(Drawable):
     """
     
     def __init__(self, upper_left, lower_right, btn_color = Colors.LUCID_DARK, text, text_color = Colors.WHITE):
-        self.__button_area = Rectangle(upper_left, lower_right)
-        self.__button_text = text
-        self.__text_color = text_color
-    
-    @property
-    def button_area(self):
-        return self.__button_area
-    
-    @property
-    def button_text(self):
-        return self.__button_text
-    
-    @button_text.setter
-    def button_text(self, new_text):
-        self.__button_text = new_text
-    
-    @property
-    def text_color(self):
-        return self.__text_color
+        self.button_area = Rectangle(upper_left, lower_right)
+        self.button_text = text
+        self.text_color = text_color

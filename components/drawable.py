@@ -12,6 +12,9 @@ class Drawable(object):
     
     @author Chad Estioco
     """
+
+    def __init__(self, draw_offset):
+        self.draw_offset = draw_offset
     
     def draw(self, screen):
         """
