@@ -24,24 +24,21 @@ Sample Usage (see also: drawing_shapes_test.py):
 
 class PointShape(Drawable):
     """
-    Defines closed figures as a collection of Points. It is
-    possible to define a circle using this class though it
-    will be cumbersome.
+    Defines closed figures as a collection of Points. It is possible to define
+    a circle using this class though it will be cumbersome.
     
-    Call `add_points` in the order with which you would like
-    them connected. The last point will be automatically
-    connected to the first point.
+    Call `add_point` in the order with which you would like them connected. The
+    last point will be automatically connected to the first point. Alternatively,
+    you can call `add_point` with the `index` argument.
     
     @author Chad Estioco
     """
     
-    def __init__(self, point_list = None, line_color = Colors.MAX_BLACK):
+    def __init__(self, point_list = None, line_color = Colors.MAX_BLACK, draw_offset=None):
         """
         Create a PointShape with the given point_list.
         """
-        #Wonder what will happen if I call the super constructor
-        #being that the super class got no constructor?
-        super(PointShape, self).__init__(None)
+        super(PointShape, self).__init__(draw_offset)
         
         # This box does not exist anywhere in the visible screen
         self.__collision_box = CollisionBox(Point(-1,-1), Point(-1,-1))
@@ -65,21 +62,11 @@ class PointShape(Drawable):
             index = len(self.point_list)
         
         self.point_list.insert(index, p)
-        
-        max_x = self.collision_box.lower_right.x
-        max_y = self.collision_box.lower_right.y
-        min_x = self.collision_box.upper_left.x
-        min_y = self.collision_box.upper_left.y
-        
-        if p.x > max_x:
-            self.collision_box.lower_right.x = p.x
-        elif p.x < min_x:
-            self.collision_box.upper_left.x = p.x
-        
-        if p.y > max_y:
-            self.collision_box.lower_right.y = p.y
-        elif p.y < min_y:
-            self.collision_box.upper_left.y = p.y
+        self.__set_box()
+
+    def add_points(self, ps):
+        self.point_list.extend(ps)
+        self.__set_box()
     
     def __set_box(self):
         """
@@ -108,7 +95,7 @@ class PointShape(Drawable):
     def translate(self, dx, dy):
         """
         Translates this PointShape by dx pixels on the x axis and by
-        dy pixels on the y axis.
+        dy pixels on the y axis irres
         """
         incr_xs = map(lambda p: Point(p.x + dx, p.y), self.point_list)
         incr_ys = map(lambda p: Point(p.x, p.y + dy), incr_xs)
@@ -125,6 +112,17 @@ class PointShape(Drawable):
         """
         self.__point_list = point_list
         self.__set_box()
+
+    def translate_point_list(self):
+        """
+        Translate the point_list by the given draw_offset.
+        """
+        translated = [
+          Point(p.x + self.draw_offset[0], p.y + self.draw_offset[1])
+          for p in self.point_list
+        ]
+
+        return translated
     
     def draw(self, screen):
         """
@@ -136,6 +134,7 @@ class PointShape(Drawable):
         @param screen
             The window to which we draw this PointShape.
         """
+        point_list = self.__translate_point_list()
         limit = len(self.point_list) - 1
         i = 0
         
@@ -203,7 +202,7 @@ class PointShape(Drawable):
             
             i += 1
         
-        return True
+        return self.__collision_box == other_shape.__collision_box
         
     def __str__(self):
         stringed = "PointShape: ["
