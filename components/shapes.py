@@ -134,7 +134,7 @@ class PointShape(Drawable):
         @param screen
             The window to which we draw this PointShape.
         """
-        point_list = self.translate_point_list()
+        #point_list = self.translate_point_list()
         limit = len(self.point_list) - 1
         i = 0
         
