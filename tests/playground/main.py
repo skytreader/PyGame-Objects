@@ -1,5 +1,10 @@
 from components import *
 
+class PlaygroundScreen(GameScreen):
+    
+    def __init__(self):
+        pass
+
 if __name__ == "__main__":
     config = GameConfig()
     config.set_config_val("window_size", (0, 0))

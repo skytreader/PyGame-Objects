@@ -38,7 +38,7 @@ class PointShape(Drawable):
         """
         Create a PointShape with the given point_list.
         """
-        super(PointShape, self).__init__(draw_offset)
+        super(PointShape, self).__init__(draw_offset if draw_offset is not None else (0, 0))
         
         # This box does not exist anywhere in the visible screen
         self.__collision_box = CollisionBox(Point(-1,-1), Point(-1,-1))
@@ -134,7 +134,7 @@ class PointShape(Drawable):
         @param screen
             The window to which we draw this PointShape.
         """
-        point_list = self.__translate_point_list()
+        point_list = self.translate_point_list()
         limit = len(self.point_list) - 1
         i = 0
         

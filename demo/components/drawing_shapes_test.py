@@ -4,6 +4,7 @@ from components.core import Colors
 from components.core import GameConfig
 from components.core import GameLoop
 from components.core import GameLoopEvents
+from components.core import GameModel
 from components.core import GameScreen
 
 from components.shapes import PointShape
@@ -38,7 +39,9 @@ class RandomDrawing(GameLoopEvents):
 class RandomDrawingScreen(GameScreen):
     
     def __init__(self, window_size):
-        super(RandomDrawingScreen, self).__init__(window_size)
+        config = GameConfig()
+        config.set_config_val("window_size", window_size)
+        super(RandomDrawingScreen, self).__init__(config, GameModel())
         self.__ps = PointShape()
         self.__ps.add_point(Point(3, 5))
         self.__ps.add_point(Point(15, 25))
@@ -50,7 +53,7 @@ class RandomDrawingScreen(GameScreen):
         return self.__ps
     
     def draw_screen(self, window):
-        window.fill(Colors.WHITE)
+        window.fill(Colors.MAX_WHITE)
         self.ps.draw(window)
 
 if __name__ == "__main__":
