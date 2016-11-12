@@ -27,15 +27,17 @@ class Grid(Drawable):
     A grid must be drawable (and traversable)!
     """
     
-    def __init__(self):
-        super(Drawable, self).__init__()
-        pass
+    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=0):
+        super(Grid, self).__init__(draw_offset)
     
     def draw(self, window):
         """
         Subclasses must implement this!
         """
-        pass
+        raise NotImplementedError("Subclasess must implement this!")
+
+    def invariant_scale(self, scale_factor):
+        raise NotImplementedError("Not implemented...yet.")
     
     def traverse(self):
         """

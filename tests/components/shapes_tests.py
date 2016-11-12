@@ -12,7 +12,7 @@ Unit tests for the shapes module.
 @author Chad Estioco
 """
 
-class shapes_tests(unittest.TestCase):
+class PointShapeTests(unittest.TestCase):
     
     def setUp(self):
         self.__four_points = PointShape()
@@ -87,7 +87,21 @@ class shapes_tests(unittest.TestCase):
         self.assertFalse(four_points == self.__shape)
         self.assertTrue(four_points == self.__four_points)
 
-class collisionbox_tests(unittest.TestCase):
+    def test_add_points(self):
+        four_points = PointShape()
+        four_points.add_points(self.__four_points.point_list)
+        self.assertEqual(four_points, self.__four_points)
+
+    def test_translate_pointlist(self):
+        four_points = PointShape(draw_offset=(1, 2))
+        print self.__four_points.point_list
+        four_points.add_points(self.__four_points.point_list)
+        translated = four_points.translate_point_list()
+
+        expected = [Point(4, 6), Point(6, 3), Point(9, 12), Point(7, 11)]
+        self.assertEqual(expected, translated)
+
+class CollisionBoxTests(unittest.TestCase):
     
     def setUp(self):
         pass

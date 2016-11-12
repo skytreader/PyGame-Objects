@@ -12,6 +12,9 @@ class Drawable(object):
     
     @author Chad Estioco
     """
+
+    def __init__(self, draw_offset):
+        self.draw_offset = draw_offset
     
     def draw(self, screen):
         """
@@ -22,17 +25,9 @@ class Drawable(object):
           be drawn.
         """
         pass
-    
-    def set_scale(self, new_width, new_height, old_width, old_height):
+
+    def invariant_scale(self, scale_factor):
         """
-        Set the scale of this drawable object. Can be used to adjust
-        to screen size.
-        
-        @param new_width
-          The width to which we adjust to (e.g., the width of the new window).
-        @param new_heigth
-          The height to which we adjust to (e.g., the height of the new window).
-        @param old_width
-        @param old_height
+        Scale this shape regardless of where the shape is put.
         """
         pass
