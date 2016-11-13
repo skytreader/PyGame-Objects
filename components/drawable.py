@@ -4,19 +4,15 @@ class Drawable(object):
     """
     All classes that represent something that can be drawn on a PyGame
     screen canvas should extend this class and implement draw().
-    
-    This class is akin to a Java interface so it is not necessary for classes
-    directly extending this class to call super methods. Don't call them
-    if it will cause conflicts with other parent classes that may have
-    logic involved (case in point, constructor).
-    
-    @author Chad Estioco
     """
 
-    def __init__(self, draw_offset):
+    def __init__(self, draw_offset, height_limit=None, width_limit=None):
+        """
+        draw_offset is a (width, height) tuple.
+        """
         self.draw_offset = draw_offset
     
-    def draw(self, screen):
+    def draw(self, screen, **kwargs):
         """
         Implement all drawing logic here!
         

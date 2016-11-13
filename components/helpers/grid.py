@@ -118,6 +118,14 @@ class QuadraticGrid(Grid):
         self.hv_neighbors = hv_neighbors
         self.diag_neighbors = diag_neighbors
     
+    def draw(self, screen, **kwargs):
+        block_width = int(screen.screen_size[0] / len(self.grid[0]))
+        block_height = int(screen.screen_size[1] / len(self.grid))
+        rects = QuadraticGrid.cons_rect_list(
+          self.grid, kwargs["model"], block_width, block_height, 0,
+          self.draw_offset[0], self.draw_offset[1]
+        )
+
     @property
     def grid(self):
         return self.__grid
@@ -125,6 +133,8 @@ class QuadraticGrid(Grid):
     @staticmethod
     def cons_rect_list(grid, model, block_width, block_height, width_offset=0, height_offset=0):
         """
+        Looks like public access to this will be deprecated soon.
+
         grid - An instance of this class.
         model - An instance of components.core.GameModel
         """
