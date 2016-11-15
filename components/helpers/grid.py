@@ -48,8 +48,6 @@ class Grid(Drawable):
 class QuadraticGrid(Grid):
     """
     AKA 2D Cartesian Grid.
-    
-    TODO: Raise errors for invalid indices.
     """
 
     class Movements(object):
@@ -123,7 +121,7 @@ class QuadraticGrid(Grid):
         block_height = int(screen.screen_size[1] / len(self.grid))
         rects = QuadraticGrid.cons_rect_list(
           self.grid, kwargs["model"], block_width, block_height, 0,
-          self.draw_offset[0], self.draw_offset[1]
+          self.draw_offset
         )
 
     @property
@@ -131,7 +129,7 @@ class QuadraticGrid(Grid):
         return self.__grid
 
     @staticmethod
-    def cons_rect_list(grid, model, block_width, block_height, width_offset=0, height_offset=0):
+    def cons_rect_list(grid, model, block_width, block_height, offset):
         """
         Looks like public access to this will be deprecated soon.
 
@@ -141,6 +139,8 @@ class QuadraticGrid(Grid):
         grid = grid.grid
         rect_list = []
         render_list = []
+        width_offset = offset[0]
+        height_offset = offset[1]
 
         for i, row in enumerate(grid):
             for j, col in enumerate(row):

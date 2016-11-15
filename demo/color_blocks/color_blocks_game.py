@@ -58,7 +58,7 @@ class ColorBlocksScreen(GameScreen):
         # in color_list.
         self.rect_list, self.color_list = QuadraticGrid.cons_rect_list(
           self.grid_model, self.model, self.block_width, self.block_height,
-          height_offset=HEIGHT_OFFSET
+          offset=(0, HEIGHT_OFFSET)
         )
     
     def draw_screen(self, window):
@@ -108,7 +108,7 @@ class ColorBlocksEvents(GameLoopEvents):
         self.window.fill(Colors.MAX_WHITE)
         super(ColorBlocksEvents, self).loop_event()
 
-if __name__ == "__main__":
+def main():
     config = GameConfig()
     config.set_config_val("clock_rate", 12)
     config.set_config_val("window_size", [500, 500 + HEIGHT_OFFSET])
@@ -116,5 +116,8 @@ if __name__ == "__main__":
     
     screen = ColorBlocksScreen(config, [10, 10])
     loop_events = ColorBlocksEvents(config, screen)
-    loop = GameLoop(loop_events)
-    loop.go()
+    return loop_events
+
+if __name__ == "__main__":
+    loop_events = main()
+    GameLoop(loop_events).go()
