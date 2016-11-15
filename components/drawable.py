@@ -12,7 +12,7 @@ class Drawable(object):
         """
         self.draw_offset = draw_offset
     
-    def draw(self, screen, **kwargs):
+    def draw(self, window, screen, **kwargs):
         """
         Implement all drawing logic here!
         
