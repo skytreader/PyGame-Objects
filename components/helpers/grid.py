@@ -154,19 +154,6 @@ class QuadraticGrid(Grid):
         return (rect_list, render_list)
 
     @staticmethod
-    def make_rects(coords, block_width, block_height, width_offset=0, height_offset=0):
-        """
-        Given a list of (row, col) coordinates, return a list containing the
-        rectangles that they represent.
-        """
-        rect_list = []
-
-        for c in coords:
-            rect_list.append(QuadraticGrid.make_rect(c, block_width, block_height, width_offset, height_offset))
-
-        return rect_list
-
-    @staticmethod
     def make_rect(c, block_width, block_height, width_offset=0, height_offset=0):
         """
         Given a point in a grid c, create a rectangle out of it.

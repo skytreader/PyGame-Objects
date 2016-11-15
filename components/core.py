@@ -359,13 +359,8 @@ class GameLoopEvents(Subscriber):
     
     def stop_main(self, event):
         """
-        You can override the default behavior of a game when responding to a
-        pygame.QUIT event; like, for instance, if you want to ask the user
-        if he really wants to quit. However, doing so may cause your game
-        _not_ to quit at all! Use this method, in conjunction with
-        GameLoopEvents.loop_invariant, to kill a game session.
+        This is supposed to kill the _whole_ app.
         """
-        print "Stopping main!"
         self.__loop_control = False
     
     def __handle_key(self, event):
