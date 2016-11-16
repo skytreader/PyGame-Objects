@@ -104,6 +104,7 @@ END"""
         sections["sorrySayThatAgain"] = self.sorrySayThatAgain
 
         self.branching_dialog = BranchingDialog(sections, self.start_section)
+        self.parser = BranchingDialogParser()
 
     def test_eq(self):
         sections = {}
@@ -116,8 +117,7 @@ END"""
         self.assertEqual(self.branching_dialog, bd)
 
     def test_parsing(self):
-        parser = BranchingDialogParser()
-        self.assertEqual(self.branching_dialog, parser.parse(self.sample_dialog))
+        self.assertEqual(self.branching_dialog, self.parser.parse(self.sample_dialog))
 
     def test_regexes(self):
         self.assertTrue(BranchingDialogParser.EMPTY_LINE.match(""))
@@ -140,6 +140,45 @@ END"""
         self.assertFalse(BranchingDialogParser.LABEL_LIST.match("spam1 spam2"))
         
         self.assertTrue(BranchingDialogParser.LABEL_LIST.match("lolwat, u_ok, sorrySayThatAgain"))
+
+    def test_no_start(self):
+        startless = """[yay]
+yay
+
+awesome
+
+END
+
+[hello]
+
+hello
+
+um
+
+yay, END"""
+        
+        with self.assertRaises(MalformedDialogException):
+            self.parser.parse(startless)
+
+    def test_no_end(self):
+        endless = """[yay]
+yay
+
+awesome
+
+hello
+
+[hello]
+
+hello
+
+um
+
+yay"""
+        
+        with self.assertRaises(MalformedDialogException):
+            self.parser.parse(endless)
+    
 
 class BranchingDialogTests(unittest.TestCase):
     
