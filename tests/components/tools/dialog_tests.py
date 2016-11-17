@@ -161,7 +161,13 @@ yay, END"""
             self.parser.parse(startless)
 
     def test_no_end(self):
-        endless = """[yay]
+        endless = """[START]
+Have a start
+
+yay
+
+[yay]
+
 yay
 
 awesome
@@ -178,6 +184,33 @@ yay"""
         
         with self.assertRaises(MalformedDialogException):
             self.parser.parse(endless)
+
+    def test_malformed_start(self):
+        wrong_start = """[START]
+Have a start
+
+A wrong one.
+
+yay
+
+[yay]
+
+yay
+
+awesome
+
+hello
+
+[hello]
+
+hello
+
+um
+
+yay, END"""
+        
+        with self.assertRaises(MalformedDialogException):
+            self.parser.parse(wrong_start)
     
 
 class BranchingDialogTests(unittest.TestCase):
