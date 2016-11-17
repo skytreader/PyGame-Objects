@@ -16,12 +16,12 @@ from color_blocks_model import ColorBlocksModel
 import math
 import pygame
 
-HEIGHT_OFFSET = 100
 
 class ColorBlocksScreen(GameScreen):
     
     COLOR_MAPPING = (Colors.LUCID_DARK, Colors.HUMAN_RED, Colors.HUMAN_GREEN,
       Colors.HUMAN_BLUE, Colors.LIGHT_GRAY)
+    GRID_OFFSET = (0, 100)
     
     def __init__(self, config, grid_size):
         """
@@ -41,8 +41,8 @@ class ColorBlocksScreen(GameScreen):
         self.game_model = self.model
         # Instantiate an underlying grid model
         self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
-        self.block_height = int(math.floor((screen_size[1] - HEIGHT_OFFSET) / grid_size[1]))
-        self.grid_model = QuadraticGrid(grid_size[0], grid_size[1])
+        self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[1]))
+        self.grid_model = QuadraticGrid(grid_size[0], grid_size[1], draw_offset=ColorBlocksScreen.GRID_OFFSET)
         self.rect_list = []
         self.color_list = []
     
@@ -58,7 +58,7 @@ class ColorBlocksScreen(GameScreen):
         # in color_list.
         self.rect_list, self.color_list = QuadraticGrid.cons_rect_list(
           self.grid_model, self.model, self.block_width, self.block_height,
-          height_offset=HEIGHT_OFFSET
+          offset=ColorBlocksScreen.GRID_OFFSET
         )
     
     def draw_screen(self, window):
@@ -66,11 +66,7 @@ class ColorBlocksScreen(GameScreen):
         And the color blocks won't be demarcated with lines. Not yet. Yes,
         messy, I know.
         """
-        limit = len(self.color_list)
-        
-        for i in range(limit):
-            pygame.draw.rect(window, self.color_list[i], self.rect_list[i], 0)
-        
+        self.grid_model.draw(window, self)
         score_font = pygame.font.Font(None, 25)
         score = score_font.render("Score: " + str(self.game_model.score), True, Colors.HUMAN_RED)
         window.blit(score, [10, 10])
@@ -105,13 +101,16 @@ class ColorBlocksEvents(GameLoopEvents):
         self.window.fill(Colors.MAX_WHITE)
         super(ColorBlocksEvents, self).loop_event()
 
-if __name__ == "__main__":
+def main():
     config = GameConfig()
     config.set_config_val("clock_rate", 12)
-    config.set_config_val("window_size", [500, 500 + HEIGHT_OFFSET])
+    config.set_config_val("window_size", [500, 500 + ColorBlocksScreen.GRID_OFFSET[1]])
     config.set_config_val("window_title", "Color Blocks Game")
     
     screen = ColorBlocksScreen(config, [10, 10])
     loop_events = ColorBlocksEvents(config, screen)
-    loop = GameLoop(loop_events)
-    loop.go()
+    return loop_events
+
+if __name__ == "__main__":
+    loop_events = main()
+    GameLoop(loop_events).go()

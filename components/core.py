@@ -152,11 +152,10 @@ class GameLoop(object):
         """
         pygame.init()
         clock = pygame.time.Clock()
-        loop_control = True
         
         self.loop_events.loop_setup()
         
-        while loop_control and self.__loop_events.loop_invariant():
+        while self.__loop_events.loop_invariant():
             clock.tick(self.__loop_events.config.get_config_val("clock_rate"))
             for event in pygame.event.get():
                 self.__handle_event(event)
@@ -339,7 +338,7 @@ class GameLoopEvents(Subscriber):
         
         self.__loop_control = True
         
-        self.event_handlers[pygame.QUIT] = self.stop_loop
+        self.event_handlers[pygame.QUIT] = self.stop_main
         self.event_handlers[pygame.KEYDOWN] = self.__handle_key
     
     @property
@@ -358,13 +357,9 @@ class GameLoopEvents(Subscriber):
     def key_handlers(self):
         return self.__key_handlers
     
-    def stop_loop(self, event):
+    def stop_main(self, event):
         """
-        You can override the default behavior of a game when responding to a
-        pygame.QUIT event; like, for instance, if you want to ask the user
-        if he really wants to quit. However, doing so may cause your game
-        _not_ to quit at all! Use this method, in conjunction with
-        GameLoopEvents.loop_invariant, to kill a game session.
+        This is supposed to kill the _whole_ app.
         """
         self.__loop_control = False
     

@@ -4,6 +4,7 @@ from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
 
 import math
+import pygame
 
 """
 This file contains models for grids.
@@ -48,8 +49,6 @@ class Grid(Drawable):
 class QuadraticGrid(Grid):
     """
     AKA 2D Cartesian Grid.
-    
-    TODO: Raise errors for invalid indices.
     """
 
     class Movements(object):
@@ -89,7 +88,7 @@ class QuadraticGrid(Grid):
             else:
                 raise VectorDirectionException("Given vector does not describe grid movement.")
     
-    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True):
+    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True, draw_offset=None):
         """
         Creates an instance of a quadratic grid.
         
@@ -105,8 +104,9 @@ class QuadraticGrid(Grid):
           left/right of a given block as a block's neighbors.
           
           Defaults to true.
+        @param draw_offset
         """
-        super(QuadraticGrid, self).__init__()
+        super(QuadraticGrid, self).__init__(draw_offset=draw_offset)
         
         if type(grid_width) != type(0) or type(grid_height) != type(0):
             raise TypeError("Grid dimensions must be specified as ints.")
@@ -118,29 +118,41 @@ class QuadraticGrid(Grid):
         self.hv_neighbors = hv_neighbors
         self.diag_neighbors = diag_neighbors
     
-    def draw(self, screen, **kwargs):
+    def draw(self, window, screen, **kwargs):
         block_width = int(screen.screen_size[0] / len(self.grid[0]))
         block_height = int(screen.screen_size[1] / len(self.grid))
-        rects = QuadraticGrid.cons_rect_list(
-          self.grid, kwargs["model"], block_width, block_height, 0,
-          self.draw_offset[0], self.draw_offset[1]
+        rects, renders = QuadraticGrid.cons_rect_list(
+          self, screen.model, block_width, block_height, self.draw_offset
         )
+
+        for rct, rndr in zip(rects, renders):
+            pygame.draw.rect(window, rndr, rct, 0)
 
     @property
     def grid(self):
         return self.__grid
 
     @staticmethod
-    def cons_rect_list(grid, model, block_width, block_height, width_offset=0, height_offset=0):
+    def cons_rect_list(grid, model, block_width, block_height, offset):
         """
         Looks like public access to this will be deprecated soon.
 
         grid - An instance of this class.
         model - An instance of components.core.GameModel
+
+        Returns two parallel lists. The first list contains the dimensions of
+        the rectangles in the format
+            
+            (upper_left_x, upper_left_y, width, height)
+
+        while the second list contains render objects per block (i.e., it comes
+        from the model given to this method).
         """
         grid = grid.grid
         rect_list = []
         render_list = []
+        width_offset = offset[0]
+        height_offset = offset[1]
 
         for i, row in enumerate(grid):
             for j, col in enumerate(row):
@@ -152,19 +164,6 @@ class QuadraticGrid(Grid):
                 render_list.append(model.render(row=i, col=j))
 
         return (rect_list, render_list)
-
-    @staticmethod
-    def make_rects(coords, block_width, block_height, width_offset=0, height_offset=0):
-        """
-        Given a list of (row, col) coordinates, return a list containing the
-        rectangles that they represent.
-        """
-        rect_list = []
-
-        for c in coords:
-            rect_list.append(QuadraticGrid.make_rect(c, block_width, block_height, width_offset, height_offset))
-
-        return rect_list
 
     @staticmethod
     def make_rect(c, block_width, block_height, width_offset=0, height_offset=0):
