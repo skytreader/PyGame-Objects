@@ -211,6 +211,29 @@ yay, END"""
         
         with self.assertRaises(MalformedDialogException):
             self.parser.parse(wrong_start)
+
+        wrong_single_start = """[START]
+I used to be an adventurer like you until I took an arrow to the knee.
+
+nonend"""
+        
+        with self.assertRaises(MalformedDialogException):
+            self.parser.parse(wrong_single_start)
+
+    def test_non_conversation(self):
+        single = """[START]
+I used to be an adventurer like you until I took an arrow to the knee.
+
+END"""
+        
+        section_repr = DialogSection(
+            prompt="I used to be an adventurer like you until I took an arrow to the knee.",
+            reply=None,
+            cont=["END"]
+        )
+        dialog_repr = BranchingDialog(sections={}, start=section_repr)
+
+        self.assertEqual(dialog_repr, self.parser.parse(single))
     
 
 class BranchingDialogTests(unittest.TestCase):

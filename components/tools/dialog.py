@@ -47,12 +47,13 @@ class BranchingDialog(object):
         if sections and ("START" in sections.keys() or "END" in sections.keys()):
             raise MalformedDialogException("Special START/END sections must not be specified.")
 
-        end_found = False
+        end_found = "END" in start.cont
 
-        for label in sections.keys():
-            if "END" in sections[label].cont:
-                end_found = True
-                break
+        if not end_found and sections:
+            for label in sections.keys():
+                if "END" in sections[label].cont:
+                    end_found = True
+                    break
 
         if not end_found:
             raise MalformedDialogException("No section leads to END.")
