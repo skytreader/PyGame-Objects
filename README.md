@@ -10,10 +10,16 @@ all these years, PyGame is still not reachable via `pip`.
 
 Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ubuntu.
 
-# Current Status
-I'm currently adding new features (see "helpers" directory and "tests/color\_blocks").
-The product of my last dev cycle (a.k.a Julython 2012) is tagged as "Milestone1".
+# Development
+Aside from `.travis.yml`, the Dockerfile is provided for development. You can
+also pull the image via
 
+    docker run skytreader/pygame-objects:stablest
+
+One of these days, I might actually follow Docker conventions of tagging my
+images as "latest".
+
+# Current Status
 Right now, I'm working on adding extra game-making functionalities; stuff that
 will maybe come useful if you do an RPG, platformer, arcade, etc., type of game.
 I'm also working on adding new native drawing functionalities.
