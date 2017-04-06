@@ -1,4 +1,5 @@
 FROM ubuntu:16.04
+LABEL maintainer "chadestioco@gmail.com"
 COPY . /home/pygame/PyGame-Objects
 WORKDIR /home/pygame/PyGame-Objects
 
