@@ -19,6 +19,20 @@ also pull the image via
 One of these days, I might actually follow Docker conventions of tagging my
 images as "latest".
 
+**IMPORTANT; Continue reading:** Note that the above command will only pull the
+image for you, to be able to do anything of interest, you need a bit more Docker
+arcana. Specifically, you need to run Docker with X11 forwarding:
+
+    docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it -d skytreader/pygame-objects:stablest /bin/bash
+
+This gives a container ID which you can then use to execute a Docker shell that
+which can run the games:
+
+    docker exec -it <container_id> /bin/bash
+
+A truncated, but no less valid version of the container id can also be obtained
+via `docker ps`.
+
 # Current Status
 Right now, I'm working on adding extra game-making functionalities; stuff that
 will maybe come useful if you do an RPG, platformer, arcade, etc., type of game.
