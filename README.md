@@ -14,24 +14,12 @@ Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ub
 Aside from `.travis.yml`, the Dockerfile is provided for development. You can
 also pull the image via
 
-    docker run skytreader/pygame-objects:stablest
+    docker run skytreader/pygame-objects:latest
 
-One of these days, I might actually follow Docker conventions of tagging my
-images as "latest".
-
-**IMPORTANT; Continue reading:** Note that the above command will only pull the
-image for you, to be able to do anything of interest, you need a bit more Docker
-arcana. Specifically, you need to run Docker with X11 forwarding:
-
-    docker run -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -it -d skytreader/pygame-objects:stablest /bin/bash
-
-This gives a container ID which you can then use to execute a Docker shell that
-which can run the games:
-
-    docker exec -it <container_id> /bin/bash
-
-A truncated, but no less valid version of the container id can also be obtained
-via `docker ps`.
+At this point, you only have the image. To develop and run games with it, you
+should use the provided `duckrunner` script. It takes the package path to the
+script that invokes your game loop. For example, to run the included snake game,
+call `duckrunner demo.snake.game`.
 
 # Current Status
 Right now, I'm working on adding extra game-making functionalities; stuff that
