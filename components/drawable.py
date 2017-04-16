@@ -16,14 +16,16 @@ class Drawable(object):
         """
         Implement all drawing logic here!
         
+        @param window
+            The PyGame display to which we draw whatever needs to
+            be drawn.
         @param screen
-          The PyGame display to which we draw whatever needs to
-          be drawn.
+            A GameScreen from components.core
         """
-        pass
+        raise NotImplementedError("Subclasess must implement this!")
 
     def invariant_scale(self, scale_factor):
         """
         Scale this shape regardless of where the shape is put.
         """
-        pass
+        raise NotImplementedError("Not implemented...yet.")
