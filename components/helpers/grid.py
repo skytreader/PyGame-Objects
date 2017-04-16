@@ -31,9 +31,14 @@ class Grid(Drawable):
     def __init__(self, draw_width=-1, draw_height=-1, draw_offset=0):
         super(Grid, self).__init__(draw_offset)
     
-    def draw(self, window):
+    def draw(self, window, screen, **kwargs):
         """
         Subclasses must implement this!
+
+        @param window
+            A pygame window.
+        @param screen
+            A GameScreen from components.core.
         """
         raise NotImplementedError("Subclasess must implement this!")
 

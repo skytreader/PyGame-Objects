@@ -1,6 +1,6 @@
 #! usr/bin/env python
 
-from components.core import GameLoop, GameLoopEvents, GameConfig, GameScreen, Colors
+from components.core import GameModel, GameLoop, GameLoopEvents, GameConfig, GameScreen, Colors
 from components.shapes import Point, PointShape
 
 import random
@@ -13,8 +13,8 @@ Demo stuff for PointShape.
 
 class LineMeshScreen(GameScreen):
     
-    def __init__(self, screen_size):
-        super(LineMeshScreen, self).__init__(screen_size)
+    def __init__(self, game_config, model):
+        super(LineMeshScreen, self).__init__(game_config, model)
     
     @property
     def triangle(self):
@@ -47,7 +47,7 @@ class LineMesh(GameLoopEvents):
         return self.__count < self.__limit and parent_invariant
     
     def loop_event(self):
-        self.window.fill(Colors.WHITE)
+        self.window.fill(Colors.MAX_WHITE)
         self.game_screen.triangle.draw(self.window)
         self.game_screen.triangle.add_point(Point(random.randint(0, 500), random.randint(0, 500)))
         
@@ -58,7 +58,7 @@ config.window_size = [500, 500]
 config.clock_rate = 10
 config.window_title = "Line Mesh"
 
-game_screen = LineMeshScreen(config.window_size)
+game_screen = LineMeshScreen(config, GameModel())
 
 ms = LineMesh(config, game_screen)
 game_loop = GameLoop(ms)
