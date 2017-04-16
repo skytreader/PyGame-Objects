@@ -38,24 +38,6 @@ The tests were written after every feature I finished. The tests are a mix of de
 and unit tests. Every now and then, I also write some mini-games to compile
 demonstrations of some feature I'm working on.
 
-## Monster Shooter Test
-Just a simple game, with a simple set of rules it's virtually impossible to lose.
-Keep shooting (with the `enter`) key. One monster is equivalent to one point.
-Get hit by a monster and it will cost you one point (deduct one to current score).
-You lose when your score becomes less than zero. And oh, move using the up and
-down keys.
-
-If you look at the code, this is a very simple version of what I originally had
-in mind; maybe, some other time, for some other iteration of PyGame Objects. If
-you look at my commit history, yes, this was supposed to be a clone of Plants vs
-Zombies, but it ended up as a simple shoot-em-up.
-
-## Color Blocks Game
-Yet another common game you'd find at almost all Flash-game sites. I created
-this mini-game to test the grid helper library I am working on. I'm not yet quite
-done with the grid library but for a proof-of-concept, I'm quite satisfied with
-this.
-
 # Git Organization
 Documentation is at the wiki. My todo list I made as issues. I am currently
 working to make the documentation comprehensive (no more peeking at the framework
