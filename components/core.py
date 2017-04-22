@@ -193,13 +193,17 @@ class GameScreen(Subscriber):
         if game_config.get_config_val("debug_mode"):
             screen_dimensions = (screen_dimensions[0], screen_dimensions[1] + GameScreen.DEBUG_SPACE_PROVISIONS)
 
-        self.__screen_dimensions = screen_dimensions
+        self.screen_dimensions = screen_dimensions
         self.model = model
         self.model.subscribe(self)
     
     @property
     def screen_size(self):
-        return self.__screen_dimensions
+        """
+        This property is provied merely for the sake of backwards compatibility.
+        New code should refer straight to the `screen_dimensions` field.
+        """
+        return self.screen_dimensions
     
     def setup(self):
         """
