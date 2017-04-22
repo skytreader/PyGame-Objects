@@ -22,55 +22,11 @@ class PVZMainScreen(GameScreen):
     
     def __init__(self, config):
         super(PVZMainScreen, self).__init__(config, GameModel())
-        self.__monster_sprite_group = pygame.sprite.Group()
-        self.__player_sprite_group = pygame.sprite.Group()
-        self.__bullet_sprite_group = pygame.sprite.Group()
-        self.__score = 0
-        self.__end_game = False
-    
-    @property
-    def end_game(self):
-        return self.__end_game
-    
-    @end_game.setter
-    def end_game(self, is_end):
-        self.__end_game = is_end
-    
-    @property
-    def bullet_sprite_group(self):
-        return self.__bullet_sprite_group
-    
-    @property
-    def monster_sprite_group(self):
-        return self.__monster_sprite_group
-    
-    @property
-    def score(self):
-        return self.__score
-    
-    @score.setter
-    def score(self, s):
-        self.__score = s
-    
-    @property
-    def player_sprite_group(self):
-        return self.__player_sprite_group
-    
-    @property
-    def meteormon(self):
-        return self.__meteormon_sprite
-    
-    @property
-    def bakemon(self):
-        return self.__bakemon_sprite
-    
-    @property
-    def monster_list(self):
-        return self.__monster_list
-    
-    @property
-    def shooter_sprite(self):
-        return self.__shooter_sprite
+        self.monster_sprite_group = pygame.sprite.Group()
+        self.player_sprite_group = pygame.sprite.Group()
+        self.bullet_sprite_group = pygame.sprite.Group()
+        self.score = 0
+        self.end_game = False
     
     def shoot(self, event):
         # Initialize the bullet sprite
