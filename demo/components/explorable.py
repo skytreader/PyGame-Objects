@@ -2,6 +2,7 @@ from __future__ import division
 
 from components.core import GameConfig, GameModel, GameScreen, GameLoopEvents, GameLoop
 from components.image import Image
+from components.sprite import PyRoSprite
 from pygame.sprite import Group
 
 import os
@@ -30,7 +31,7 @@ class ExplorableScreen(GameScreen):
             img_xpos = img.width * (i % visible_width)
             img_ypos = img.height * (i % visible_height)
 
-            self.tiles.add(img.clone((img_xpos, img_ypos)))
+            self.tiles.add(PyRoSprite(img.clone((img_xpos, img_ypos))))
 
     def draw_screen(self, window):
         self.tiles.draw(window)
