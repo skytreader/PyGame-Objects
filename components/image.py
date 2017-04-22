@@ -28,8 +28,12 @@ class Image(Observable, Drawable):
           The filename of the image, relative to the code listing.
         """
         super(Image, self).__init__()
+        self.__filename = filename
         self.__img = pygame.image.load(filename).convert_alpha()
         self.__position = position if position else Point(0, 0)
+
+    def clone(self, position=None):
+        return Image(self.filename, self.position)
     
     @property
     def img(self):
