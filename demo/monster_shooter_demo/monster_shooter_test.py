@@ -94,8 +94,8 @@ class PVZEvents(GameLoopEvents):
         self.window.fill(Colors.MAX_WHITE)
         
         if random.random() <= 0.3:
-            monster_index = random.randint(0, len(self.game_screen.monster_list) - 1)
-            self.game_screen.add_monster(self.game_screen.monster_list[monster_index])
+            monster = random.choice(self.game_screen.monster_list)
+            self.game_screen.add_monster(monster)
         
         super(PVZEvents, self).loop_event()
         bullet_hits = pygame.sprite.groupcollide(self.game_screen.bullet_sprite_group, \
