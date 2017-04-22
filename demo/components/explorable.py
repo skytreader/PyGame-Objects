@@ -1,6 +1,7 @@
 from __future__ import division
 
 from components.core import GameConfig, GameModel, GameScreen, GameLoopEvents, GameLoop
+from components.image import Image
 from pygame.sprite import Group
 
 import os
@@ -9,7 +10,7 @@ import random
 class ExplorableScreen(GameScreen):
 
     def __init__(self, config, model):
-        super(GameScreen, self).__init__(config, model)
+        super(ExplorableScreen, self).__init__(config, model)
 
     def setup(self):
         super(ExplorableScreen, self).setup()
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     config = GameConfig()
     config.set_config_val("window_size", (400, 400))
     model = GameModel()
-    screen = GameScreen(config, model)
+    screen = ExplorableScreen(config, model)
     loop_events = GameLoopEvents(config, screen)
     loop = GameLoop(loop_events)
     loop.go()

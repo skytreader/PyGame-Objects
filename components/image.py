@@ -33,7 +33,7 @@ class Image(Observable, Drawable):
         self.__position = position if position else Point(0, 0)
 
     def clone(self, position=None):
-        return Image(self.filename, self.position)
+        return Image(self.__filename, self.position)
     
     @property
     def img(self):
