@@ -34,21 +34,9 @@ class PVZSprite(PyRoSprite):
         
         super(PVZSprite, self).__init__(img)
         
-        self.__speed = move_speed
-        self.__max_hp = hit_points
+        self.speed = move_speed
+        self.max_hp = hit_points
         self.__hp = hit_points
-    
-    @property
-    def speed(self):
-        return self.__speed
-    
-    @speed.setter
-    def speed(self, s):
-        self.__speed = s
-    
-    @property
-    def max_hp(self):
-        return self.__max_hp
     
     @property
     def hp(self):

@@ -21,21 +21,13 @@ class PyRoSprite(pygame.sprite.Sprite, Observer):
         """
         super(PyRoSprite, self).__init__()
         
-        self.__screen_draw = img
+        self.screen_draw = img
         self.screen_draw.subscribe(self)
         
         self.image = img.img
         self.rect = self.image.get_rect()
         self.rect.y = img.position.y
         self.rect.x = img.position.x
-    
-    @property
-    def screen_draw(self):
-        return self.__screen_draw
-    
-    @screen_draw.setter
-    def screen_draw(self, i):
-        self.__screen_draw = i
     
     def notify(self, observed, arg_bundle = None):
         self.image = self.screen_draw.img
