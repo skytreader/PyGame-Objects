@@ -43,7 +43,7 @@ class PVZMainScreen(GameScreen):
         bakemon_img = os.path.join("sample_sprites", "notmine", "bakemon_attack.png")
         lalamon_img = os.path.join("sample_sprites", "notmine", "lalamon_clueless.png")
         tentacly_img = os.path.join("sample_sprites", "notmine", "tentacly_angry.png")
-        self.__monster_list = [meteormon_img, bakemon_img, lalamon_img, tentacly_img]
+        self.monster_list = [meteormon_img, bakemon_img, lalamon_img, tentacly_img]
         
         # Load the character sprite
         shooter_image = Image(os.path.join("sample_sprites", "notmine", "seahomon_hero.png"))
@@ -51,7 +51,7 @@ class PVZMainScreen(GameScreen):
         
         shooter_image.position = Point(0, super(PVZMainScreen, self).screen_size[GameConfig.HEIGHT_INDEX] / 2)
         
-        self.__shooter_sprite = Shooter(7, shooter_image, 10, self.screen_size[GameConfig.WIDTH_INDEX])
+        self.shooter_sprite = Shooter(7, shooter_image, 10, self.screen_size[GameConfig.WIDTH_INDEX])
         self.player_sprite_group.add(self.shooter_sprite)
     
     def add_monster(self, monster):
