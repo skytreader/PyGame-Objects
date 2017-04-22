@@ -2,18 +2,6 @@ from __future__ import division
 
 from components.drawable import Drawable
 
-class StaticWorldObject(Drawable):
-
-    def __init__(self, location, sprite):
-        """
-        @param location
-            A component.shapes.Point object.
-        @param sprite
-            A component.sprite.PyRoSprite object.
-        """
-        self.__location = location
-        self.__sprite = sprite
-
 class Explorable(Drawable):
 
     def __init__(self, world_objects, initial_view, draw_offset=None):
@@ -22,7 +10,7 @@ class Explorable(Drawable):
 
         v0.1.0: Actually draw everything in memory, just hidden from view.
 
-        world_objects - A collection of StaticWorldObjects.
+        world_objects - A pygame.sprite.group.
         initial_view - The upper-left coordinates of what is initially visible.
         draw_offset - As required by Drawable.
         """
@@ -32,4 +20,4 @@ class Explorable(Drawable):
         self.initial_view = initial_view
 
     def draw(self, window, screen, **kwargs):
-        window_size = window.get_surface().get_size()
+        self.world_objects.draw(window)

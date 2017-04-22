@@ -17,7 +17,7 @@ class Image(Observable, Drawable):
     @author Chad Estioco
     """
     
-    def __init__(self, filename):
+    def __init__(self, filename, position=None):
         """
         This constructor assigns a Surface object accessible via self.img .
         The Surface is created taking alpha transparency into account. If
@@ -29,7 +29,7 @@ class Image(Observable, Drawable):
         """
         super(Image, self).__init__()
         self.__img = pygame.image.load(filename).convert_alpha()
-        self.__position = Point(0,0)
+        self.__position = position if position else Point(0, 0)
     
     @property
     def img(self):
