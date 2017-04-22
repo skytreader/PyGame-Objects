@@ -14,7 +14,7 @@ class PyRoSprite(pygame.sprite.Sprite, Observer):
     def __init__(self, img):
         """
         @param img
-          An instance of Image, which is the sprite's character
+          An instance of components.image.Image, which is the sprite's character
           representation. Not to be confused with Sprite's self.image .
           This constructor automatically loads self.image with the surface
           contained in img .
