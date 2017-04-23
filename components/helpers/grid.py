@@ -54,7 +54,9 @@ class QuadraticGrid(Grid):
         """
         MOVEMAP = {'u': UP, 'd': DOWN, 'l': LEFT, 'r': RIGHT}
 
-        INVERSE_DIRECTION = {UP: DOWN, DOWN: UP, LEFT: RIGHT, RIGHT: LEFT}
+        INVERSE_MOVEMAP = {UP: DOWN, DOWN: UP, LEFT: RIGHT, RIGHT: LEFT}
+        EVENT_TO_DIR = {pygame.K_UP: UP, pygame.K_DOWN: DOWN, pygame.K_LEFT: LEFT, pygame.K_RIGHT: RIGHT}
+
 
         @classmethod
         def compute_direction(cls, tail, head):

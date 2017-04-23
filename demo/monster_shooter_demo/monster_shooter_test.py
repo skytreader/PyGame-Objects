@@ -116,8 +116,8 @@ class PVZEvents(GameLoopEvents):
         elif event.key == pygame.K_DOWN:
             is_up = False
         
-        super(PVZEvents, self).game_screen.shooter_sprite.is_going_up = is_up
-        super(PVZEvents, self).game_screen.shooter_sprite.move()
+        self.game_screen.shooter_sprite.is_going_up = is_up
+        self.game_screen.shooter_sprite.move()
         
     def loop_setup(self):
         super(PVZEvents, self).loop_setup()

@@ -1,9 +1,12 @@
 from __future__ import division
 
+from components.core import GameLoopEvents
 from components.drawable import Drawable
 from components.sprite import PyRoSprite
 
 from components.helpers.grid import QuadraticGrid
+
+import pygame
 
 class ForegroundSprite(PyRoSprite):
 
@@ -41,4 +44,20 @@ class Explorable(Drawable):
         tile_translation = QuadraticGrid.Movements.INVERSE_DIRECTION[direction]
         world_sprites = self.world_objects.sprites()
         for sprite in world_sprites:
-            sprite.img
+            position = Point(
+                sprite.screen_draw.position.x + direction[0],
+                sprite.screen_draw.position.y + direction[1]
+            )
+            sprite.screen_draw.position = position
+
+class ExplorableMovements(GameLoopEvents):
+
+    def __init__(self, config, game_screen, explorable):
+        super(ExplorableMovements, self).__init__(config, game_screen)
+        self.explorable = explorable
+
+    def move_camera(self, event):
+        self.explorable.move_camera(self, QuadraticGrid.EVENT_TO_DIR[event])
+
+    def attach_event_handlers(self):
+        keydown_event = pygame.event.Event(pygame.KEYDOWN)
