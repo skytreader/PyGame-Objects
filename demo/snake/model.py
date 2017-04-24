@@ -121,7 +121,7 @@ class SnakeGameModel(GameModel):
         current_direction = self.snake.get_orientation()
         inverse_direction = None
         try:
-            inverse_direction = QuadraticGrid.Movements.INVERSE_DIRECTION[current_direction]
+            inverse_direction = QuadraticGrid.Movements.INVERSE_MOVEMAP[current_direction]
         except KeyError:
             pass
 

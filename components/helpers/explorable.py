@@ -41,7 +41,7 @@ class Explorable(Drawable):
         """
         direction - QuadraticGrid.Movements
         """
-        tile_translation = QuadraticGrid.Movements.INVERSE_DIRECTION[direction]
+        tile_translation = QuadraticGrid.Movements.INVERSE_MOVEMAP[direction]
         world_sprites = self.world_objects.sprites()
         for sprite in world_sprites:
             position = Point(
