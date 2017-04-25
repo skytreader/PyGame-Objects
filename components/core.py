@@ -311,6 +311,19 @@ class GameLoopEvents(Subscriber):
     @author Chad Estioco
     """
 
+    class KeyControls(object):
+        
+        def __init__(self):
+            self.controls = {}
+
+        def register_key(self, keycode, handler):
+            self.controls[keycode] = handler
+
+        def handle(self, keycode):
+            handler = self.controls.get(keycode)
+            if handler:
+                handler()
+
     class KeyboardHandlerMapping(object):
         
         def __init__(self, keycode, handler):
