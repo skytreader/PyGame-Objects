@@ -319,16 +319,10 @@ class GameLoopEvents(Subscriber):
         def register_key(self, keycode, handler):
             self.controls[keycode] = handler
 
-        def handle(self, keycode):
-            handler = self.controls.get(keycode)
+        def handle(self, event):
+            handler = self.controls.get(event.key)
             if handler:
                 handler()
-
-    class KeyboardHandlerMapping(object):
-        
-        def __init__(self, keycode, handler):
-            self.keycode = keycode
-            self.handler = handler
     
     def __init__(self, config, game_screen):
         """
@@ -401,11 +395,7 @@ class GameLoopEvents(Subscriber):
           argument, the event.
         """
         event_code = event.type
-        
-        if event_code == pygame.KEYDOWN:
-            self.key_handlers[handler.keycode] = handler.handler
-        else:
-            self.event_handlers[event_code] = handler
+        self.event_handlers[event_code] = handler
     
     def attach_event_handlers(self):
         """
