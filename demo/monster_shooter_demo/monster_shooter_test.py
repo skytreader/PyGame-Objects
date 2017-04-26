@@ -89,6 +89,19 @@ class PVZEvents(GameLoopEvents):
     def __init__(self, config, game_screen):
         super(PVZEvents, self).__init__(config, game_screen)
         self.__meteormon = None
+        self.key_controls = GameLoopEvents.KeyControls()
+        self.key_controls.register_key(
+            pygame.K_UP,
+            lambda event: self.game_screen.shooter_sprite.move(True)
+        )
+        self.key_controls.register_key(
+            pygame.K_DOWN,
+            lambda event: self.game_screen.shooter_sprite.move(False)
+        )
+        self.key_controls.register_key(
+            pygame.K_RETURN,
+            self.game_screen.shoot
+        )
     
     def loop_event(self):
         self.window.fill(Colors.MAX_WHITE)
@@ -127,13 +140,7 @@ class PVZEvents(GameLoopEvents):
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
         
-        up_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_UP, self.move_shooter)
-        down_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_DOWN, self.move_shooter)
-        shoot_event_handler = GameLoopEvents.KeyboardHandlerMapping(pygame.K_RETURN, self.game_screen.shoot)
-        
-        self.add_event_handler(keydown_event, up_event_handler)
-        self.add_event_handler(keydown_event, down_event_handler)
-        self.add_event_handler(keydown_event, shoot_event_handler)
+        self.add_event_handler(keydown_event, self.key_controls.handle)
         
 class PVZLoop(GameLoop):
     

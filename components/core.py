@@ -322,7 +322,7 @@ class GameLoopEvents(Subscriber):
         def handle(self, event):
             handler = self.controls.get(event.key)
             if handler:
-                handler()
+                handler(event)
     
     def __init__(self, config, game_screen):
         """

@@ -86,18 +86,9 @@ class Shooter(PVZSprite):
     
     def __init__(self, move_speed, img, hit_points, max_bullet_pos):
         super(Shooter, self).__init__(move_speed, img, hit_points)
-        self.__is_going_up = False
     
-    @property
-    def is_going_up(self):
-        return self.__is_going_up
-    
-    @is_going_up.setter
-    def is_going_up(self, go_up):
-        self.__is_going_up = go_up
-    
-    def move(self):
-        if self.is_going_up:
+    def move(self, is_going_up):
+        if is_going_up:
             move_delta = -self.speed
         else:
             move_delta = self.speed
