@@ -58,15 +58,25 @@ class SnakeScreen(GameScreen):
 
 class SnakeGameEvents(GameLoopEvents):
     
-    PYGAME_TO_MOVE = {
-      pygame.K_UP: QuadraticGrid.Movements.UP,
-      pygame.K_DOWN: QuadraticGrid.Movements.DOWN,
-      pygame.K_RIGHT: QuadraticGrid.Movements.RIGHT,
-      pygame.K_LEFT: QuadraticGrid.Movements.LEFT 
-    }
-    
     def __init__(self, screen, config):
         super(SnakeGameEvents, self).__init__(screen, config)
+        self.key_controls = GameLoopEvents.KeyControls()
+        self.key_controls.register_key(
+            pygame.K_UP,
+            self.__create_move_event_handler(pygame.K_UP)
+        )
+        self.key_controls.register_key(
+            pygame.K_DOWN,
+            self.__create_move_event_handler(pygame.K_DOWN)
+        )
+        self.key_controls.register_key(
+            pygame.K_LEFT,
+            self.__create_move_event_handler(pygame.K_LEFT)
+        )
+        self.key_controls.register_key(
+            pygame.K_RIGHT,
+            self.__create_move_event_handler(pygame.K_RIGHT)
+        )
 
     def loop_event(self):
         self.window.fill(Colors.MAX_WHITE)
@@ -77,7 +87,7 @@ class SnakeGameEvents(GameLoopEvents):
             current_direction = self.game_screen.model.snake.get_orientation()
             height = self.game_screen.game_model.height
             width = self.game_screen.game_model.width
-            movement = SnakeGameEvents.PYGAME_TO_MOVE[key]
+            movement = QuadraticGrid.Movements.KEY_TO_DIR[key]
             if current_direction == movement:
                 return
 
@@ -93,22 +103,7 @@ class SnakeGameEvents(GameLoopEvents):
 
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
-        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
-            keycode=pygame.K_UP,
-            handler=self.__create_move_event_handler(pygame.K_UP)
-        ))
-        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
-            keycode=pygame.K_DOWN,
-            handler=self.__create_move_event_handler(pygame.K_DOWN)
-        ))
-        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
-            keycode=pygame.K_LEFT,
-            handler=self.__create_move_event_handler(pygame.K_LEFT)
-        ))
-        self.add_event_handler(keydown_event, GameLoopEvents.KeyboardHandlerMapping(
-            keycode=pygame.K_RIGHT,
-            handler=self.__create_move_event_handler(pygame.K_RIGHT)
-        ))
+        self.add_event_handler(keydown_event, self.key_controls.handle)
 
 if __name__ == "__main__":
     config = GameConfig()

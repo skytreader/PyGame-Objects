@@ -57,7 +57,7 @@ class ExplorableMovements(GameLoopEvents):
         self.explorable = explorable
 
     def move_camera(self, event):
-        self.explorable.move_camera(self, QuadraticGrid.EVENT_TO_DIR[event])
+        self.explorable.move_camera(self, QuadraticGrid.Movements.KEY_TO_DIR[event])
 
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
