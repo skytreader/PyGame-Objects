@@ -1,17 +1,12 @@
 from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.subscriber_pattern import Subscriber
-from mock import MagicMock, Mock, patch
+from mock import patch
 from StringIO import StringIO
+from tests import make_mock_clock
 
 import json
 import pygame
 import unittest
-
-def make_mock_clock():
-    mock_clock = MagicMock()
-    mock_clock.tick.return_value = None
-
-    return mock_clock
 
 class ConfigSubscriberMock(Subscriber):
     
