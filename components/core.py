@@ -117,7 +117,7 @@ class GameLoop(object):
     @author Chad Estioco
     """
     
-    def __init__(self, loop_events):
+    def __init__(self, loop_events, is_test=False):
         """
         Initializes a GameLoop.
         
@@ -126,6 +126,7 @@ class GameLoop(object):
         """
         self.__loop_events = loop_events
         self.__game_configurations = loop_events.config
+        self.is_test = is_test
         
     @property
     def loop_events(self):
@@ -151,19 +152,22 @@ class GameLoop(object):
               color set-up and caption set-up
         """
         pygame.init()
-        clock = pygame.time.Clock()
-        
-        self.loop_events.loop_setup()
-        
-        while self.__loop_events.loop_invariant():
-            clock.tick(self.__loop_events.config.get_config_val("clock_rate"))
-            for event in pygame.event.get():
-                self.__handle_event(event)
+        try:
+            clock = pygame.time.Clock()
             
-            self.__loop_events.loop_event()
-            pygame.display.flip()
-        
-        pygame.quit()
+            self.loop_events.loop_setup()
+            
+            while self.__loop_events.loop_invariant():
+                clock.tick(self.__loop_events.config.get_config_val("clock_rate"))
+                for event in pygame.event.get():
+                    self.__handle_event(event)
+                
+                self.__loop_events.loop_event()
+                pygame.display.flip()
+        except Exception:
+            print "Bad catch-all"
+        finally:
+            pygame.quit()
 
 class GameScreen(Subscriber):
     """
@@ -410,7 +414,7 @@ class GameLoopEvents(Subscriber):
         
         The return value of this method is affected by the default behavior
         defined for event pygame.QUIT . It is recommended that direct subclasses
-        of GameLoopEvents AND the return of this loop_invariant to their own
+        of GameLoopEvents `AND` the return of this loop_invariant to their own
         loop invariants.
         """
         return self.__loop_control
