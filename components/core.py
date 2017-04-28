@@ -124,16 +124,8 @@ class GameLoop(object):
         @param loop_events
           An instance of GameLoopEvents.
         """
-        self.__loop_events = loop_events
-        self.__game_configurations = loop_events.config
-        
-    @property
-    def loop_events(self):
-        return self.__loop_events
-    
-    @property
-    def game_configurations(self):
-        return self.__game_configurations
+        self.loop_events = loop_events
+        self.game_configurations = loop_events.config
     
     def __handle_event(self, event):
         event_code = event.type
@@ -156,12 +148,12 @@ class GameLoop(object):
             
             self.loop_events.loop_setup()
             
-            while self.__loop_events.loop_invariant():
-                clock.tick(self.__loop_events.config.get_config_val("clock_rate"))
+            while self.loop_events.loop_invariant():
+                clock.tick(self.loop_events.config.get_config_val("clock_rate"))
                 for event in pygame.event.get():
                     self.__handle_event(event)
                 
-                self.__loop_events.loop_event()
+                self.loop_events.loop_event()
                 pygame.display.flip()
         except (KeyboardInterrupt, SystemExit):
             raise
