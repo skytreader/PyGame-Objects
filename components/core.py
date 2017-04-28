@@ -164,8 +164,11 @@ class GameLoop(object):
                 
                 self.__loop_events.loop_event()
                 pygame.display.flip()
-        except Exception:
-            print "Bad catch-all"
+        except (KeyboardInterrupt, SystemExit):
+            raise
+        except:
+            import traceback
+            traceback.print_exc()
         finally:
             pygame.quit()
 
