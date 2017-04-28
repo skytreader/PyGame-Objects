@@ -117,7 +117,7 @@ class GameLoop(object):
     @author Chad Estioco
     """
     
-    def __init__(self, loop_events, is_test=False):
+    def __init__(self, loop_events):
         """
         Initializes a GameLoop.
         
@@ -126,7 +126,6 @@ class GameLoop(object):
         """
         self.__loop_events = loop_events
         self.__game_configurations = loop_events.config
-        self.is_test = is_test
         
     @property
     def loop_events(self):
