@@ -14,3 +14,17 @@ class GameTests(unittest.TestCase):
     @patch("components.core.pygame.init", autospec=True)
     def test_dry_run(self, pygame_init, clock_tick, flip, quit):
         config = GameConfig()
+        config.set_config_val("window_size", [500, 500])
+        config.set_config_val("clock_rate", 60)
+        config.set_config_val("window_title", "PvZ Clone Demo")
+        
+        screen = PVZMainScreen(config)
+        
+        image_gle = PVZEvents(config, screen)
+        gl = PVZLoop(image_gle)
+        gl.go()
+
+        self.assertTrue(pygame_init.called)
+        self.assertTrue(clock_tick.called)
+        self.assertTrue(flip.called)
+        self.assertTrue(quit.called)
