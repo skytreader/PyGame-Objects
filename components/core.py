@@ -142,8 +142,10 @@ class GameLoop(object):
           (2) Window invocation (GameLoopEvents.invoke_window()); background
               color set-up and caption set-up
         """
-        pygame.init()
         try:
+            print "pygame init"
+            pygame.init()
+            pygame.font.init()
             clock = pygame.time.Clock()
             
             self.loop_events.loop_setup()
