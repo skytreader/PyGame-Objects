@@ -141,16 +141,6 @@ class PVZEvents(GameLoopEvents):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
         
         self.add_event_handler(keydown_event, self.key_controls.handle)
-        
-class PVZLoop(GameLoop):
-    
-    def __init__(self, events):
-        """
-        @param events
-          Must be an instance of PVZEvents.
-        """
-        super(PVZLoop, self).__init__(events)
-    
 
 if __name__ == "__main__":
     config = GameConfig()
@@ -161,5 +151,5 @@ if __name__ == "__main__":
     screen = PVZMainScreen(config)
     
     image_gle = PVZEvents(config, screen)
-    gl = PVZLoop(image_gle)
+    gl = GameLoop(image_gle)
     gl.go()

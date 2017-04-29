@@ -22,7 +22,7 @@ class GameTests(unittest.TestCase):
         config.set_config_val("difficulty", 1)
         screen = SnakeScreen(config, (10, 10))
         loop_events = SnakeGameEvents(config, screen)
-        loop = GameLoop(loop_events)
+        loop = GameLoop(loop_events, is_test=True)
         loop.go()
 
         self.assertTrue(pygame_init.called)

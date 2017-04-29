@@ -1,5 +1,5 @@
 from components.core import GameConfig, GameLoop
-from demo.monster_shooter_demo.monster_shooter_test import PVZMainScreen, PVZEvents, PVZLoop
+from demo.monster_shooter_demo.monster_shooter_test import PVZMainScreen, PVZEvents
 from mock import patch
 from tests import make_mock_clock
 
@@ -21,7 +21,7 @@ class GameTests(unittest.TestCase):
         screen = PVZMainScreen(config)
         
         image_gle = PVZEvents(config, screen)
-        gl = PVZLoop(image_gle)
+        gl = GameLoop(image_gle, is_test=True)
         gl.go()
 
         self.assertTrue(pygame_init.called)

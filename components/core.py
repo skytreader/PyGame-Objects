@@ -117,7 +117,7 @@ class GameLoop(object):
     @author Chad Estioco
     """
     
-    def __init__(self, loop_events):
+    def __init__(self, loop_events, is_test=False):
         """
         Initializes a GameLoop.
         
@@ -126,6 +126,7 @@ class GameLoop(object):
         """
         self.loop_events = loop_events
         self.game_configurations = loop_events.config
+        self.__is_test = is_test
     
     def __handle_event(self, event):
         event_code = event.type
@@ -149,6 +150,7 @@ class GameLoop(object):
             clock = pygame.time.Clock()
             
             self.loop_events.loop_setup()
+            i = 0
             
             while self.loop_events.loop_invariant():
                 clock.tick(self.loop_events.config.get_config_val("clock_rate"))
@@ -157,6 +159,11 @@ class GameLoop(object):
                 
                 self.loop_events.loop_event()
                 pygame.display.flip()
+
+                if self.__is_test:
+                    i += 1
+                    if i > 4: # FIXME: Magic number!
+                        break
         except (KeyboardInterrupt, SystemExit):
             raise
         except:
