@@ -152,13 +152,14 @@ class PVZLoop(GameLoop):
         super(PVZLoop, self).__init__(events)
     
 
-config = GameConfig()
-config.set_config_val("window_size", [500, 500])
-config.set_config_val("clock_rate", 60)
-config.set_config_val("window_title", "PvZ Clone Demo")
-
-screen = PVZMainScreen(config)
-
-image_gle = PVZEvents(config, screen)
-gl = PVZLoop(image_gle)
-gl.go()
+if __name__ == "__main__":
+    config = GameConfig()
+    config.set_config_val("window_size", [500, 500])
+    config.set_config_val("clock_rate", 60)
+    config.set_config_val("window_title", "PvZ Clone Demo")
+    
+    screen = PVZMainScreen(config)
+    
+    image_gle = PVZEvents(config, screen)
+    gl = PVZLoop(image_gle)
+    gl.go()
