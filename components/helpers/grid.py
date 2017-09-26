@@ -1,4 +1,5 @@
 #! usr/bin/env python
+from __future__ import division
 
 from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
@@ -112,8 +113,8 @@ class QuadraticGrid(Grid):
         self.diag_neighbors = diag_neighbors
     
     def draw(self, window, screen, **kwargs):
-        block_width = int(screen.screen_size[0] / len(self.grid[0]))
-        block_height = int(screen.screen_size[1] / len(self.grid))
+        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
+        block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1]) / len(self.grid))
         rects, renders = QuadraticGrid.cons_rect_list(
           self, screen.model, block_width, block_height, self.draw_offset
         )
