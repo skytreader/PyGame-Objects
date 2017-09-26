@@ -78,7 +78,6 @@ class ColorBlocksEvents(GameLoopEvents):
         self.key_control = GameLoopEvents.KeyControls()
         self.key_control.register_key(pygame.K_F2, self.__trigger_new_game)
     
-    # Wow. Amusing that this works. Where'd they get the screen?
     def __mouse_click(self, event):
         pos = pygame.mouse.get_pos()
         row_index = int(math.floor((pos[1] - ColorBlocksScreen.GRID_OFFSET[1]) / self.game_screen.block_height))
