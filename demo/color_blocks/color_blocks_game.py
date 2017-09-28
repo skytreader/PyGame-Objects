@@ -40,7 +40,7 @@ class ColorBlocksScreen(GameScreen):
         screen_size = config.get_config_val("window_size")
         self.game_model = self.model
         # Instantiate an underlying grid model
-        self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
+        self.block_width = int(math.floor((screen_size[0] - ColorBlocksScreen.GRID_OFFSET[0]) / grid_size[0]))
         self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[1]))
         self.grid_model = QuadraticGrid(grid_size[0], grid_size[1], draw_offset=ColorBlocksScreen.GRID_OFFSET)
         self.rect_list = []
