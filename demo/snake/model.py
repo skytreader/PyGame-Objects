@@ -98,8 +98,8 @@ class SnakeGameModel(GameModel):
         return self.snake.head
 
     def initialize(self):
-        row = self.height / 2
-        col = self.width / 2
+        row = int(self.height / 2)
+        col = int(self.width / 2)
         self.snake.head = (row, col)
         self.snake_joints.append((row, col - SnakeGameModel.DEFAULT_SNAKE_SIZE))
         self.__generate_food_point()
