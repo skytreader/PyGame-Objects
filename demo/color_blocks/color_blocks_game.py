@@ -40,7 +40,7 @@ class ColorBlocksScreen(GameScreen):
         screen_size = config.get_config_val("window_size")
         self.game_model = self.model
         # Instantiate an underlying grid model
-        self.block_width = int(math.floor(screen_size[0] / grid_size[0]))
+        self.block_width = int(math.floor((screen_size[0] - ColorBlocksScreen.GRID_OFFSET[0]) / grid_size[0]))
         self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[1]))
         self.grid_model = QuadraticGrid(grid_size[0], grid_size[1], draw_offset=ColorBlocksScreen.GRID_OFFSET)
         self.rect_list = []
@@ -78,15 +78,14 @@ class ColorBlocksEvents(GameLoopEvents):
         self.key_control = GameLoopEvents.KeyControls()
         self.key_control.register_key(pygame.K_F2, self.__trigger_new_game)
     
-    # Wow. Amusing that this works. Where'd they get the screen?
     def __mouse_click(self, event):
         pos = pygame.mouse.get_pos()
-        row_index = int(math.floor((pos[1] - HEIGHT_OFFSET) / screen.block_height))
-        col_index = int(math.floor(pos[0] / screen.block_width))
-        screen.game_model.score += screen.game_model.toggle(row_index, col_index)
-        screen.game_model.falldown()
-        screen.game_model.collapse()
-        screen.represent_tiles()
+        row_index = int(math.floor((pos[1] - ColorBlocksScreen.GRID_OFFSET[1]) / self.game_screen.block_height))
+        col_index = int(math.floor(pos[0] / self.game_screen.block_width))
+        self.game_screen.game_model.score += self.game_screen.game_model.toggle(row_index, col_index)
+        self.game_screen.game_model.falldown()
+        self.game_screen.game_model.collapse()
+        self.game_screen.represent_tiles()
     
     def __trigger_new_game(self):
         self.game_screen.game_model.new_game()
