@@ -1,3 +1,9 @@
+# PyGame Objects
+
+> Want a sample on how to work with this framework? Check out the docs in the
+> [wiki](https://github.com/skytreader/PyGame-Objects/wiki), particularly the
+> [Walkthrough](https://github.com/skytreader/PyGame-Objects/wiki/Framework-Walkthrough)
+
 The most awesome framework for PyGame you will ever encounter!
 [![Build Status](https://travis-ci.org/skytreader/PyGame-Objects.svg?branch=master)](https://travis-ci.org/skytreader/PyGame-Objects)
 [![Coverage Status](https://coveralls.io/repos/github/skytreader/PyGame-Objects/badge.svg?branch=master)](https://coveralls.io/github/skytreader/PyGame-Objects?branch=master)
