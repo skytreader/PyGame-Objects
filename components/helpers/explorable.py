@@ -1,6 +1,6 @@
 from __future__ import division
 
-from components.core import GameLoopEvents
+from components.core import GameLoopEvents, GameScreen
 from components.drawable import Drawable
 from components.sprite import PyRoSprite
 
@@ -16,9 +16,9 @@ class ForegroundSprite(PyRoSprite):
     def update(self, *args):
         pass
 
-class Explorable(Drawable):
+class ExplorableScreen(GameScreen):
 
-    def __init__(self, world_objects, initial_view, draw_offset=None):
+    def __init__(self, config, model, world_objects, initial_view, draw_offset=None):
         """
         An explorable world is one where not all objects is in view at once.
 
@@ -28,8 +28,8 @@ class Explorable(Drawable):
         initial_view - The upper-left coordinates of what is initially visible.
         draw_offset - As required by Drawable.
         """
-        draw_offset = draw_offset if draw_offset else None
-        super(Explorable, self).__init__(draw_offset)
+        super(ExplorableScreen, self).__init__(config, model)
+        draw_offset = draw_offset
         self.world_objects = world_objects
         self.initial_view = initial_view
 
