@@ -51,13 +51,35 @@ class Explorable(Drawable):
             sprite.screen_draw.position = position
 
 class ExplorableMovements(GameLoopEvents):
+    """
+    GameLoopEvents that captures WASD movement by default.
+    """
 
     def __init__(self, config, game_screen, explorable):
         super(ExplorableMovements, self).__init__(config, game_screen)
         self.explorable = explorable
 
-    def move_camera(self, event):
-        self.explorable.move_camera(self, QuadraticGrid.Movements.KEY_TO_DIR[event])
+    def move_camera_factory(self, direction):
+        def mover(event):
+            self.explorable.move_camera(self, direction)
+        return mover
 
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
+        move_up_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_w, move_camera_factory(QuadraticGrid.Movements.UP)
+        )
+        move_down_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_s, move_camera_factory(QuadraticGrid.Movements.DOWN)
+        )
+        move_left_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_a, move_camera_factory(QuadraticGrid.Movements.LEFT)
+        )
+        move_right_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_d, move_camera_factory(QuadraticGrid.Movements.RIGHT)
+        )
+
+        self.add_event_handler(keydown_event, move_up_handler_mapping)
+        self.add_event_handler(keydown_event, move_down_handler_mapping)
+        self.add_event_handler(keydown_event, move_left_handler_mapping)
+        self.add_event_handler(keydown_event, move_right_handler_mapping)
