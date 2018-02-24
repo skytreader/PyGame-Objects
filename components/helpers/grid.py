@@ -22,9 +22,9 @@ class DimensionException(Exception):
 
 class BorderProperties(object):
 
-    color = Colors.MAX_BLACK
-    #: The thickness of the border in pixels.
-    thickness = 1
+    def __init__(self, color=Colors.MAX_BLACK, thickness=1):
+        self.color = color
+        self.thickness = thickness
 
 class Grid(Drawable):
     """
