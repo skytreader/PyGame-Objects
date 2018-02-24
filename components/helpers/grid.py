@@ -40,7 +40,11 @@ class Grid(Drawable):
 
 class QuadraticGrid(Grid):
     """
-    AKA 2D Cartesian Grid.
+    AKA 2D Cartesian Grid. A QuadraticGrid may hold some data in its cells (for
+    instance, information on how to render a given cell) through its `grid`
+    property but users of QuadraticGrid have to manually set this data for
+    themselves (after instantiating a QuadraticGrid instance). By default this 
+    contains integers. There is no dereferencing the `grid` property.
     """
 
     class Movements(object):

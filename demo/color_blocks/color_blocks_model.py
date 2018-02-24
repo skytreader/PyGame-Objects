@@ -33,8 +33,6 @@ class ColorBlocksModel(GameModel):
         if grid_width < 3 or grid_height < 3:
             raise DimensionException("Minimum grid dimensions is 3x3.")
 
-        # TODO What the...
-        untaken = ColorBlocksModel.UNTAKEN
         self.__self_setup(grid_width, grid_height, min_score)
     
     @property
