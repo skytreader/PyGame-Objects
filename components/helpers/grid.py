@@ -1,7 +1,7 @@
 #! usr/bin/env python
 from __future__ import division
 
-from components.core import Color
+from components.core import Colors
 from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
 
