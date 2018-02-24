@@ -1,6 +1,7 @@
 #! usr/bin/env python
 from __future__ import division
 
+from components.core import Color
 from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
 
@@ -17,12 +18,13 @@ class DimensionException(Exception):
     grids (i.e., if you set a minimum/maximum dimensions for
     your grids).
     """
-    
-    def __init__(self, msg):
-        self.msg = msg
-    
-    def __str__(self):
-        return str(msg)
+    pass
+
+class BorderProperties(object):
+
+    color = Colors.MAX_BLACK
+    #: The thickness of the border in pixels.
+    thickness = 1
 
 class Grid(Drawable):
     """
@@ -86,7 +88,7 @@ class QuadraticGrid(Grid):
             else:
                 raise VectorDirectionException("Given vector does not describe grid movement.")
     
-    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True, draw_offset=None):
+    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True, draw_offset=None, border_properties=None):
         """
         Creates an instance of a quadratic grid.
         
@@ -103,6 +105,10 @@ class QuadraticGrid(Grid):
           
           Defaults to true.
         @param draw_offset
+        @param border_properties
+          A BorderProperties object that describes how the borders of the cells
+          are to be drawn. A value of None (default) indicates that the cells
+          should be drawn with no borders.
         """
         super(QuadraticGrid, self).__init__(draw_offset=draw_offset)
         
@@ -125,6 +131,27 @@ class QuadraticGrid(Grid):
 
         for rct, rndr in zip(rects, renders):
             pygame.draw.rect(window, rndr, rct, 0)
+
+        # Draw the borders
+        if border_properties:
+            # There will always be n + 1 borders to be drawn on either direction
+            # since we need to draw the end borders too. (Where n is the grid
+            # dimension.)
+            vborders_limit = len(self.grid[0]) + 1
+
+            for vborders_offset in xrange(vborders_limit):
+                pygame.draw.line(
+                    window, border_properties.color, 0 + vborders_offset,
+                    screen.screen_size[1], border_properties.thickness
+                )
+
+            hborders_limit = len(self.grid[1]) + 1
+
+            for hborders_offset in xrange(hborders_limit):
+                pygame.draw.line(
+                    window, border_properties.color, 0 + hborders_offset,
+                    screen.screen_size[0], border_properties.thickness
+                )
 
     @property
     def grid(self):
