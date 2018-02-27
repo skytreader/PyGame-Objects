@@ -30,7 +30,7 @@ class Grid(Drawable):
     A grid must be drawable (and traversable)!
     """
     
-    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=0):
+    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=None):
         super(Grid, self).__init__(draw_offset)
     
     def traverse(self):
@@ -140,17 +140,21 @@ class QuadraticGrid(Grid):
             vborders_limit = len(self.grid[0]) + 1
 
             for vborders_offset in xrange(vborders_limit):
+                vcons = block_width * vborders_offset + self.draw_offset[0]
                 pygame.draw.line(
-                    window, self.border_properties.color, 0 + vborders_offset,
-                    screen.screen_size[1], self.border_properties.thickness
+                    window, self.border_properties.color,
+                    (vcons, self.draw_offset[1]), (vcons, screen.screen_size[1],),
+                    self.border_properties.thickness
                 )
 
             hborders_limit = len(self.grid[1]) + 1
 
             for hborders_offset in xrange(hborders_limit):
+                hcons = block_height * hborders_offset + self.draw_offset[1]
                 pygame.draw.line(
-                    window, self.border_properties.color, 0 + hborders_offset,
-                    screen.screen_size[0], self.border_properties.thickness
+                    window, self.border_properties.color,
+                    (self.draw_offset[0], hcons), (screen.screen_size[0], hcons),
+                    self.border_properties.thickness
                 )
 
     @property

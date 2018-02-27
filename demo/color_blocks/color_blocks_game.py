@@ -9,7 +9,7 @@ from components.core import GameScreen
 from components.shapes import Point
 from components.shapes import PointShape
 
-from components.helpers.grid import QuadraticGrid
+from components.helpers.grid import BorderProperties, QuadraticGrid
 
 from color_blocks_model import ColorBlocksModel
 
@@ -42,7 +42,11 @@ class ColorBlocksScreen(GameScreen):
         # Instantiate an underlying grid model
         self.block_width = int(math.floor((screen_size[0] - ColorBlocksScreen.GRID_OFFSET[0]) / grid_size[0]))
         self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[1]))
-        self.grid_model = QuadraticGrid(grid_size[0], grid_size[1], draw_offset=ColorBlocksScreen.GRID_OFFSET)
+        self.grid_model = QuadraticGrid(
+            grid_size[0], grid_size[1],
+            draw_offset=ColorBlocksScreen.GRID_OFFSET,
+            border_properties=BorderProperties()
+        )
         self.rect_list = []
         self.color_list = []
     
