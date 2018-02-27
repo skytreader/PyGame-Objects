@@ -14,9 +14,8 @@ This file contains models for grids.
 
 class DimensionException(Exception):
     """
-    Use this exception when indicating wrong dimensions for
-    grids (i.e., if you set a minimum/maximum dimensions for
-    your grids).
+    Use this exception when indicating wrong dimensions for grids (i.e., if you
+    set a minimum/maximum dimensions for your grids).
     """
     pass
 
@@ -121,6 +120,7 @@ class QuadraticGrid(Grid):
         self.__grid = [[i for i in range(grid_width)] for j in range(grid_height)]
         self.hv_neighbors = hv_neighbors
         self.diag_neighbors = diag_neighbors
+        self.border_properties = border_properties
     
     def draw(self, window, screen, **kwargs):
         block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
@@ -133,7 +133,7 @@ class QuadraticGrid(Grid):
             pygame.draw.rect(window, rndr, rct, 0)
 
         # Draw the borders
-        if border_properties:
+        if self.border_properties:
             # There will always be n + 1 borders to be drawn on either direction
             # since we need to draw the end borders too. (Where n is the grid
             # dimension.)
@@ -141,16 +141,16 @@ class QuadraticGrid(Grid):
 
             for vborders_offset in xrange(vborders_limit):
                 pygame.draw.line(
-                    window, border_properties.color, 0 + vborders_offset,
-                    screen.screen_size[1], border_properties.thickness
+                    window, self.border_properties.color, 0 + vborders_offset,
+                    screen.screen_size[1], self.border_properties.thickness
                 )
 
             hborders_limit = len(self.grid[1]) + 1
 
             for hborders_offset in xrange(hborders_limit):
                 pygame.draw.line(
-                    window, border_properties.color, 0 + hborders_offset,
-                    screen.screen_size[0], border_properties.thickness
+                    window, self.border_properties.color, 0 + hborders_offset,
+                    screen.screen_size[0], self.border_properties.thickness
                 )
 
     @property
