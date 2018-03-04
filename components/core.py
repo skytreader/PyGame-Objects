@@ -206,7 +206,7 @@ class GameScreen(Subscriber):
     @property
     def screen_size(self):
         """
-        This property is provied merely for the sake of backwards compatibility.
+        This property is provided merely for the sake of backwards compatibility.
         New code should refer straight to the `screen_dimensions` field.
         """
         return self.screen_dimensions
