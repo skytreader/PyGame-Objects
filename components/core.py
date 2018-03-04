@@ -174,15 +174,14 @@ class GameLoop(object):
 
 class GameScreen(Subscriber):
     """
-    The view.
+    The view. GameScreen contains the information needed to render the game's
+    current scene.
     
     A GameScreen must be PyGame executable by itself. Without a GameLoopEvents,
     it won't respond to any user-triggerred event.
     
     GameScreen classes should provide properties with which a GameLoopEvents can
     change what's happening on screen.
-    
-    @author Chad Estioco
     """
 
     DEBUG_SPACE_PROVISIONS = 300
@@ -438,6 +437,8 @@ class GameLoopEvents(Subscriber):
     def window(self):
         """
         Call this only after calling invoke_window
+
+        TODO Why should this still be a property?
         """
         return self.__window
     

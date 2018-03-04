@@ -123,6 +123,10 @@ class QuadraticGrid(Grid):
         self.border_properties = border_properties
     
     def draw(self, window, screen, **kwargs):
+        """
+        window - A Surface instance to draw on.
+        screen - A GameScreen instance.
+        """
         block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
         block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1]) / len(self.grid))
         rects, renders = QuadraticGrid.cons_rect_list(

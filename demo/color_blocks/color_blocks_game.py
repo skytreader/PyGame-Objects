@@ -66,10 +66,6 @@ class ColorBlocksScreen(GameScreen):
         )
     
     def draw_screen(self, window):
-        """
-        And the color blocks won't be demarcated with lines. Not yet. Yes,
-        messy, I know.
-        """
         self.grid_model.draw(window, self)
         score_font = pygame.font.Font(None, 25)
         score = score_font.render("Score: " + str(self.game_model.score), True, Colors.HUMAN_RED)
