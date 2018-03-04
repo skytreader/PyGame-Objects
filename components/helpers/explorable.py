@@ -1,6 +1,6 @@
 from __future__ import division
 
-from components.core import GameLoopEvents
+from components.core import GameLoopEvents, GameScreen
 from components.drawable import Drawable
 from components.sprite import PyRoSprite
 
@@ -16,9 +16,9 @@ class ForegroundSprite(PyRoSprite):
     def update(self, *args):
         pass
 
-class Explorable(Drawable):
+class ExplorableScreen(GameScreen):
 
-    def __init__(self, world_objects, initial_view, draw_offset=None):
+    def __init__(self, config, model, world_objects, initial_view, draw_offset=None):
         """
         An explorable world is one where not all objects is in view at once.
 
@@ -28,8 +28,8 @@ class Explorable(Drawable):
         initial_view - The upper-left coordinates of what is initially visible.
         draw_offset - As required by Drawable.
         """
-        draw_offset = draw_offset if draw_offset else None
-        super(Explorable, self).__init__(draw_offset)
+        super(ExplorableScreen, self).__init__(config, model)
+        draw_offset = draw_offset
         self.world_objects = world_objects
         self.initial_view = initial_view
 
@@ -51,13 +51,35 @@ class Explorable(Drawable):
             sprite.screen_draw.position = position
 
 class ExplorableMovements(GameLoopEvents):
+    """
+    GameLoopEvents that captures WASD movement by default.
+    """
 
     def __init__(self, config, game_screen, explorable):
         super(ExplorableMovements, self).__init__(config, game_screen)
         self.explorable = explorable
 
-    def move_camera(self, event):
-        self.explorable.move_camera(self, QuadraticGrid.Movements.KEY_TO_DIR[event])
+    def move_camera_factory(self, direction):
+        def mover(event):
+            self.explorable.move_camera(self, direction)
+        return mover
 
     def attach_event_handlers(self):
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
+        move_up_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_w, move_camera_factory(QuadraticGrid.Movements.UP)
+        )
+        move_down_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_s, move_camera_factory(QuadraticGrid.Movements.DOWN)
+        )
+        move_left_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_a, move_camera_factory(QuadraticGrid.Movements.LEFT)
+        )
+        move_right_handler_mapping = GameLoopEvents.KeyboardHandlerMapping(
+            pygame.key.K_d, move_camera_factory(QuadraticGrid.Movements.RIGHT)
+        )
+
+        self.add_event_handler(keydown_event, move_up_handler_mapping)
+        self.add_event_handler(keydown_event, move_down_handler_mapping)
+        self.add_event_handler(keydown_event, move_left_handler_mapping)
+        self.add_event_handler(keydown_event, move_right_handler_mapping)

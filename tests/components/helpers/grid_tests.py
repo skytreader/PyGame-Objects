@@ -1,8 +1,11 @@
 import unittest
 
+from components.core import GameConfig, GameModel, GameScreen
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
+from mock import patch
 
+import pygame
 import random
 import unittest
 
@@ -63,3 +66,11 @@ class QuadraticGridTests(unittest.TestCase):
         
         self.assertRaises(IndexError, matrix.get_adjacent, 10, 10)
         self.assertRaises(TypeError, matrix.get_adjacent, 0.0, "zero")
+
+    @patch("components.helpers.grid.pygame.draw.rect", autospec=True)
+    def test_draw(self, draw_rect):
+        game_screen = GameScreen(GameConfig(), GameModel())
+        window = pygame.display.set_mode((1, 1))
+        quadratic_grid = QuadraticGrid(4, 4)
+        quadratic_grid.draw(window, game_screen)
+        self.assertTrue(draw_rect.called)
