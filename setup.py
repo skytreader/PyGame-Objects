@@ -6,7 +6,7 @@ setup(
     author="Chad Estioco",
     author_email="chadestioco@gmail.com",
     url="https://github.com/skytreader/PyGame-Objects",
-    packages=["pygame-objects"],
+    packages=["components"],
     install_requires=["pygame"],
     license="MIT",
     description="PyGame Framework"

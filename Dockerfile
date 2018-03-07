@@ -6,6 +6,7 @@ COPY ./ app/
 RUN apt-get update --fix-missing
 RUN apt-get install -y python-pygame python-pip
 RUN pip install -r /app/requirements.txt
+RUN cd app/ && python setup.py install
 RUN useradd -m -U -s /bin/bash pygame
 
 USER pygame
