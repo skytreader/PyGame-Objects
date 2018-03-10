@@ -147,7 +147,7 @@ class QuadraticGrid(Grid):
                 vcons = block_width * vborders_offset + self.draw_offset[0]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (vcons, self.draw_offset[1]), (vcons, screen.screen_size[1],),
+                    (vcons, self.draw_offset[1]), (vcons, screen.screen_size[1]),
                     self.border_properties.thickness
                 )
 
