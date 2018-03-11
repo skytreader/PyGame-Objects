@@ -459,7 +459,7 @@ class GameLoopEvents(Subscriber):
         Holds the set-up code affected by GameConfig.
         """
         pygame.display.set_caption(self.config.get_config_val("window_title"))
-        window = self.invoke_window(self.game_screen.screen_size)
+        window = self.invoke_window(self.game_screen.screen_dimensions)
         window.fill(Colors.MAX_WHITE)
 
         if self.config.get_config_val("debug_mode"):
