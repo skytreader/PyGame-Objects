@@ -170,7 +170,7 @@ class QuadraticGrid(Grid):
             # since we need to draw the end borders too. (Where n is the grid
             # dimension.)
             vborders_limit = len(self.grid[0]) + 1
-            vgrid_pos_limit = (block_width * len(self.grid[0])) + self.draw_offset[0]
+            vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[0]
 
             for vborders_offset in xrange(vborders_limit):
                 vcons = block_width * vborders_offset + self.draw_offset[0]
@@ -180,8 +180,8 @@ class QuadraticGrid(Grid):
                     self.border_properties.thickness
                 )
 
-            hborders_limit = len(self.grid[1]) + 1
-            hgrid_pos_limit = (block_height * len(self.grid)) + self.draw_offset[1]
+            hborders_limit = len(self.grid) + 1
+            hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[1]
 
             for hborders_offset in xrange(hborders_limit):
                 hcons = block_height * hborders_offset + self.draw_offset[1]
