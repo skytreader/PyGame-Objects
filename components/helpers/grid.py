@@ -1,7 +1,7 @@
 #! usr/bin/env python
 from __future__ import division
 
-from components.core import Colors
+from components.core import Colors, GameScreen
 from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
 
@@ -121,14 +121,42 @@ class QuadraticGrid(Grid):
         self.hv_neighbors = hv_neighbors
         self.diag_neighbors = diag_neighbors
         self.border_properties = border_properties
+
+    def __compute_block_dimension(self, config, dim):
+        """
+        Compute the given block dimension. This is affected by several variables
+        in the game state. This method will take all of them into account.
+
+        config - A GameConfig instance, the current configuration of the game.
+        dim - A string, either "width" or "height", representing the dimension
+        to be computed. Anything else results to a ValueError.
+        """
+        if dim not in ("width", "height"):
+            raise ValueError("dim argument should only be either 'width' or 'height'. Given %s." % dim)
+
+        dimdex = 0 if dim == "width" else 1
+        debug_deductible = (
+            GameScreen.DEBUG_SPACE_PROVISIONS
+            if config.get_config_val("debug_mode")
+            else 0
+        )
+        deductibles = self.draw_offset[dimdex] + debug_deductible
+        denominator = len(self.grid) if dimdex else len(self.grid[0])
+        dimension_size = int(
+            math.floor(
+                (config.get_config_val("window_size")[dimdex] - deductibles) / denominator
+            )
+        )
+
+        return dimension_size
     
     def draw(self, window, screen, **kwargs):
         """
         window - A Surface instance to draw on.
         screen - A GameScreen instance.
         """
-        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
-        block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1]) / len(self.grid))
+        block_width = self.__compute_block_dimension(screen.config, "width")
+        block_height = self.__compute_block_dimension(screen.config, "height")
         rects, renders = QuadraticGrid.cons_rect_list(
           self, screen.model, block_width, block_height, self.draw_offset
         )
@@ -211,7 +239,7 @@ class QuadraticGrid(Grid):
         # TODO Optimize! Seems to me you can refactor these equations due to recurring terms.
         # Or even better, coming from Color Blocks, aren't block dimensions present in GameScreen? Check!
         block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1]) / len(self.grid))
-        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0[) / len(self.grid[0]))
+        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
         row_index = int(math.floor((pos[1] - self.draw_offset[1]) / block_height))
         col_index = int(math.floor((pos[0] - self.draw_offset[0]) / block_width))
 
