@@ -137,7 +137,7 @@ class QuadraticGrid(Grid):
         dimdex = 0 if dim == "width" else 1
         debug_deductible = (
             GameScreen.DEBUG_SPACE_PROVISIONS
-            if config.get_config_val("debug_mode")
+            if config.get_config_val("debug_mode") and dimdex
             else 0
         )
         deductibles = self.draw_offset[dimdex] + debug_deductible
