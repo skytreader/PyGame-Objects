@@ -76,7 +76,7 @@ class QuadraticGridTests(unittest.TestCase):
         self.assertTrue(draw_rect.called)
 
     def test_get_clicked_cell_squarefull(self):
-        square_config = GameConfig(window_size=(10, 10))
+        square_config = GameConfig(window_size=(80, 80))
         square_screen = GameScreen(square_config, GameModel())
         square_grid = QuadraticGrid(8, 8)
-        self.assertEqual((3, 7), square_grid.get_clicked_cell(square_screen, (36, 74)))
+        self.assertEqual((7, 3), square_grid.get_clicked_cell(square_screen, (36, 74)))

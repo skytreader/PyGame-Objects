@@ -190,9 +190,6 @@ class GameScreen(Subscriber):
         """
         Creates an instance of GameScreen. DO NOT instantiate images/surfaces here.
         Put instantiation code in setup() method.
-        
-        @param screen_dimensions
-          An iterable with at least two elements. See GameConfig.
         """
         screen_dimensions = game_config.get_config_val("window_size")
         self.config = game_config
