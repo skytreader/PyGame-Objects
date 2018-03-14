@@ -2,7 +2,7 @@ import unittest
 
 from components.core import GameConfig, GameModel, GameScreen
 from components.framework_exceptions import VectorDirectionException
-from components.helpers.grid import QuadraticGrid
+from components.helpers.grid import BorderProperties, QuadraticGrid
 from mock import patch
 
 import pygame
@@ -80,3 +80,11 @@ class QuadraticGridTests(unittest.TestCase):
         square_screen = GameScreen(square_config, GameModel())
         square_grid = QuadraticGrid(8, 8)
         self.assertEqual((7, 3), square_grid.get_clicked_cell(square_screen, (36, 74)))
+
+    def test_get_clicked_algorithmspkg(self):
+        algrid_config = GameConfig(window_size=(600, 600), debug_mode=True)
+        algrid_screen = GameScreen(algrid_config, GameModel())
+        algrid_qg = QuadraticGrid(
+            10, 10, diag_neighbors=False, border_properties=BorderProperties()
+        )
+        self.assertEqual((7, 4), algrid_qg.get_clicked_cell(algrid_screen, (424, 294)))
