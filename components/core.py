@@ -268,6 +268,9 @@ class DebugQueue(Subscriber):
         self.original_dims = self.game_screen.config.get_config_val("window_size")
         self.max_q_size = self.__get_max_log_display()
 
+        # This will be properly set in GameLoopEvents.configurable_setup
+        self.window = None
+
         log_formatter = logging.Formatter(DebugQueue.LOG_FORMAT)
         if self.game_screen.config.get_config_val("log_to_terminal"):
             logging.basicConfig(format=DebugQueue.LOG_FORMAT)
@@ -311,8 +314,6 @@ class GameLoopEvents(Subscriber):
     The controller.
     
     Encapsulates the stuff that happens inside a game loop.
-    
-    @author Chad Estioco
     """
 
     class KeyControls(object):
@@ -342,10 +343,7 @@ class GameLoopEvents(Subscriber):
         self.__config = config
         self.__game_screen = game_screen
 
-        if config.get_config_val("debug_mode"):
-            self.debug_queue = DebugQueue(game_screen)
-        else:
-            self.debug_queue = None
+        self.debug_queue = DebugQueue(game_screen)
         
         self.__config.subscribe(self)
         self.__event_handlers = {}
