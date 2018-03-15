@@ -87,4 +87,4 @@ class QuadraticGridTests(unittest.TestCase):
         algrid_qg = QuadraticGrid(
             10, 10, diag_neighbors=False, border_properties=BorderProperties()
         )
-        self.assertEqual((7, 4), algrid_qg.get_clicked_cell(algrid_screen, (424, 294)))
+        self.assertEqual((4, 7), algrid_qg.get_clicked_cell(algrid_screen, (424, 294)))
