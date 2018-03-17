@@ -4,6 +4,10 @@ class Drawable(object):
     """
     All classes that represent something that can be drawn on a PyGame
     screen canvas should extend this class and implement draw().
+
+    In the context of this framework, instantiate your drawables in your
+    GameScreen object and then invoke their draw methods in either `draw_screen`
+    or `draw_unchanging`.
     """
 
     def __init__(self, draw_offset, height_limit=None, width_limit=None):

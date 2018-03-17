@@ -2,7 +2,9 @@ from drawable import Drawable
 
 class Button(Drawable):
 
-    def __init__(self, label, color, position):
+    DEFAULT_FONT = pygame.font.Font(None, 24)
+
+    def __init__(self, label, color, position, draw_offset, label_font=None):
         self.label = label
         self.color = color
         self.position = position

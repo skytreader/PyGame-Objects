@@ -249,7 +249,10 @@ class DebugQueue(Subscriber):
     LINE_DISTANCE = 2
     FONT_SIZE = 18
     # TODO Handle case where font is not available.
-    FONT = pygame.font.Font("/usr/local/pygame-fonts/Inconsolata-Regular.ttf", FONT_SIZE)
+    try:
+        FONT = pygame.font.Font("/usr/local/pygame-fonts/Inconsolata-Regular.ttf", FONT_SIZE)
+    except IOError:
+        FONT = pygame.font.Font(None, FONT_SIZE)
     LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
     LOG_COLORS = {
