@@ -15,6 +15,7 @@ class Drawable(object):
         draw_offset is a (width, height) tuple.
         """
         self.draw_offset = draw_offset if draw_offset else (0, 0)
+        self.max_size = (width_limit, height_limit)
     
     def draw(self, window, screen, **kwargs):
         """
