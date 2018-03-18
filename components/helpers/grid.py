@@ -87,7 +87,7 @@ class QuadraticGrid(Grid):
             else:
                 raise VectorDirectionException("Given vector does not describe grid movement.")
     
-    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True, draw_offset=None, border_properties=None):
+    def __init__(self, grid_width, grid_height, hv_neighbors=True, diag_neighbors=True, draw_offset=None, border_properties=None):
         """
         Creates an instance of a quadratic grid.
         

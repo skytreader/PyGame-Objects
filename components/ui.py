@@ -15,7 +15,7 @@ class Button(Drawable):
         self.label = label
         self.color = color
         self.position = position
-        self.__action = lambda event: pass
+        self.__action = lambda event: event
         # TODO Handle labels that are too long.
         size = Button.DEFAULT_FONT.size(label)
         super(Button, self).__init__(
