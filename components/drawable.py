@@ -18,7 +18,7 @@ class Drawable(object):
         # TODO Make the semantics like so: if width_limit is None, make it scale
         # along the screen's width; if height_limit is None, make it scale along
         # the screen's height.
-        self.max_size = (width_limit, height_limit) if width_limit and height_limit else None
+        self.max_size = (width_limit, height_limit)
     
     def draw(self, window, screen, **kwargs):
         """

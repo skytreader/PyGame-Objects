@@ -87,12 +87,18 @@ class QuadraticGrid(Grid):
             else:
                 raise VectorDirectionException("Given vector does not describe grid movement.")
     
-    def __init__(self, grid_width, grid_height, hv_neighbors=True, diag_neighbors=True, draw_offset=None, border_properties=None):
+    def __init__(
+         self, grid_width, grid_height, width_limit=None, height_limit=None,
+         hv_neighbors=True, diag_neighbors=True, draw_offset=None,
+         border_properties=None
+    ):
         """
         Creates an instance of a quadratic grid.
         
         @param grid_width
         @param grid_height
+        @param width_limit
+        @param height_limit
         @param hv_neighbors
           If set to true, we consider the blocks above and below, left and right
           of a given block as a block's neighbors.
@@ -109,7 +115,7 @@ class QuadraticGrid(Grid):
           are to be drawn. A value of None (default) indicates that the cells
           should be drawn with no borders.
         """
-        super(QuadraticGrid, self).__init__(draw_offset=draw_offset)
+        super(QuadraticGrid, self).__init__(draw_offset=draw_offset, width_limit=width_limit, height_limit=height_limit)
         
         if type(grid_width) != type(0) or type(grid_height) != type(0):
             raise TypeError("Grid dimensions must be specified as ints.")
@@ -136,12 +142,11 @@ class QuadraticGrid(Grid):
 
         dimdex = 0 if dim == "width" else 1
         deductibles = self.draw_offset[dimdex]
+        max_allowable_area = config.get_config_val("window_size")[dimdex] - deductibles
+        if self.max_size[dimdex]:
+            max_allowable_area = min(max_allowable_area, self.max_size[dimdex])
         denominator = len(self.grid) if dimdex else len(self.grid[0])
-        dimension_size = int(
-            math.floor(
-                (config.get_config_val("window_size")[dimdex] - deductibles) / denominator
-            )
-        )
+        dimension_size = int(math.floor(max_allowable_area / denominator))
 
         return dimension_size
     
