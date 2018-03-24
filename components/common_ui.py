@@ -1,28 +1,34 @@
-from common_shapes import Rectangle
-
-from core import Colors
-
 from drawable import Drawable
 
-from shapes import Point
-from shapes import PointShape
-
-"""
-This module manages some common-UI functionalities like buttons
-and menus.
-
-TODO: Maybe, integrate this with common_shapes ?
-TODO: If we are to use common shapes with this, we must have a facility
-to flood fill PointShapes.
-"""
-
 class Button(Drawable):
-    """
-    A button has three states: untouched, hover, and pushed.
-    """
-    
-    def __init__(self, upper_left, lower_right, text, draw_offset=0, btn_color=Colors.LUCID_DARK, text_color=Colors.WHITE):
-        self.button_area = Rectangle(upper_left, lower_right)
-        self.button_text = text
-        self.text_color = text_color
-        super(Button, self).__init__(draw_offset)
+
+    DEFAULT_FONT = pygame.font.Font(None, 24)
+    VPADDING = 18
+    HPADDING = 18
+
+    def __init__(self, label, color, position, draw_offset, label_font=None):
+        """
+        Draws a rectangular button.
+
+        position is the position of the upper-left corner of the button.
+        """
+        self.label = label
+        self.color = color
+        self.position = position
+        self.__action = lambda event: event
+        # TODO Handle labels that are too long.
+        size = Button.DEFAULT_FONT.size(label)
+        super(Button, self).__init__(
+            draw_offset, size[1] + Button.VPADDING, size[0] + Button.HPADDING
+        )
+
+    @property
+    def action(self):
+        return self.__action
+
+    @action.setter
+    def action(self, handler):
+        self.__action = handler
+
+    def draw(self, window, screen, **kwargs):
+        pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[0], self.max_size[1]))
