@@ -10,11 +10,14 @@ class Drawable(object):
     or `draw_unchanging`.
     """
 
-    def __init__(self, draw_offset, height_limit=None, width_limit=None):
+    def __init__(self, draw_offset, width_limit=None, height_limit=None):
         """
         draw_offset is a (width, height) tuple.
         """
         self.draw_offset = draw_offset if draw_offset else (0, 0)
+        # TODO Make the semantics like so: if width_limit is None, make it scale
+        # along the screen's width; if height_limit is None, make it scale along
+        # the screen's height.
         self.max_size = (width_limit, height_limit) if width_limit and height_limit else None
     
     def draw(self, window, screen, **kwargs):
