@@ -173,10 +173,10 @@ class QuadraticGrid(Grid):
             vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[0]
 
             for vborders_offset in xrange(vborders_limit):
-                vcons = block_width * vborders_offset + self.draw_offset[0]
+                v_offset = block_width * vborders_offset + self.draw_offset[0]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (vcons, self.draw_offset[1]), (vcons, vgrid_pos_limit),
+                    (v_offset, self.draw_offset[1]), (v_offset, vgrid_pos_limit),
                     self.border_properties.thickness
                 )
 
@@ -184,10 +184,10 @@ class QuadraticGrid(Grid):
             hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[1]
 
             for hborders_offset in xrange(hborders_limit):
-                hcons = block_height * hborders_offset + self.draw_offset[1]
+                h_offset = block_height * hborders_offset + self.draw_offset[1]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (self.draw_offset[0], hcons), (hgrid_pos_limit, hcons),
+                    (self.draw_offset[0], h_offset), (hgrid_pos_limit, h_offset),
                     self.border_properties.thickness
                 )
 
