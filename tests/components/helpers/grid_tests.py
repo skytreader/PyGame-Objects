@@ -87,6 +87,21 @@ class QuadraticGridTests(unittest.TestCase):
         self.assertTrue(draw_rect.called)
         self.assertTrue(draw_line.called)
 
+    @patch("components.helpers.grid.pygame.draw.line", autospec=True)
+    @patch("components.helpers.grid.pygame.draw.rect", autospec=True)
+    def test_draw_borders_wparams(self, draw_rect, draw_line):
+        config = GameConfig(window_size=(400, 400))
+        game_screen = GameScreen(config, GameModel())
+        window = pygame.display.set_mode(config.get_config_val("window_size"))
+        border_prop = BorderProperties()
+        qg = QuadraticGrid(2, 2, border_properties=border_prop)
+        qg.draw(window, game_screen)
+        self.assertTrue(draw_rect.called)
+        draw_line.assert_called_with(
+            window, border_prop.color, (200, 0), (200, 400),
+            border_prop.thickness
+        )
+
     def test_get_clicked_cell_squarefull(self):
         square_config = GameConfig(window_size=(80, 80))
         square_screen = GameScreen(square_config, GameModel())
