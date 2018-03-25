@@ -145,3 +145,9 @@ class QuadraticGridTests(unittest.TestCase):
         screen = GameScreen(grid_config, GameModel())
         qg = QuadraticGrid(10, 10, 400, 400)
         self.assertEqual((8, 3), qg.get_clicked_cell(screen, (121, 323)))
+
+    def test_get_clicked_width_limited(self):
+        grid_config = GameConfig(window_size=(600, 400))
+        screen = GameScreen(grid_config, GameModel())
+        qg = QuadraticGrid(10, 10, 400, 400)
+        self.assertEqual((8, 3), qg.get_clicked_cell(screen, (121, 323)))
