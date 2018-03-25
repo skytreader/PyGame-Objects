@@ -238,11 +238,8 @@ class QuadraticGrid(Grid):
         return (upper_left_x, upper_left_y, block_width, block_height)
 
     def get_clicked_cell(self, screen, pos):
-        # TODO Optimize! Seems to me you can refactor these equations due to recurring terms.
-        # Or even better, coming from Color Blocks, aren't block dimensions present in GameScreen? Check!
-        height_deductible = GameScreen.DEBUG_SPACE_PROVISIONS if screen.config.get_config_val("debug_mode") else 0
-        block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1] - height_deductible) / len(self.grid))
-        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
+        block_height = self.__compute_block_dimension(screen.config, "height")
+        block_width = self.__compute_block_dimension(screen.config, "width")
         row_index = int(math.floor((pos[1] - self.draw_offset[1]) / block_height))
         col_index = int(math.floor((pos[0] - self.draw_offset[0]) / block_width))
 
