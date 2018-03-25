@@ -97,8 +97,32 @@ class QuadraticGridTests(unittest.TestCase):
         qg = QuadraticGrid(2, 2, border_properties=border_prop)
         qg.draw(window, game_screen)
         self.assertTrue(draw_rect.called)
-        draw_line.assert_called_with(
+
+        # The vertical borders
+        draw_line.assert_any_call(
+            window, border_prop.color, (0, 0), (0, 400),
+            border_prop.thickness
+        )
+        draw_line.assert_any_call(
             window, border_prop.color, (200, 0), (200, 400),
+            border_prop.thickness
+        )
+        draw_line.assert_any_call(
+            window, border_prop.color, (400, 0), (400, 400),
+            border_prop.thickness
+        )
+
+        # The horizontal borders
+        draw_line.assert_any_call(
+            window, border_prop.color, (0, 0), (400, 0),
+            border_prop.thickness
+        )
+        draw_line.assert_any_call(
+            window, border_prop.color, (0, 200), (400, 200),
+            border_prop.thickness
+        )
+        draw_line.assert_any_call(
+            window, border_prop.color, (0, 400), (400, 400),
             border_prop.thickness
         )
 
