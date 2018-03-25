@@ -88,3 +88,9 @@ class QuadraticGridTests(unittest.TestCase):
             10, 10, diag_neighbors=False, border_properties=BorderProperties()
         )
         self.assertEqual((4, 7), algrid_qg.get_clicked_cell(algrid_screen, (424, 294)))
+
+    def test_get_clicked_height_limited(self):
+        grid_config = GameConfig(window_size=(400, 600))
+        screen = GameScreen(grid_config, GameModel())
+        qg = QuadraticGrid(10, 10, 400, 400)
+        self.assertEqual((8, 3), qg.get_clicked_cell(screen, (121, 323)))
