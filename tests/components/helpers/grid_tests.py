@@ -67,13 +67,25 @@ class QuadraticGridTests(unittest.TestCase):
         self.assertRaises(IndexError, matrix.get_adjacent, 10, 10)
         self.assertRaises(TypeError, matrix.get_adjacent, 0.0, "zero")
 
+    @patch("components.helpers.grid.pygame.draw.line", autospec=True)
     @patch("components.helpers.grid.pygame.draw.rect", autospec=True)
-    def test_draw(self, draw_rect):
+    def test_draw(self, draw_rect, draw_line):
         game_screen = GameScreen(GameConfig(), GameModel())
         window = pygame.display.set_mode((1, 1))
         quadratic_grid = QuadraticGrid(4, 4)
         quadratic_grid.draw(window, game_screen)
         self.assertTrue(draw_rect.called)
+        self.assertFalse(draw_line.called)
+
+    @patch("components.helpers.grid.pygame.draw.line", autospec=True)
+    @patch("components.helpers.grid.pygame.draw.rect", autospec=True)
+    def test_draw_borders(self, draw_rect, draw_line):
+        game_screen = GameScreen(GameConfig(), GameModel())
+        window = pygame.display.set_mode((1, 1))
+        qg = QuadraticGrid(4, 4, border_properties=BorderProperties())
+        qg.draw(window, game_screen)
+        self.assertTrue(draw_rect.called)
+        self.assertTrue(draw_line.called)
 
     def test_get_clicked_cell_squarefull(self):
         square_config = GameConfig(window_size=(80, 80))
