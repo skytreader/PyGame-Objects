@@ -1,5 +1,7 @@
 from drawable import Drawable
 
+import pygame
+
 class Button(Drawable):
 
     DEFAULT_FONT = pygame.font.Font(None, 24)
