@@ -6,7 +6,7 @@ class Button(Drawable):
     VPADDING = 18
     HPADDING = 18
 
-    def __init__(self, label, color, position, draw_offset, label_font=None):
+    def __init__(self, label, color, position, label_font=None):
         """
         Draws a rectangular button.
 
@@ -19,7 +19,7 @@ class Button(Drawable):
         # TODO Handle labels that are too long.
         size = Button.DEFAULT_FONT.size(label)
         super(Button, self).__init__(
-            draw_offset, size[1] + Button.VPADDING, size[0] + Button.HPADDING
+            position, size[1] + Button.VPADDING, size[0] + Button.HPADDING
         )
 
     @property

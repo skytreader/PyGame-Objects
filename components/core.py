@@ -210,7 +210,7 @@ class GameScreen(Subscriber):
     
     def setup(self):
         """
-        Put all image/surface instantiation code here.
+        Put all image/surface/Drawable instantiation code here.
         """
         pass
     
