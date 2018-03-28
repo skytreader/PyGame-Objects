@@ -12,6 +12,11 @@ class ButtonTests(unittest.TestCase):
         config = GameConfig(window_size=(400, 400))
         game_screen = GameScreen(config, GameModel())
         window = pygame.display.set_mode(config.get_config_val("window_size"))
-        btn = Button("Test", Colors.NIGHT_BLUE, (100, 100))
+        btn = Button("Test", Colors.NIGHT_BLUE, (100, 88))
         btn.draw(window, game_screen)
-        self.assertTrue(draw_rect.called)
+        draw_rect.assert_any_call(
+            window, btn.color, (
+                btn.position[1], btn.position[0], btn.max_size[0],
+                btn.max_size[1]
+            )
+        )
