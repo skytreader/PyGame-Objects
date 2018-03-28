@@ -1,5 +1,3 @@
-import unittest
-
 from components.core import GameConfig, GameModel, GameScreen
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import BorderProperties, QuadraticGrid
