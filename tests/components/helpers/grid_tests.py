@@ -4,7 +4,6 @@ from components.helpers.grid import BorderProperties, QuadraticGrid
 from mock import patch
 
 import pygame
-import random
 import unittest
 
 class QuadraticGridTests(unittest.TestCase):
