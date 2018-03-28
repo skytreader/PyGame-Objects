@@ -126,6 +126,35 @@ class QuadraticGridTests(unittest.TestCase):
             border_prop.thickness
         )
 
+    @patch("components.helpers.grid.pygame.draw.line", autospec=True)
+    @patch("components.helpers.grid.pygame.draw.rect", autospec=True)
+    def test_draw_borders_woffset(self, draw_rect, draw_line):
+        config = GameConfig(window_size=(500, 600))
+        game_screen = GameScreen(config, GameModel())
+        window = pygame.display.set_mode(config.get_config_val("window_size"))
+        border_prop = BorderProperties()
+        draw_offset = (0, 100)
+        qg = QuadraticGrid(10, 10, draw_offset=draw_offset, border_properties=border_prop)
+        qg.draw(window, game_screen)
+        self.assertTrue(draw_rect.called)
+
+        block_dim = 50
+        # The horizontal borders
+        for i in range(10):
+            y = i * block_dim + draw_offset[1]
+            draw_line.assert_any_call(
+                window, border_prop.color, (0, y), (500, y),
+                border_prop.thickness
+            )
+
+        # The vertical borders
+        for i in range(10):
+            x = i * block_dim
+            draw_line.assert_any_call(
+                window, border_prop.color, (x, draw_offset[1]), (x, 600),
+                border_prop.thickness
+            )
+
     def test_get_clicked_cell_squarefull(self):
         square_config = GameConfig(window_size=(80, 80))
         square_screen = GameScreen(square_config, GameModel())
