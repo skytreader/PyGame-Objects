@@ -24,7 +24,7 @@ class Button(Drawable):
         # TODO Handle labels that are too long.
         size = Button.DEFAULT_FONT.size(label)
         super(Button, self).__init__(
-            position, size[1] + Button.VPADDING, size[0] + Button.HPADDING
+            position, size[0] + Button.HPADDING, size[1] + Button.VPADDING
         )
 
     @property
@@ -36,6 +36,6 @@ class Button(Drawable):
         self.__action = handler
 
     def draw(self, window, screen, **kwargs):
-        pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[1], self.max_size[0]))
+        pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[0], self.max_size[1]))
         button_label = Button.DEFAULT_FONT.render(self.label, True, Colors.MAX_BLACK)
         window.blit(button_label, (self.position[1] + int(Button.HPADDING / 2), self.position[0] + int(Button.VPADDING / 2)))
