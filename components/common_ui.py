@@ -1,3 +1,4 @@
+from components.core import Colors
 from drawable import Drawable
 
 import pygame
@@ -33,4 +34,6 @@ class Button(Drawable):
         self.__action = handler
 
     def draw(self, window, screen, **kwargs):
-        pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[0], self.max_size[1]))
+        pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[1], self.max_size[0]))
+        button_label = Button.DEFAULT_FONT.render(self.label, True, Colors.MAX_BLACK)
+        window.blit(button_label, (self.position[1] + Button.HPADDING, self.position[0] + Button.VPADDING))
