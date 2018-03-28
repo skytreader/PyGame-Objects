@@ -183,7 +183,6 @@ class QuadraticGrid(Grid):
             hborders_limit = len(self.grid) + 1
             hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[0]
 
-            print "=" * 60
             for hborders_offset in xrange(hborders_limit):
                 h_offset = block_height * hborders_offset + self.draw_offset[1]
                 pygame.draw.line(
