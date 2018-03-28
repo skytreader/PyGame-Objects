@@ -238,10 +238,18 @@ class QuadraticGrid(Grid):
         return (upper_left_x, upper_left_y, block_width, block_height)
 
     def get_clicked_cell(self, screen, pos):
+        """
+        Given the position of a click in a window, translate the click as a cell
+        in the QuadraticGrid. If the click is outside the bounds of the grid,
+        return None.
+        """
         block_height = self.__compute_block_dimension(screen.config, "height")
         block_width = self.__compute_block_dimension(screen.config, "width")
         row_index = int(math.floor((pos[1] - self.draw_offset[1]) / block_height))
         col_index = int(math.floor((pos[0] - self.draw_offset[0]) / block_width))
+
+        if row_index >= len(self.grid) or col_index >= len(self.grid[0]):
+            return None
 
         return (row_index, col_index)
     
