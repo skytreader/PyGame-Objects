@@ -37,5 +37,6 @@ class Button(Drawable):
 
     def draw(self, window, screen, **kwargs):
         pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[0], self.max_size[1]))
-        button_label = Button.DEFAULT_FONT.render(self.label, True, Colors.MAX_BLACK)
-        window.blit(button_label, (self.position[1] + int(Button.HPADDING / 2), self.position[0] + int(Button.VPADDING / 2)))
+        if pygame.font.get_init():
+            button_label = Button.DEFAULT_FONT.render(self.label, True, Colors.MAX_BLACK)
+            window.blit(button_label, (self.position[1] + int(Button.HPADDING / 2), self.position[0] + int(Button.VPADDING / 2)))

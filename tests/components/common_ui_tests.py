@@ -7,14 +7,9 @@ import unittest
 
 class ButtonTests(unittest.TestCase):
 
-    def setUp(self):
-        print "catch setup of ButtonTests"
-
     @patch("components.common_ui.pygame.draw.rect", autospec=True)
     def test_draw(self, draw_rect):
         print "we are in test_draw"
-        pygame.init()
-        print "pygame initialized in test_draw"
         config = GameConfig(window_size=(400, 400))
         game_screen = GameScreen(config, GameModel())
         window = pygame.display.set_mode(config.get_config_val("window_size"))
@@ -26,4 +21,3 @@ class ButtonTests(unittest.TestCase):
                 btn.max_size[1]
             )
         )
-        pygame.quit()
