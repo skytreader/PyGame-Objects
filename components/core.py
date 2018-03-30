@@ -171,6 +171,7 @@ class GameLoop(object):
             traceback.print_exc()
         finally:
             pygame.quit()
+            pygame.font.quit()
 
 class GameScreen(Subscriber):
     """
