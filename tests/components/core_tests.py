@@ -139,19 +139,33 @@ class DebugQueueTest(unittest.TestCase):
 
 class EventHandlerTests(unittest.TestCase):
 
+    def setUp(self):
+        self.btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
+
     def test_event_handling_basic(self):
         screen = GameScreen(GameConfig(), GameModel())
         loop_events = GameLoopEvents(screen.config, screen)
         evh1 = EventHandlerMock()
-        btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
-        loop_events.add_event_handler(btn_down_event, evh1.handle_event)
+        loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)
         loop = GameLoop(loop_events)
         # More Python sorcery!
-        loop._GameLoop__handle_event(btn_down_event)
+        loop._GameLoop__handle_event(self.btn_down_event)
         self.assertTrue(evh1.is_called)
 
+    def test_event_handling_multiple(self):
+       screen = GameScreen(GameConfig(), GameModel())
+       loop_events = GameLoopEvents(screen.config, screen)
+       evh1 = EventHandlerMock()
+       evh2 = EventHandlerMock()
+       loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)
+       loop_events.add_event_handler(self.btn_down_event, evh2.handle_event)
+       loop = GameLoop(loop_events)
+       # More Python sorcery!
+       loop._GameLoop__handle_event(self.btn_down_event)
+       self.assertTrue(evh1.is_called)
+       self.assertTrue(evh2.is_called)
+
 class DryRunTest(unittest.TestCase):
-    from components import core
 
     @patch("components.core.pygame.quit", autospec=True)
     @patch("components.core.pygame.display.flip", autospec=True)
