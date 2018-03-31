@@ -47,7 +47,7 @@ class KeyboardHandlingLoopEventsMock(GameLoopEvents):
         self.key_controls = GameLoopEvents.KeyControls()
 
     def attach_event_handlers(self):
-        super(GameLoopEvents, self).attach_event_handlers()
+        super(KeyboardHandlingLoopEventsMock, self).attach_event_handlers()
 
         keydown_event = pygame.event.Event(pygame.KEYDOWN)
         self.add_event_handler(keydown_event, self.key_controls.handle)
@@ -184,6 +184,7 @@ class EventHandlerTests(unittest.TestCase):
         loop_events = KeyboardHandlingLoopEventsMock(screen.config, screen)
         evh1 = EventHandlerMock()
         loop_events.key_controls.register_key(pygame.K_UP, evh1.handle_event)
+        loop_events.attach_event_handlers()
         loop = GameLoop(loop_events)
         # More Python sorcery!
         loop._GameLoop__handle_event(self.press_up_key_event)
