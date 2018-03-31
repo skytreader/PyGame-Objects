@@ -34,6 +34,24 @@ class LoopEventsMock(GameLoopEvents):
         self.times_called += 1
         return self.times_called < 10
 
+class KeyboardHandlingLoopEventsMock(GameLoopEvents):
+    """
+    Technically this could be merged with LoopEventsMock above but it seemed
+    prudent to abide by the single responsibility principle and create a new
+    mock subclass for each scenario we want to test. That way, the parts that
+    are mocked out do not run into each other.
+    """
+
+    def __init__(self, config, screen):
+        super(KeyboardHandlingLoopEventsMock, self).__init__(config, screen)
+        self.key_controls = GameLoopEvents.KeyControls()
+
+    def attach_event_handlers(self):
+        super(GameLoopEvents, self).attach_event_handlers()
+
+        keydown_event = pygame.event.Event(pygame.KEYDOWN)
+        self.add_event_handler(keydown_event, self.key_controls.handle)
+
 class EventHandlerMock(object):
 
     def __init__(self):
@@ -141,6 +159,9 @@ class EventHandlerTests(unittest.TestCase):
 
     def setUp(self):
         self.btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
+        self.press_up_key_event = pygame.event.Event(
+            pygame.KEYDOWN, key=pygame.K_UP
+        )
 
     def test_event_handling_basic(self):
         """
@@ -153,6 +174,19 @@ class EventHandlerTests(unittest.TestCase):
         loop = GameLoop(loop_events)
         # More Python sorcery!
         loop._GameLoop__handle_event(self.btn_down_event)
+        self.assertTrue(evh1.is_called)
+
+    def test_event_handling_kbd_basic(self):
+        """
+        Test basic event handling of keyboard-based events.
+        """
+        screen = GameScreen(GameConfig(), GameModel())
+        loop_events = KeyboardHandlingLoopEventsMock(screen.config, screen)
+        evh1 = EventHandlerMock()
+        loop_events.key_controls.register_key(pygame.K_UP, evh1.handle_event)
+        loop = GameLoop(loop_events)
+        # More Python sorcery!
+        loop._GameLoop__handle_event(self.press_up_key_event)
         self.assertTrue(evh1.is_called)
 
     def test_event_handling_multiple(self):
