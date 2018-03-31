@@ -8,6 +8,8 @@ import json
 import pygame
 import unittest
 
+# These are classes used by the tests, not actual tests themselves.
+
 class ConfigSubscriberMock(Subscriber):
     
     def __init__(self):
@@ -31,6 +33,16 @@ class LoopEventsMock(GameLoopEvents):
     def loop_invariant(self):
         self.times_called += 1
         return self.times_called < 10
+
+class EventHandlerMock(object):
+
+    def __init__(self):
+        self.is_called = False
+
+    def handle_event(self, event):
+        self.is_called = True
+
+# Actual tests start below.
 
 class GameConfigTest(unittest.TestCase):
     
@@ -124,6 +136,19 @@ class DebugQueueTest(unittest.TestCase):
         debug_q.log("more")
         self.assertTrue(len(debug_q.q) == max_display)
         self.assertTrue(debug_q.q[0].log == "log 1")
+
+class EventHandlerTests(unittest.TestCase):
+
+    def test_event_handling_basic(self):
+        screen = GameScreen(GameConfig(), GameModel())
+        loop_events = GameLoopEvents(screen.config, screen)
+        evh1 = EventHandlerMock()
+        btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
+        loop_events.add_event_handler(btn_down_event, evh1.handle_event)
+        loop = GameLoop(loop_events)
+        # More Python sorcery!
+        loop._GameLoop__handle_event(btn_down_event)
+        self.assertTrue(evh1.is_called)
 
 class DryRunTest(unittest.TestCase):
     from components import core
