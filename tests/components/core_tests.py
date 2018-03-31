@@ -143,6 +143,9 @@ class EventHandlerTests(unittest.TestCase):
         self.btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
 
     def test_event_handling_basic(self):
+        """
+        Test basic event handling of non-keyboard-based events.
+        """
         screen = GameScreen(GameConfig(), GameModel())
         loop_events = GameLoopEvents(screen.config, screen)
         evh1 = EventHandlerMock()
@@ -153,6 +156,10 @@ class EventHandlerTests(unittest.TestCase):
         self.assertTrue(evh1.is_called)
 
     def test_event_handling_multiple(self):
+       """
+       Test that multiple event handlers can listen on the same non-keyboard-based
+       event.
+       """
        screen = GameScreen(GameConfig(), GameModel())
        loop_events = GameLoopEvents(screen.config, screen)
        evh1 = EventHandlerMock()

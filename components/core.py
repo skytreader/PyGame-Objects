@@ -132,7 +132,8 @@ class GameLoop(object):
         event_code = event.type
         if event_code in self.loop_events.event_handlers:
             #TODO: Passing arguments?
-            self.loop_events.event_handlers[event_code](event)
+            for evh in self.loop_events.event_handlers[event_code]:
+                evh(event)
     
     def go(self):
         """
@@ -401,7 +402,12 @@ class GameLoopEvents(Subscriber):
           argument, the event.
         """
         event_code = event.type
-        self.event_handlers[event_code] = handler
+        existing_handler = self.event_handlers.get(event_code)
+
+        if existing_handler:
+            self.event_handlers[event_code].append(handler)
+        else:
+            self.event_handlers[event_code] = [handler]
     
     def attach_event_handlers(self):
         """
