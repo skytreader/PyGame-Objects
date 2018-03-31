@@ -363,7 +363,6 @@ class GameLoopEvents(Subscriber):
         self.__loop_control = True
         
         self.event_handlers[pygame.QUIT] = self.stop_main
-        self.event_handlers[pygame.KEYDOWN] = self.__handle_key
     
     @property
     def config(self):
@@ -387,10 +386,6 @@ class GameLoopEvents(Subscriber):
         """
         self.__loop_control = False
     
-    def __handle_key(self, event):
-        if event.key in self.key_handlers:
-            self.key_handlers[event.key](event)
-    
     def add_event_handler(self, event, handler):
         """
         Maps a given event to the function handler. pygame.KEYDOWN events
@@ -400,8 +395,8 @@ class GameLoopEvents(Subscriber):
         @param event
           The event trigger. Get this from pygame.event.get() .
         @param handler
-          If event.type == pygame.KEYDOWN, this must be an instance of
-          GameLoopEvents.KeyControls.
+          If event.type == pygame.KEYDOWN, this must be the `handle` method of
+          an instance of GameLoopEvents.KeyControls.
           
           Otherwise, this is simply the function to be executed when
           event_code is trigerred. All handler functions must accept one
