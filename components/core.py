@@ -322,6 +322,12 @@ class GameLoopEvents(Subscriber):
     """
 
     class KeyControls(object):
+        """
+        Defines the whole keyboard control scheme for your game. The advantage
+        of this is that you can have multiple control schemes (e.g., the
+        superior WASD vs arrow keys for movement) which can be swapped
+        programmatically/at runtime.
+        """
         
         def __init__(self):
             self.controls = {}
@@ -395,7 +401,7 @@ class GameLoopEvents(Subscriber):
           The event trigger. Get this from pygame.event.get() .
         @param handler
           If event.type == pygame.KEYDOWN, this must be an instance of
-          GameLoopEvents.KeyboardHandlerMapping.
+          GameLoopEvents.KeyControls.
           
           Otherwise, this is simply the function to be executed when
           event_code is trigerred. All handler functions must accept one
