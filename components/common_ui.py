@@ -29,6 +29,7 @@ class CommonUI(Drawable):
         # a placeholder for events you expect to handle.
         self._event_handlers = {}
 
+    # TODO Make this a staticmethod instead.
     def dummy_event_handler(self, event):
         """
         Note that this makes it so that a CommonUI instance "unlistens" to an

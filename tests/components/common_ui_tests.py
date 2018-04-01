@@ -1,4 +1,4 @@
-from components.common_ui import Button
+from components.common_ui import Button, UnsupportedEventException
 from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameModel, GameScreen
 from mock import patch
 from tests.components.core_tests import EventHandlerMock
@@ -40,3 +40,11 @@ class ButtonTests(unittest.TestCase):
         # Python sorcery!
         loop._GameLoop__handle_event(pygame.event.Event(pygame.MOUSEBUTTONDOWN))
         self.assertTrue(screen.evh.is_called)
+
+    def test_unsupported_event(self):
+        btn = Button("test", Colors.NIGHT_BLUE, (100, 88))
+        self.assertRaises(
+            UnsupportedEventException,
+            btn.set_event_handler, pygame.event.Event(pygame.KEYUP),
+            btn.dummy_event_handler
+        )
