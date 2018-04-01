@@ -201,6 +201,7 @@ class GameScreen(Subscriber):
         self.screen_dimensions = screen_dimensions
         self.model = model
         self.model.subscribe(self)
+        self.ui_elements = set()
     
     @property
     def screen_size(self):
@@ -415,7 +416,9 @@ class GameLoopEvents(Subscriber):
         Write all calls to add_event_handler here. This method is called inside
         GameLoopEvents.loop_setup.
         """
-        pass
+        for common_ui in self.game_screen.ui_elements:
+            for ev_code, ev_handler in common_ui._event_handlers.iteritems():
+                self.add_event_handler(pygame.event.Event(ev_code), ev_handler)
     
     def loop_invariant(self):
         """
