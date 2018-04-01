@@ -1,7 +1,7 @@
 #! usr/bin/env python
 from __future__ import division
 
-from components.core import Colors
+from components.core import Colors, GameScreen
 from components.drawable import Drawable
 from components.framework_exceptions import VectorDirectionException
 
@@ -30,8 +30,8 @@ class Grid(Drawable):
     A grid must be drawable (and traversable)!
     """
     
-    def __init__(self, draw_width=-1, draw_height=-1, draw_offset=None):
-        super(Grid, self).__init__(draw_offset)
+    def __init__(self, draw_offset=None, width_limit=None, height_limit=None):
+        super(Grid, self).__init__(draw_offset, width_limit, height_limit)
     
     def traverse(self):
         """
@@ -87,12 +87,18 @@ class QuadraticGrid(Grid):
             else:
                 raise VectorDirectionException("Given vector does not describe grid movement.")
     
-    def __init__(self, grid_width, grid_height, hv_neighbors = True, diag_neighbors = True, draw_offset=None, border_properties=None):
+    def __init__(
+         self, grid_width, grid_height, width_limit=None, height_limit=None,
+         hv_neighbors=True, diag_neighbors=True, draw_offset=None,
+         border_properties=None
+    ):
         """
         Creates an instance of a quadratic grid.
         
         @param grid_width
         @param grid_height
+        @param width_limit
+        @param height_limit
         @param hv_neighbors
           If set to true, we consider the blocks above and below, left and right
           of a given block as a block's neighbors.
@@ -109,7 +115,7 @@ class QuadraticGrid(Grid):
           are to be drawn. A value of None (default) indicates that the cells
           should be drawn with no borders.
         """
-        super(QuadraticGrid, self).__init__(draw_offset=draw_offset)
+        super(QuadraticGrid, self).__init__(draw_offset=draw_offset, width_limit=width_limit, height_limit=height_limit)
         
         if type(grid_width) != type(0) or type(grid_height) != type(0):
             raise TypeError("Grid dimensions must be specified as ints.")
@@ -121,14 +127,36 @@ class QuadraticGrid(Grid):
         self.hv_neighbors = hv_neighbors
         self.diag_neighbors = diag_neighbors
         self.border_properties = border_properties
+
+    def __compute_block_dimension(self, config, dim):
+        """
+        Compute the given block dimension. This is affected by several variables
+        in the game state. This method will take all of them into account.
+
+        config - A GameConfig instance, the current configuration of the game.
+        dim - A string, either "width" or "height", representing the dimension
+        to be computed. Anything else results to a ValueError.
+        """
+        if dim not in ("width", "height"):
+            raise ValueError("dim argument should only be either 'width' or 'height'. Given %s." % dim)
+
+        dimdex = 0 if dim == "width" else 1
+        deductibles = self.draw_offset[dimdex]
+        max_allowable_area = config.get_config_val("window_size")[dimdex] - deductibles
+        if self.max_size[dimdex]:
+            max_allowable_area = min(max_allowable_area, self.max_size[dimdex])
+        denominator = len(self.grid) if dimdex else len(self.grid[0])
+        dimension_size = int(math.floor(max_allowable_area / denominator))
+
+        return dimension_size
     
     def draw(self, window, screen, **kwargs):
         """
         window - A Surface instance to draw on.
         screen - A GameScreen instance.
         """
-        block_width = int(math.floor(screen.screen_size[0] - self.draw_offset[0]) / len(self.grid[0]))
-        block_height = int(math.floor(screen.screen_size[1] - self.draw_offset[1]) / len(self.grid))
+        block_width = self.__compute_block_dimension(screen.config, "width")
+        block_height = self.__compute_block_dimension(screen.config, "height")
         rects, renders = QuadraticGrid.cons_rect_list(
           self, screen.model, block_width, block_height, self.draw_offset
         )
@@ -142,22 +170,24 @@ class QuadraticGrid(Grid):
             # since we need to draw the end borders too. (Where n is the grid
             # dimension.)
             vborders_limit = len(self.grid[0]) + 1
+            vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[1]
 
             for vborders_offset in xrange(vborders_limit):
-                vcons = block_width * vborders_offset + self.draw_offset[0]
+                v_offset = block_width * vborders_offset + self.draw_offset[0]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (vcons, self.draw_offset[1]), (vcons, screen.screen_size[1],),
+                    (v_offset, self.draw_offset[1]), (v_offset, vgrid_pos_limit),
                     self.border_properties.thickness
                 )
 
-            hborders_limit = len(self.grid[1]) + 1
+            hborders_limit = len(self.grid) + 1
+            hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[0]
 
             for hborders_offset in xrange(hborders_limit):
-                hcons = block_height * hborders_offset + self.draw_offset[1]
+                h_offset = block_height * hborders_offset + self.draw_offset[1]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (self.draw_offset[0], hcons), (screen.screen_size[0], hcons),
+                    (self.draw_offset[0], h_offset), (hgrid_pos_limit, h_offset),
                     self.border_properties.thickness
                 )
 
@@ -206,6 +236,22 @@ class QuadraticGrid(Grid):
         upper_left_x = c[1] * block_width + width_offset
         upper_left_y = c[0] * block_height + height_offset
         return (upper_left_x, upper_left_y, block_width, block_height)
+
+    def get_clicked_cell(self, screen, pos):
+        """
+        Given the position of a click in a window, translate the click as a cell
+        in the QuadraticGrid. If the click is outside the bounds of the grid,
+        return None.
+        """
+        block_height = self.__compute_block_dimension(screen.config, "height")
+        block_width = self.__compute_block_dimension(screen.config, "width")
+        row_index = int(math.floor((pos[1] - self.draw_offset[1]) / block_height))
+        col_index = int(math.floor((pos[0] - self.draw_offset[0]) / block_width))
+
+        if row_index >= len(self.grid) or col_index >= len(self.grid[0]):
+            return None
+
+        return (row_index, col_index)
     
     def __incr(self, index, dimension_length):
         if index == (dimension_length - 1):

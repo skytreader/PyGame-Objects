@@ -132,7 +132,8 @@ class GameLoop(object):
         event_code = event.type
         if event_code in self.loop_events.event_handlers:
             #TODO: Passing arguments?
-            self.loop_events.event_handlers[event_code](event)
+            for evh in self.loop_events.event_handlers[event_code]:
+                evh(event)
     
     def go(self):
         """
@@ -171,6 +172,7 @@ class GameLoop(object):
             traceback.print_exc()
         finally:
             pygame.quit()
+            pygame.font.quit()
 
 class GameScreen(Subscriber):
     """
@@ -190,9 +192,6 @@ class GameScreen(Subscriber):
         """
         Creates an instance of GameScreen. DO NOT instantiate images/surfaces here.
         Put instantiation code in setup() method.
-        
-        @param screen_dimensions
-          An iterable with at least two elements. See GameConfig.
         """
         screen_dimensions = game_config.get_config_val("window_size")
         self.config = game_config
@@ -202,18 +201,28 @@ class GameScreen(Subscriber):
         self.screen_dimensions = screen_dimensions
         self.model = model
         self.model.subscribe(self)
+        self.ui_elements = set()
     
     @property
     def screen_size(self):
         """
-        This property is provied merely for the sake of backwards compatibility.
+        This property is provided merely for the sake of backwards compatibility.
         New code should refer straight to the `screen_dimensions` field.
         """
         return self.screen_dimensions
+
+    # TODO Is this appropriate for a decorator?
+    def _is_drawable_clicked(self, drawable, pos):
+        width_limit = drawable.draw_offset[1] + drawable.max_size[0]
+        height_limit = drawable.draw_offset[0] + drawable.max_size[1]
+        in_width = drawable.draw_offset[1] <= pos[0] <= width_limit
+        in_height = drawable.draw_offset[0] <= pos[1] <= height_limit
+
+        return in_width and in_height
     
     def setup(self):
         """
-        Put all image/surface instantiation code here.
+        Put all image/surface/Drawable instantiation code here.
         """
         pass
     
@@ -251,7 +260,11 @@ class DebugQueue(Subscriber):
     DISPLAY_PADDING = 4
     LINE_DISTANCE = 2
     FONT_SIZE = 18
-    FONT = pygame.font.Font("fonts/inconsolata/Inconsolata-Regular.ttf", FONT_SIZE)
+    # TODO Handle case where font is not available.
+    try:
+        FONT = pygame.font.Font("/usr/local/pygame-fonts/Inconsolata-Regular.ttf", FONT_SIZE)
+    except IOError:
+        FONT = pygame.font.Font(None, FONT_SIZE)
     LOG_FORMAT = "%(asctime)s %(levelname)s %(message)s"
 
     LOG_COLORS = {
@@ -269,6 +282,9 @@ class DebugQueue(Subscriber):
         self.fps_rate = self.game_screen.config.get_config_val("frame_rate")
         self.original_dims = self.game_screen.config.get_config_val("window_size")
         self.max_q_size = self.__get_max_log_display()
+
+        # This will be properly set in GameLoopEvents.configurable_setup
+        self.window = None
 
         log_formatter = logging.Formatter(DebugQueue.LOG_FORMAT)
         if self.game_screen.config.get_config_val("log_to_terminal"):
@@ -313,11 +329,15 @@ class GameLoopEvents(Subscriber):
     The controller.
     
     Encapsulates the stuff that happens inside a game loop.
-    
-    @author Chad Estioco
     """
 
     class KeyControls(object):
+        """
+        Defines the whole keyboard control scheme for your game. The advantage
+        of this is that you can have multiple control schemes (e.g., the
+        superior WASD vs arrow keys for movement) which can be swapped
+        programmatically/at runtime.
+        """
         
         def __init__(self):
             self.controls = {}
@@ -344,10 +364,7 @@ class GameLoopEvents(Subscriber):
         self.__config = config
         self.__game_screen = game_screen
 
-        if config.get_config_val("debug_mode"):
-            self.debug_queue = DebugQueue(game_screen)
-        else:
-            self.debug_queue = None
+        self.debug_queue = DebugQueue(game_screen)
         
         self.__config.subscribe(self)
         self.__event_handlers = {}
@@ -355,8 +372,8 @@ class GameLoopEvents(Subscriber):
         
         self.__loop_control = True
         
-        self.event_handlers[pygame.QUIT] = self.stop_main
-        self.event_handlers[pygame.KEYDOWN] = self.__handle_key
+        # TODO Maybe use add_event_handler for this to prevent future fuck-ups?
+        self.event_handlers[pygame.QUIT] = [self.stop_main]
     
     @property
     def config(self):
@@ -380,10 +397,6 @@ class GameLoopEvents(Subscriber):
         """
         self.__loop_control = False
     
-    def __handle_key(self, event):
-        if event.key in self.key_handlers:
-            self.key_handlers[event.key](event)
-    
     def add_event_handler(self, event, handler):
         """
         Maps a given event to the function handler. pygame.KEYDOWN events
@@ -393,22 +406,30 @@ class GameLoopEvents(Subscriber):
         @param event
           The event trigger. Get this from pygame.event.get() .
         @param handler
-          If event.type == pygame.KEYDOWN, this must be an instance of
-          GameLoopEvents.KeyboardHandlerMapping.
+          If event.type == pygame.KEYDOWN, this must be the `handle` method of
+          an instance of GameLoopEvents.KeyControls.
           
           Otherwise, this is simply the function to be executed when
           event_code is trigerred. All handler functions must accept one
           argument, the event.
         """
         event_code = event.type
-        self.event_handlers[event_code] = handler
+        existing_handler = self.event_handlers.get(event_code)
+
+        if existing_handler:
+            self.event_handlers[event_code].append(handler)
+        else:
+            self.event_handlers[event_code] = [handler]
+
     
     def attach_event_handlers(self):
         """
         Write all calls to add_event_handler here. This method is called inside
         GameLoopEvents.loop_setup.
         """
-        pass
+        for common_ui in self.game_screen.ui_elements:
+            for ev_code, ev_handler in common_ui._event_handlers.iteritems():
+                self.add_event_handler(pygame.event.Event(ev_code), ev_handler)
     
     def loop_invariant(self):
         """
@@ -458,7 +479,7 @@ class GameLoopEvents(Subscriber):
         Holds the set-up code affected by GameConfig.
         """
         pygame.display.set_caption(self.config.get_config_val("window_title"))
-        window = self.invoke_window(self.game_screen.screen_size)
+        window = self.invoke_window(self.game_screen.screen_dimensions)
         window.fill(Colors.MAX_WHITE)
 
         if self.config.get_config_val("debug_mode"):

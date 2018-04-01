@@ -8,6 +8,8 @@ import json
 import pygame
 import unittest
 
+# These are classes used by the tests, not actual tests themselves.
+
 class ConfigSubscriberMock(Subscriber):
     
     def __init__(self):
@@ -31,6 +33,34 @@ class LoopEventsMock(GameLoopEvents):
     def loop_invariant(self):
         self.times_called += 1
         return self.times_called < 10
+
+class KeyboardHandlingLoopEventsMock(GameLoopEvents):
+    """
+    Technically this could be merged with LoopEventsMock above but it seemed
+    prudent to abide by the single responsibility principle and create a new
+    mock subclass for each scenario we want to test. That way, the parts that
+    are mocked out do not run into each other.
+    """
+
+    def __init__(self, config, screen):
+        super(KeyboardHandlingLoopEventsMock, self).__init__(config, screen)
+        self.key_controls = GameLoopEvents.KeyControls()
+
+    def attach_event_handlers(self):
+        super(KeyboardHandlingLoopEventsMock, self).attach_event_handlers()
+
+        keydown_event = pygame.event.Event(pygame.KEYDOWN)
+        self.add_event_handler(keydown_event, self.key_controls.handle)
+
+class EventHandlerMock(object):
+
+    def __init__(self):
+        self.is_called = False
+
+    def handle_event(self, event):
+        self.is_called = True
+
+# Actual tests start below.
 
 class GameConfigTest(unittest.TestCase):
     
@@ -125,8 +155,59 @@ class DebugQueueTest(unittest.TestCase):
         self.assertTrue(len(debug_q.q) == max_display)
         self.assertTrue(debug_q.q[0].log == "log 1")
 
+class EventHandlerTests(unittest.TestCase):
+
+    def setUp(self):
+        self.btn_down_event = pygame.event.Event(pygame.MOUSEBUTTONDOWN)
+        self.press_up_key_event = pygame.event.Event(
+            pygame.KEYDOWN, key=pygame.K_UP
+        )
+
+    def test_event_handling_basic(self):
+        """
+        Test basic event handling of non-keyboard-based events.
+        """
+        screen = GameScreen(GameConfig(), GameModel())
+        loop_events = GameLoopEvents(screen.config, screen)
+        evh1 = EventHandlerMock()
+        loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)
+        loop = GameLoop(loop_events)
+        # More Python sorcery!
+        loop._GameLoop__handle_event(self.btn_down_event)
+        self.assertTrue(evh1.is_called)
+
+    def test_event_handling_kbd_basic(self):
+        """
+        Test basic event handling of keyboard-based events.
+        """
+        screen = GameScreen(GameConfig(), GameModel())
+        loop_events = KeyboardHandlingLoopEventsMock(screen.config, screen)
+        evh1 = EventHandlerMock()
+        loop_events.key_controls.register_key(pygame.K_UP, evh1.handle_event)
+        loop_events.attach_event_handlers()
+        loop = GameLoop(loop_events)
+        # More Python sorcery!
+        loop._GameLoop__handle_event(self.press_up_key_event)
+        self.assertTrue(evh1.is_called)
+
+    def test_event_handling_multiple(self):
+       """
+       Test that multiple event handlers can listen on the same non-keyboard-based
+       event.
+       """
+       screen = GameScreen(GameConfig(), GameModel())
+       loop_events = GameLoopEvents(screen.config, screen)
+       evh1 = EventHandlerMock()
+       evh2 = EventHandlerMock()
+       loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)
+       loop_events.add_event_handler(self.btn_down_event, evh2.handle_event)
+       loop = GameLoop(loop_events)
+       # More Python sorcery!
+       loop._GameLoop__handle_event(self.btn_down_event)
+       self.assertTrue(evh1.is_called)
+       self.assertTrue(evh2.is_called)
+
 class DryRunTest(unittest.TestCase):
-    from components import core
 
     @patch("components.core.pygame.quit", autospec=True)
     @patch("components.core.pygame.display.flip", autospec=True)

@@ -34,7 +34,7 @@ class PointShape(Drawable):
     @author Chad Estioco
     """
     
-    def __init__(self, point_list = None, line_color = Colors.MAX_BLACK, draw_offset=None):
+    def __init__(self, point_list=None, line_color=Colors.MAX_BLACK, draw_offset=None):
         """
         Create a PointShape with the given point_list.
         """
