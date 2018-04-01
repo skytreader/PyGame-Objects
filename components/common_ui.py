@@ -44,8 +44,8 @@ class CommonUI(Drawable):
         method throws an UnsupportedEventException in case an event which is not
         handled is specified.
         """
-        handler = self._event_handlers.get(event.type)
-        if handler:
+        _handler = self._event_handlers.get(event.type)
+        if _handler:
             self._event_handlers[event.type] = handler
         else:
             raise UnsupportedEventException(event)
