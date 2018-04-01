@@ -131,6 +131,7 @@ class GameLoop(object):
     def __handle_event(self, event):
         event_code = event.type
         if event_code in self.loop_events.event_handlers:
+            print "__handle_event handler for event code %s is %s" % (event_code, self.loop_events.event_handlers[event_code])
             #TODO: Passing arguments?
             for evh in self.loop_events.event_handlers[event_code]:
                 evh(event)
@@ -363,7 +364,8 @@ class GameLoopEvents(Subscriber):
         
         self.__loop_control = True
         
-        self.event_handlers[pygame.QUIT] = self.stop_main
+        # TODO Maybe use add_event_handler for this to prevent future fuck-ups?
+        self.event_handlers[pygame.QUIT] = [self.stop_main]
     
     @property
     def config(self):
@@ -403,13 +405,17 @@ class GameLoopEvents(Subscriber):
           event_code is trigerred. All handler functions must accept one
           argument, the event.
         """
+        print "Adding handler %s for event %s" % (handler, event)
         event_code = event.type
         existing_handler = self.event_handlers.get(event_code)
+        print "Do we have an existing handler? %s" % existing_handler
 
         if existing_handler:
             self.event_handlers[event_code].append(handler)
         else:
             self.event_handlers[event_code] = [handler]
+
+        print "Handler for %s is %s" % (event_code, self.event_handlers[event_code])
     
     def attach_event_handlers(self):
         """
