@@ -210,6 +210,15 @@ class GameScreen(Subscriber):
         New code should refer straight to the `screen_dimensions` field.
         """
         return self.screen_dimensions
+
+    # TODO Is this appropriate for a decorator?
+    def _is_drawable_clicked(self, drawable, pos):
+        width_limit = drawable.draw_offset[1] + drawable.max_size[0]
+        height_limit = drawable.draw_offset[0] + drawable.max_size[1]
+        in_width = drawable.draw_offset[1] <= pos[0] <= width_limit
+        in_height = drawable.draw_offset[0] <= pos[1] <= height_limit
+
+        return in_width and in_height
     
     def setup(self):
         """
