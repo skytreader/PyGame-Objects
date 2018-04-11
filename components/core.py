@@ -214,7 +214,9 @@ class GameScreen(Subscriber):
     # TODO Is this appropriate for a decorator?
     def _is_drawable_clicked(self, drawable, pos):
         """
-        Position is taken as a (width, height) offset.
+        `pos` is taken straight from `pygame.mouse.get_pos()`. Note that it
+        returns coordinates in the form (x, y), which is contrary to the
+        standards of the framework.
         """
         width_limit = drawable.draw_offset[1] + drawable.max_size[0]
         height_limit = drawable.draw_offset[0] + drawable.max_size[1]

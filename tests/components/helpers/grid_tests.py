@@ -130,7 +130,7 @@ class QuadraticGridTests(unittest.TestCase):
         game_screen = GameScreen(config, GameModel())
         window = pygame.display.set_mode(config.get_config_val("window_size"))
         border_prop = BorderProperties()
-        draw_offset = (0, 100)
+        draw_offset = (100, 0)
         qg = QuadraticGrid(10, 10, draw_offset=draw_offset, border_properties=border_prop)
         qg.draw(window, game_screen)
         self.assertTrue(draw_rect.called)

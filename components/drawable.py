@@ -12,7 +12,7 @@ class Drawable(object):
 
     def __init__(self, draw_offset, width_limit=None, height_limit=None):
         """
-        draw_offset is a (width, height) tuple.
+        draw_offset is a (row, col) tuple.
         """
         self.draw_offset = draw_offset if draw_offset else (0, 0)
         # TODO Make the semantics like so: if width_limit is None, make it scale

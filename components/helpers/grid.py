@@ -140,7 +140,7 @@ class QuadraticGrid(Grid):
         if dim not in ("width", "height"):
             raise ValueError("dim argument should only be either 'width' or 'height'. Given %s." % dim)
 
-        dimdex = 0 if dim == "width" else 1
+        dimdex = 1 if dim == "width" else 0
         deductibles = self.draw_offset[dimdex]
         max_allowable_area = config.get_config_val("window_size")[dimdex] - deductibles
         if self.max_size[dimdex]:
@@ -170,24 +170,24 @@ class QuadraticGrid(Grid):
             # since we need to draw the end borders too. (Where n is the grid
             # dimension.)
             vborders_limit = len(self.grid[0]) + 1
-            vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[1]
+            vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[0]
 
             for vborders_offset in xrange(vborders_limit):
-                v_offset = block_width * vborders_offset + self.draw_offset[0]
+                v_offset = block_width * vborders_offset + self.draw_offset[1]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (v_offset, self.draw_offset[1]), (v_offset, vgrid_pos_limit),
+                    (v_offset, self.draw_offset[0]), (v_offset, vgrid_pos_limit),
                     self.border_properties.thickness
                 )
 
             hborders_limit = len(self.grid) + 1
-            hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[0]
+            hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[1]
 
             for hborders_offset in xrange(hborders_limit):
-                h_offset = block_height * hborders_offset + self.draw_offset[1]
+                h_offset = block_height * hborders_offset + self.draw_offset[0]
                 pygame.draw.line(
                     window, self.border_properties.color,
-                    (self.draw_offset[0], h_offset), (hgrid_pos_limit, h_offset),
+                    (self.draw_offset[1], h_offset), (hgrid_pos_limit, h_offset),
                     self.border_properties.thickness
                 )
 
@@ -214,8 +214,8 @@ class QuadraticGrid(Grid):
         grid = grid.grid
         rect_list = []
         render_list = []
-        width_offset = offset[0]
-        height_offset = offset[1]
+        width_offset = offset[1]
+        height_offset = offset[0]
 
         for i, row in enumerate(grid):
             for j, col in enumerate(row):
@@ -245,8 +245,8 @@ class QuadraticGrid(Grid):
         """
         block_height = self.__compute_block_dimension(screen.config, "height")
         block_width = self.__compute_block_dimension(screen.config, "width")
-        row_index = int(math.floor((pos[1] - self.draw_offset[1]) / block_height))
-        col_index = int(math.floor((pos[0] - self.draw_offset[0]) / block_width))
+        row_index = int(math.floor((pos[1] - self.draw_offset[0]) / block_height))
+        col_index = int(math.floor((pos[0] - self.draw_offset[1]) / block_width))
 
         if row_index >= len(self.grid) or col_index >= len(self.grid[0]):
             return None
