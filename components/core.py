@@ -213,6 +213,9 @@ class GameScreen(Subscriber):
 
     # TODO Is this appropriate for a decorator?
     def _is_drawable_clicked(self, drawable, pos):
+        """
+        Position is taken as a (width, height) offset.
+        """
         width_limit = drawable.draw_offset[1] + drawable.max_size[0]
         height_limit = drawable.draw_offset[0] + drawable.max_size[1]
         in_width = drawable.draw_offset[1] <= pos[0] <= width_limit

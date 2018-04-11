@@ -1,4 +1,5 @@
 from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
+from components.drawable import Drawable
 from components.subscriber_pattern import Subscriber
 from mock import patch
 from StringIO import StringIO
@@ -136,6 +137,12 @@ class GameScreenTest(unittest.TestCase):
             (window_size_debug[0], window_size_debug[1] + GameScreen.DEBUG_SPACE_PROVISIONS),
             screen_debug.screen_size
         )
+
+    def test_is_drawable_clicked_happy(self):
+        sample_drawable = Drawable((0, 0), 100, 88)
+        cfg = GameConfig(window_size=(200, 160))
+        screen = GameScreen(cfg, GameModel())
+        self.assertTrue(screen._is_drawable_clicked(sample_drawable, (90, 44)))
 
 class DebugQueueTest(unittest.TestCase):
     
