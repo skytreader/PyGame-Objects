@@ -140,8 +140,9 @@ class QuadraticGrid(Grid):
         if dim not in ("width", "height"):
             raise ValueError("dim argument should only be either 'width' or 'height'. Given %s." % dim)
 
-        dimdex = 1 if dim == "width" else 0
-        deductibles = self.draw_offset[dimdex]
+        dimdex = 0 if dim == "width" else 1
+        offset_dimdex = 1 if dim == "width" else 0
+        deductibles = self.draw_offset[offset_dimdex]
         max_allowable_area = config.get_config_val("window_size")[dimdex] - deductibles
         if self.max_size[dimdex]:
             max_allowable_area = min(max_allowable_area, self.max_size[dimdex])

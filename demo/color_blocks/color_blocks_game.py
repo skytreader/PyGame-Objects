@@ -105,7 +105,7 @@ class ColorBlocksEvents(GameLoopEvents):
 def main():
     config = GameConfig()
     config.set_config_val("clock_rate", 12)
-    config.set_config_val("window_size", [500, 500 + ColorBlocksScreen.GRID_OFFSET[1]])
+    config.set_config_val("window_size", [500, 500 + ColorBlocksScreen.GRID_OFFSET[0]])
     config.set_config_val("window_title", "Color Blocks Game")
     
     screen = ColorBlocksScreen(config, [10, 10])

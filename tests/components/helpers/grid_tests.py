@@ -136,11 +136,15 @@ class QuadraticGridTests(unittest.TestCase):
         self.assertTrue(draw_rect.called)
 
         block_dim = 50
+        # Python sorcery
+        self.assertEqual(block_dim, qg._QuadraticGrid__compute_block_dimension(config, "width"))
+        self.assertEqual(block_dim, qg._QuadraticGrid__compute_block_dimension(config, "height"))
+        window_dimensions = config.get_config_val("window_size")
         # The horizontal borders
         for i in range(10):
-            y = i * block_dim + draw_offset[1]
+            y = i * block_dim + draw_offset[0]
             draw_line.assert_any_call(
-                window, border_prop.color, (0, y), (500, y),
+                window, border_prop.color, (0, y), (window_dimensions[0], y),
                 border_prop.thickness
             )
 
@@ -148,7 +152,7 @@ class QuadraticGridTests(unittest.TestCase):
         for i in range(10):
             x = i * block_dim
             draw_line.assert_any_call(
-                window, border_prop.color, (x, draw_offset[1]), (x, 600),
+                window, border_prop.color, (x, draw_offset[0]), (x, window_dimensions[1]),
                 border_prop.thickness
             )
 
