@@ -34,7 +34,7 @@ class ButtonTests(unittest.TestCase):
 
     def test_default_event_handling(self):
         screen = SampleGameScreenUI(GameConfig(), GameModel())
-        loop_events = GameLoopEvents(screen.config, screen)
+        loop_events = GameLoopEvents(screen)
         loop_events.loop_setup()
         loop = GameLoop(loop_events)
         # Python sorcery!

@@ -73,8 +73,8 @@ class ColorBlocksScreen(GameScreen):
 
 class ColorBlocksEvents(GameLoopEvents):
     
-    def __init__(self, screen, config):
-        super(ColorBlocksEvents, self).__init__(screen, config)
+    def __init__(self, screen):
+        super(ColorBlocksEvents, self).__init__(screen)
         self.key_control = GameLoopEvents.KeyControls()
         self.key_control.register_key(pygame.K_F2, self.__trigger_new_game)
     
@@ -109,7 +109,7 @@ def main():
     config.set_config_val("window_title", "Color Blocks Game")
     
     screen = ColorBlocksScreen(config, [10, 10])
-    loop_events = ColorBlocksEvents(config, screen)
+    loop_events = ColorBlocksEvents(screen)
     return loop_events
 
 if __name__ == "__main__":

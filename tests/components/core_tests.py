@@ -28,7 +28,7 @@ class ConfigSubscriberMock(Subscriber):
 class LoopEventsMock(GameLoopEvents):
     
     def __init__(self, config, screen):
-        super(LoopEventsMock, self).__init__(config, screen)
+        super(LoopEventsMock, self).__init__(screen)
         self.times_called = 0
     
     def loop_invariant(self):
@@ -43,8 +43,8 @@ class KeyboardHandlingLoopEventsMock(GameLoopEvents):
     are mocked out do not run into each other.
     """
 
-    def __init__(self, config, screen):
-        super(KeyboardHandlingLoopEventsMock, self).__init__(config, screen)
+    def __init__(self, screen):
+        super(KeyboardHandlingLoopEventsMock, self).__init__(screen)
         self.key_controls = GameLoopEvents.KeyControls()
 
     def attach_event_handlers(self):
@@ -175,7 +175,7 @@ class EventHandlerTests(unittest.TestCase):
         Test basic event handling of non-keyboard-based events.
         """
         screen = GameScreen(GameConfig(), GameModel())
-        loop_events = GameLoopEvents(screen.config, screen)
+        loop_events = GameLoopEvents(screen)
         evh1 = EventHandlerMock()
         loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)
         loop = GameLoop(loop_events)
@@ -188,7 +188,7 @@ class EventHandlerTests(unittest.TestCase):
         Test basic event handling of keyboard-based events.
         """
         screen = GameScreen(GameConfig(), GameModel())
-        loop_events = KeyboardHandlingLoopEventsMock(screen.config, screen)
+        loop_events = KeyboardHandlingLoopEventsMock(screen)
         evh1 = EventHandlerMock()
         loop_events.key_controls.register_key(pygame.K_UP, evh1.handle_event)
         loop_events.attach_event_handlers()
@@ -203,7 +203,7 @@ class EventHandlerTests(unittest.TestCase):
        event.
        """
        screen = GameScreen(GameConfig(), GameModel())
-       loop_events = GameLoopEvents(screen.config, screen)
+       loop_events = GameLoopEvents(screen)
        evh1 = EventHandlerMock()
        evh2 = EventHandlerMock()
        loop_events.add_event_handler(self.btn_down_event, evh1.handle_event)

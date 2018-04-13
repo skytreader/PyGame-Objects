@@ -15,9 +15,8 @@ the classes used to implement an MVC pattern.
 Usage
   (1) Set the configuration of your game by creating a GameConfig
       instance.
-  (2) Create a GameScreen instance.
-  (3) Create a GameLoopEvents object by passing your GameConfig
-      instance and GameScreen instance.
+  (2) Create a GameScreen instance using the GameConfig created in (1).
+  (3) Create a GameLoopEvents object by passing your GameScreen instance.
   (4) Create a GameLoop object by passing your GameLoopEvents object.
       Call go() .
   (5) Have fun!
@@ -355,18 +354,16 @@ class GameLoopEvents(Subscriber):
             if handler:
                 handler(event)
     
-    def __init__(self, config, game_screen):
+    def __init__(self, game_screen):
         """
         Initializes a GameLoopEvents object. It is important that subclasses
         still initialize GameLoopEvents superclass for the properties config
         and game_screen.
-        
-        @param config
-          A GameConfig instance.
+
         @param game_screen
           A GameScreen instance.
         """
-        self.__config = config
+        self.__config = game_screen.config
         self.__game_screen = game_screen
 
         self.debug_queue = DebugQueue(game_screen)
