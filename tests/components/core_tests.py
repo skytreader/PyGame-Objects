@@ -27,7 +27,7 @@ class ConfigSubscriberMock(Subscriber):
 
 class LoopEventsMock(GameLoopEvents):
     
-    def __init__(self, config, screen):
+    def __init__(self, screen):
         super(LoopEventsMock, self).__init__(screen)
         self.times_called = 0
     
@@ -224,7 +224,7 @@ class DryRunTest(unittest.TestCase):
         config = GameConfig()
         model = GameModel()
         screen = GameScreen(config, model)
-        loop_events = LoopEventsMock(config, screen)
+        loop_events = LoopEventsMock(screen)
         loop = GameLoop(loop_events)
         loop.go()
 
