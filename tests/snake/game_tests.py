@@ -21,7 +21,7 @@ class GameTests(unittest.TestCase):
         config.set_config_val("log_to_terminal", True)
         config.set_config_val("difficulty", 1)
         screen = SnakeScreen(config, (10, 10))
-        loop_events = SnakeGameEvents(config, screen)
+        loop_events = SnakeGameEvents(screen)
         loop = GameLoop(loop_events, is_test=True)
         loop.go()
 

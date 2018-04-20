@@ -87,7 +87,7 @@ class PVZMainScreen(GameScreen):
 class PVZEvents(GameLoopEvents):
     
     def __init__(self, config, game_screen):
-        super(PVZEvents, self).__init__(config, game_screen)
+        super(PVZEvents, self).__init__(game_screen)
         self.__meteormon = None
         self.key_controls = GameLoopEvents.KeyControls()
         self.key_controls.register_key(

@@ -58,8 +58,8 @@ class SnakeScreen(GameScreen):
 
 class SnakeGameEvents(GameLoopEvents):
     
-    def __init__(self, screen, config):
-        super(SnakeGameEvents, self).__init__(screen, config)
+    def __init__(self, screen):
+        super(SnakeGameEvents, self).__init__(screen)
         self.key_controls = GameLoopEvents.KeyControls()
         self.key_controls.register_key(
             pygame.K_UP,
@@ -115,6 +115,6 @@ if __name__ == "__main__":
     config.set_config_val("difficulty", 1)
 
     screen = SnakeScreen(config, (10, 10))
-    loop_events = SnakeGameEvents(config, screen)
+    loop_events = SnakeGameEvents(screen)
     loop = GameLoop(loop_events)
     loop.go()

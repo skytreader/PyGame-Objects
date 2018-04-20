@@ -21,7 +21,7 @@ class ColorBlocksScreen(GameScreen):
     
     COLOR_MAPPING = (Colors.LUCID_DARK, Colors.HUMAN_RED, Colors.HUMAN_GREEN,
       Colors.HUMAN_BLUE, Colors.LIGHT_GRAY)
-    GRID_OFFSET = (0, 100)
+    GRID_OFFSET = (100, 0)
     
     def __init__(self, config, grid_size):
         """
@@ -40,8 +40,8 @@ class ColorBlocksScreen(GameScreen):
         screen_size = config.get_config_val("window_size")
         self.game_model = self.model
         # Instantiate an underlying grid model
-        self.block_width = int(math.floor((screen_size[0] - ColorBlocksScreen.GRID_OFFSET[0]) / grid_size[0]))
-        self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[1]))
+        self.block_width = int(math.floor((screen_size[0] - ColorBlocksScreen.GRID_OFFSET[1]) / grid_size[0]))
+        self.block_height = int(math.floor((screen_size[1] - ColorBlocksScreen.GRID_OFFSET[0]) / grid_size[1]))
         self.grid_model = QuadraticGrid(
             grid_size[0], grid_size[1],
             draw_offset=ColorBlocksScreen.GRID_OFFSET,
@@ -73,15 +73,16 @@ class ColorBlocksScreen(GameScreen):
 
 class ColorBlocksEvents(GameLoopEvents):
     
-    def __init__(self, screen, config):
-        super(ColorBlocksEvents, self).__init__(screen, config)
+    def __init__(self, screen):
+        super(ColorBlocksEvents, self).__init__(screen)
         self.key_control = GameLoopEvents.KeyControls()
         self.key_control.register_key(pygame.K_F2, self.__trigger_new_game)
     
     def __mouse_click(self, event):
         pos = pygame.mouse.get_pos()
-        row_index = int(math.floor((pos[1] - ColorBlocksScreen.GRID_OFFSET[1]) / self.game_screen.block_height))
-        col_index = int(math.floor(pos[0] / self.game_screen.block_width))
+        row_index, col_index = self.game_screen.grid_model.get_clicked_cell(
+            self.game_screen, pos
+        )
         self.game_screen.game_model.score += self.game_screen.game_model.toggle(row_index, col_index)
         self.game_screen.game_model.falldown()
         self.game_screen.game_model.collapse()
@@ -104,11 +105,11 @@ class ColorBlocksEvents(GameLoopEvents):
 def main():
     config = GameConfig()
     config.set_config_val("clock_rate", 12)
-    config.set_config_val("window_size", [500, 500 + ColorBlocksScreen.GRID_OFFSET[1]])
+    config.set_config_val("window_size", [500, 500 + ColorBlocksScreen.GRID_OFFSET[0]])
     config.set_config_val("window_title", "Color Blocks Game")
     
     screen = ColorBlocksScreen(config, [10, 10])
-    loop_events = ColorBlocksEvents(config, screen)
+    loop_events = ColorBlocksEvents(screen)
     return loop_events
 
 if __name__ == "__main__":
