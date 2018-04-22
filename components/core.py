@@ -57,6 +57,20 @@ class Colors(object):
     YELLOW = (255, int("dc", 16), 0)
     GOLD = (230, 220, 50)
 
+    @staticmethod
+    def is_dark(color):
+        """
+        From:
+            https://stackoverflow.com/a/24261119/777225
+            https://en.wikipedia.org/wiki/Luma_%28video%29
+        """
+        darkness = 1 - (
+            0.2989 * color[0] +
+            0.5870 * color[1] +
+            0.1140 * color[2]
+        )
+        return darkness >= 0.5
+
 class GameConfig(Publisher):
     """
     Object to hold config values for games. Other components can subscribe to
