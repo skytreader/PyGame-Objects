@@ -17,6 +17,15 @@ class SampleGameScreenUI(GameScreen):
         self.ui_elements.add(self.btn)
 
 class ButtonTests(unittest.TestCase):
+    
+    def test_font_label_autocolor(self):
+        dark_button = Button("test", Colors.LUCID_DARK, (0, 0))
+        self.assertTrue(Colors.is_dark(dark_button.color))
+        self.assertFalse(Colors.is_dark(dark_button.font_color))
+
+        light_button = Button("test", Colors.LIGHT_GRAY, (0, 0))
+        self.assertFalse(Colors.is_dark(light_button.color))
+        self.assertTrue(Colors.is_dark(light_button.font_color))
 
     @patch("components.common_ui.pygame.draw.rect", autospec=True)
     def test_draw(self, draw_rect):
