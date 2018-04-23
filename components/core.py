@@ -68,7 +68,7 @@ class Colors(object):
             0.2989 * color[0] +
             0.5870 * color[1] +
             0.1140 * color[2]
-        )
+        ) / 255
         return darkness >= 0.5
 
 class GameConfig(Publisher):
