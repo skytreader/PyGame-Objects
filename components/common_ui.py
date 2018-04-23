@@ -57,7 +57,7 @@ class Button(CommonUI):
     VPADDING = 18
     HPADDING = 18
 
-    def __init__(self, label, color, position, label_font=None):
+    def __init__(self, label, color, position):
         """
         Draws a rectangular button.
 
