@@ -65,6 +65,7 @@ class Button(CommonUI):
         """
         self.label = label
         self.color = color
+        self.font_color = Colors.MAX_WHITE if Colors.is_dark(color) else Colors.MAX_BLACK
         self.position = position
         # TODO Handle labels that are too long.
         if pygame.font.get_init():
@@ -83,7 +84,7 @@ class Button(CommonUI):
     def draw(self, window, screen, **kwargs):
         pygame.draw.rect(window, self.color, (self.position[1], self.position[0], self.max_size[0], self.max_size[1]))
         if pygame.font.get_init():
-            button_label = Button.DEFAULT_FONT.render(self.label, True, Colors.MAX_BLACK)
+            button_label = Button.DEFAULT_FONT.render(self.label, True, self.font_color)
             window.blit(button_label, (self.position[1] + int(Button.HPADDING / 2), self.position[0] + int(Button.VPADDING / 2)))
         else:
             print("pygame.font not initialized for Button draw.", file=sys.stderr)
