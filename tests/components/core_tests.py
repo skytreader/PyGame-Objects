@@ -1,4 +1,4 @@
-from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
+from components.core import Colors, DebugQueue, GameConfig, GameModel, GameScreen, GameLoop, GameLoopEvents
 from components.drawable import Drawable
 from components.subscriber_pattern import Subscriber
 from mock import patch
@@ -62,6 +62,19 @@ class EventHandlerMock(object):
         self.is_called = True
 
 # Actual tests start below.
+
+class ColorsTests(unittest.TestCase):
+
+    def test_is_dark(self):
+        self.assertTrue(Colors.is_dark(Colors.MAX_BLACK))
+        self.assertFalse(Colors.is_dark(Colors.MAX_WHITE))
+        self.assertFalse(Colors.is_dark(Colors.MAX_RED))
+        self.assertFalse(Colors.is_dark(Colors.MAX_GREEN))
+        self.assertFalse(Colors.is_dark(Colors.MAX_BLUE))
+        self.assertFalse(Colors.is_dark(Colors.LIGHT_GRAY))
+        self.assertFalse(Colors.is_dark((3, 0, 0)))
+        self.assertTrue(Colors.is_dark(Colors.LUCID_DARK))
+        self.assertFalse(Colors.is_dark((0, 3, 0)))
 
 class GameConfigTest(unittest.TestCase):
     
