@@ -307,8 +307,8 @@ yay, END"""
 
     def test_happy_construction_startless(self):
         sections = {}
-        sections["hello"] = self.hello
         sections["yay"] = self.yay
+        sections["hello"] = self.hello
         dialog = BranchingDialog(sections, self.startless)
 
         self.assertEqual(self.simple_startless, str(dialog))
