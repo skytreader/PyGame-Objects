@@ -1,4 +1,4 @@
-from subscriber_pattern import Subscriber as Observer
+from .subscriber_pattern import Subscriber as Observer
 
 import pygame
 

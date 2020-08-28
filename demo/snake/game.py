@@ -2,7 +2,7 @@ from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameSc
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 from components.helpers.scheduler import Scheduler
-from model import SnakeGameModel
+from .model import SnakeGameModel
 
 import logging
 import math

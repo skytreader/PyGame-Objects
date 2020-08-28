@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 from components.core import GameLoopEvents, GameScreen
 from components.drawable import Drawable

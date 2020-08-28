@@ -119,7 +119,7 @@ class SnakeModelTests(unittest.TestCase):
         for c in range(4, 7):
             expected_squares.add((6, c))
 
-        self.assertEquals(expected_squares, snake.enumerate_snake_squares())
+        self.assertEqual(expected_squares, snake.enumerate_snake_squares())
 
     def test_grow(self):
         original_squares = self.gm.snake.enumerate_snake_squares()

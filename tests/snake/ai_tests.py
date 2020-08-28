@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 from components.helpers.grid import QuadraticGrid
 from demo.snake.model import Snake
@@ -13,17 +13,17 @@ class WindowedCountTests(unittest.TestCase):
         self.windowed_count = WindowedCount()
 
     def test_incr(self):
-        self.assertEquals(self.windowed_count.record_size, 0)
+        self.assertEqual(self.windowed_count.record_size, 0)
         self.windowed_count.incr("spam")
-        self.assertEquals(self.windowed_count.record_size, 1)
+        self.assertEqual(self.windowed_count.record_size, 1)
 
         for _ in range(self.windowed_count.window_size * 2):
             self.windowed_count.incr("spam")
 
-        self.assertEquals(self.windowed_count.window_size, self.windowed_count.record_size)
+        self.assertEqual(self.windowed_count.window_size, self.windowed_count.record_size)
 
     def test_incr_different_keys(self):
-        self.assertEquals(self.windowed_count.record_size, 0)
+        self.assertEqual(self.windowed_count.record_size, 0)
         
         half = int(self.windowed_count.window_size / 2)
 
@@ -31,11 +31,11 @@ class WindowedCountTests(unittest.TestCase):
             self.windowed_count.incr("spam")
             self.windowed_count.incr("eggs")
 
-        self.assertEquals(half * 2, self.windowed_count.record_size)
+        self.assertEqual(half * 2, self.windowed_count.record_size)
         self.windowed_count.incr("spam&eggs")
-        self.assertEquals(half - 1, self.windowed_count.counts["spam"])
-        self.assertEquals(half, self.windowed_count.counts["eggs"])
-        self.assertEquals(1, self.windowed_count.counts["spam&eggs"])
+        self.assertEqual(half - 1, self.windowed_count.counts["spam"])
+        self.assertEqual(half, self.windowed_count.counts["eggs"])
+        self.assertEqual(1, self.windowed_count.counts["spam&eggs"])
 
 class SimpleRankSpawnManagerTests(unittest.TestCase):
     

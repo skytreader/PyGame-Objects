@@ -83,7 +83,7 @@ class ColorBlocksModel(GameModel):
         self.__self_setup(len(self.grid[0]), len(self.grid), self.min_score)
 
     def render(self, **kwargs):
-        from color_blocks_game import ColorBlocksScreen
+        from .color_blocks_game import ColorBlocksScreen
         i = kwargs.get("row")
         j = kwargs.get("col")
 

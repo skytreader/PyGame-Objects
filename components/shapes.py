@@ -1,8 +1,8 @@
-from __future__ import division
 
-from core import Colors
-from drawable import Drawable
-from collidable import Collidable
+
+from .core import Colors
+from .drawable import Drawable
+from .collidable import Collidable
 
 import math
 import pygame
@@ -75,8 +75,8 @@ class PointShape(Drawable):
         Call this after everytime __point_list is set (through constructor,
         point_list setter, etc.) or modified (through add_point, etc.)
         """
-        x_list = map(lambda point: point.x, self.point_list)
-        y_list = map(lambda point: point.y, self.point_list)
+        x_list = [point.x for point in self.point_list]
+        y_list = [point.y for point in self.point_list]
         
         min_x = min(x_list)
         min_y = min(y_list)
@@ -97,8 +97,8 @@ class PointShape(Drawable):
         Translates this PointShape by dx pixels on the x axis and by
         dy pixels on the y axis irres
         """
-        incr_xs = map(lambda p: Point(p.x + dx, p.y), self.point_list)
-        incr_ys = map(lambda p: Point(p.x, p.y + dy), incr_xs)
+        incr_xs = [Point(p.x + dx, p.y) for p in self.point_list]
+        incr_ys = [Point(p.x, p.y + dy) for p in incr_xs]
         self.point_list = incr_ys
     
     @property
@@ -174,9 +174,9 @@ class PointShape(Drawable):
         height_scale = new_height / old_height
         
         # Scale the x
-        self.point_list = map(lambda point: self.__x_set(point, point.x * width_scale), self.point_list)
+        self.point_list = [self.__x_set(point, point.x * width_scale) for point in self.point_list]
         # Scale the y
-        self.point_list = map(lambda point: self.__y_set(point, point.y * height_scale), self.point_list)
+        self.point_list = [self.__y_set(point, point.y * height_scale) for point in self.point_list]
 
     def invariant_scale(self, scale_factor):
         """

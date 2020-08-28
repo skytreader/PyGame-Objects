@@ -1,5 +1,5 @@
 #! usr/bin/env python
-from __future__ import division
+
 
 from components.core import Colors, GameScreen
 from components.drawable import Drawable
@@ -173,7 +173,7 @@ class QuadraticGrid(Grid):
             vborders_limit = len(self.grid[0]) + 1
             vgrid_pos_limit = (block_height * len(self.grid[0])) + self.draw_offset[0]
 
-            for vborders_offset in xrange(vborders_limit):
+            for vborders_offset in range(vborders_limit):
                 v_offset = block_width * vborders_offset + self.draw_offset[1]
                 pygame.draw.line(
                     window, self.border_properties.color,
@@ -184,7 +184,7 @@ class QuadraticGrid(Grid):
             hborders_limit = len(self.grid) + 1
             hgrid_pos_limit = (block_width * len(self.grid)) + self.draw_offset[1]
 
-            for hborders_offset in xrange(hborders_limit):
+            for hborders_offset in range(hborders_limit):
                 h_offset = block_height * hborders_offset + self.draw_offset[0]
                 pygame.draw.line(
                     window, self.border_properties.color,

@@ -83,7 +83,7 @@ class SimpleRankSpawnManager(SpawnManager):
         ranker = []
         snake_squares = snake.enumerate_snake_squares()
 
-        for k in self.global_counts.keys():
+        for k in list(self.global_counts.keys()):
             heapq.heappush(ranker, (self.global_counts[k], k))
 
         if len(ranker) < 2:

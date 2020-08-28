@@ -59,6 +59,12 @@ class PVZSprite(PyRoSprite):
         else:
             self.__hp = new_hp
 
+    def __hash__(self):
+        return id(self)
+
+    def __eq__(self, other):
+        return other is self
+
 class Zombie(PVZSprite):
     """
     A zombie is a sprite that moves from the right side of the

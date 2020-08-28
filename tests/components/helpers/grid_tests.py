@@ -10,23 +10,23 @@ class QuadraticGridTests(unittest.TestCase):
     
     def test_movements(self):
         left_vector = {"tail": (0, 1), "head": (0, 0)}
-        self.assertEquals(QuadraticGrid.Movements.compute_direction(**left_vector),
+        self.assertEqual(QuadraticGrid.Movements.compute_direction(**left_vector),
           QuadraticGrid.Movements.LEFT)
 
         right_vector = {"tail": (0, 0), "head": (0, 1)}
-        self.assertEquals(QuadraticGrid.Movements.compute_direction(**right_vector),
+        self.assertEqual(QuadraticGrid.Movements.compute_direction(**right_vector),
           QuadraticGrid.Movements.RIGHT)
 
         stay_vector = {"tail": (0, 0), "head": (0, 0)}
-        self.assertEquals(QuadraticGrid.Movements.compute_direction(**stay_vector),
+        self.assertEqual(QuadraticGrid.Movements.compute_direction(**stay_vector),
           QuadraticGrid.Movements.STAY)
 
         up_vector = {"tail": (1, 0), "head": (0, 0)}
-        self.assertEquals(QuadraticGrid.Movements.compute_direction(**up_vector),
+        self.assertEqual(QuadraticGrid.Movements.compute_direction(**up_vector),
           QuadraticGrid.Movements.UP)
 
         down_vector = {"tail": (0, 0), "head": (1, 0)}
-        self.assertEquals(QuadraticGrid.Movements.compute_direction(**down_vector),
+        self.assertEqual(QuadraticGrid.Movements.compute_direction(**down_vector),
           QuadraticGrid.Movements.DOWN)
 
         self.assertRaises(VectorDirectionException,
