@@ -2,7 +2,7 @@ from components.core import DebugQueue, GameConfig, GameModel, GameScreen, GameL
 from components.drawable import Drawable
 from components.subscriber_pattern import Subscriber
 from mock import patch
-from StringIO import StringIO
+from io import StringIO
 from tests import make_mock_clock
 
 import json
@@ -100,7 +100,7 @@ class GameConfigTest(unittest.TestCase):
 
         json_confs = json.loads(expected_json_newbies)
         
-        for key in json_confs.keys():
+        for key in list(json_confs.keys()):
             self.assertEqual(self.titled_config.get_config_val(key), json_confs[key])
     
     def test_load_from_file_unwanted(self):
@@ -116,7 +116,7 @@ class GameConfigTest(unittest.TestCase):
             self.titled_config.load_from_file(StringIO(unwanted_json))
 
         postload_title = self.titled_config.get_config_val("window_title")
-        self.assertEquals(preload_title, postload_title)
+        self.assertEqual(preload_title, postload_title)
     
     def test_load_from_file_replacing(self):
         replacing_json = '{"window_title": "Your Royal Highness"}'

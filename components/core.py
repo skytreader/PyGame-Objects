@@ -1,8 +1,8 @@
-from __future__ import division
 
-from config import JsonConfigParser
-from subscriber_pattern import Publisher
-from subscriber_pattern import Subscriber
+
+from .config import JsonConfigParser
+from .subscriber_pattern import Publisher
+from .subscriber_pattern import Subscriber
 
 import logging
 import math
@@ -106,7 +106,7 @@ class GameConfig(Publisher):
         """
         json_parser = JsonConfigParser()
         json_parser.parse_config(f)
-        for config in json_parser.config_vals.keys():
+        for config in list(json_parser.config_vals.keys()):
             self.set_config_val(config, json_parser.config_vals[config])
 
 class GameLoop(object):
@@ -144,7 +144,7 @@ class GameLoop(object):
               color set-up and caption set-up
         """
         try:
-            print "pygame init"
+            print("pygame init")
             pygame.init()
             pygame.font.init()
             clock = pygame.time.Clock()
@@ -430,7 +430,7 @@ class GameLoopEvents(Subscriber):
         GameLoopEvents.loop_setup.
         """
         for common_ui in self.game_screen.ui_elements:
-            for ev_code, ev_handler in common_ui._event_handlers.iteritems():
+            for ev_code, ev_handler in common_ui._event_handlers.items():
                 self.add_event_handler(pygame.event.Event(ev_code), ev_handler)
     
     def loop_invariant(self):

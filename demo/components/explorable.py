@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 from components.core import GameConfig, GameModel, GameScreen, GameLoopEvents, GameLoop
 from components.image import Image

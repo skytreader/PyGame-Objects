@@ -1,8 +1,8 @@
-from __future__ import division
-from __future__ import print_function
+
+
 
 from components.core import Colors
-from drawable import Drawable
+from .drawable import Drawable
 
 import pygame
 import sys

@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 from components.shapes import PointShape
 from components.shapes import Point
@@ -94,7 +94,7 @@ class PointShapeTests(unittest.TestCase):
 
     def test_translate_pointlist(self):
         four_points = PointShape(draw_offset=(1, 2))
-        print self.__four_points.point_list
+        print(self.__four_points.point_list)
         four_points.add_points(self.__four_points.point_list)
         translated = four_points.translate_point_list()
 

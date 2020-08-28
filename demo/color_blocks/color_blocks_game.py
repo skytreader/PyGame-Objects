@@ -1,5 +1,5 @@
 #! usr/bin/env python
-from __future__ import division
+
 
 from components.core import Colors
 from components.core import GameConfig
@@ -11,7 +11,7 @@ from components.shapes import PointShape
 
 from components.helpers.grid import BorderProperties, QuadraticGrid
 
-from color_blocks_model import ColorBlocksModel
+from .color_blocks_model import ColorBlocksModel
 
 import math
 import pygame

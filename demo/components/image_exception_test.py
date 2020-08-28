@@ -25,8 +25,8 @@ pygame.display.set_mode([500, 500])
 nonexistent = Image(os.path.join("sample_sprites", "lalamon_clueless.png"));
 
 # Set-up blocking code...
-foo = raw_input("Press enter when you have moved lalamon_clueless.png");
+foo = input("Press enter when you have moved lalamon_clueless.png");
 
 nonexistent.flip(True, False)
 
-print "If you got here, deleting the resource does nothing."
+print("If you got here, deleting the resource does nothing.")

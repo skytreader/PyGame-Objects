@@ -1,10 +1,10 @@
-from __future__ import division
+
 
 from components.core import GameModel
 from components.framework_exceptions import VectorDirectionException
 from components.helpers.grid import QuadraticGrid
 
-import ai
+from . import ai
 import random
 
 class Snake(object):
