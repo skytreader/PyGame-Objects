@@ -308,12 +308,15 @@ class DebugQueue(Subscriber):
         if self.game_screen.config.get_config_val("log_to_terminal"):
             logging.basicConfig(format=DebugQueue.LOG_FORMAT)
 
-        file_handler = logging.FileHandler("pygame-objects.log")
-        file_handler.setFormatter(log_formatter)
-
         self.logger = logging.getLogger("pygame-objects-%s" % self.game_screen.config.get_config_val("window_title"))
         self.logger.setLevel(logging.DEBUG)
-        self.logger.addHandler(file_handler)
+
+        try:
+            file_handler = logging.FileHandler("pygame-objects.log")
+            file_handler.setFormatter(log_formatter)
+            self.logger.addHandler(file_handler)
+        except IOError:
+            self.logger.warn("Can't open a file handler. Logs won't be written to file.")
 
     def log(self, log, level=logging.INFO):
         if self.game_screen.config.get_config_val("debug_mode"):
