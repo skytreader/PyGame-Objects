@@ -292,15 +292,15 @@ yay, END"""
         with self.assertRaises(MalformedDialogException):
             spam_start = DialogSection(prompt="abc", reply="def", cont="END")
             sections = {}
-            sections["hello"] = self.hello
             sections["yay"] = self.yay
+            sections["hello"] = self.hello
             sections["START"] = spam_start
             BranchingDialog(sections, self.start)
     
     def test_happy_construction(self):
         sections = {}
-        sections["hello"] = self.hello
         sections["yay"] = self.yay
+        sections["hello"] = self.hello
         dialog = BranchingDialog(sections, self.start)
 
         self.assertEqual(self.simple_dialog, str(dialog))
@@ -315,8 +315,8 @@ yay, END"""
 
     def test_eq(self):
         sections = {}
-        sections["hello"] = self.hello
         sections["yay"] = self.yay
+        sections["hello"] = self.hello
         dialog = BranchingDialog(sections, self.start)
         self.assertEqual(dialog, dialog)
 
