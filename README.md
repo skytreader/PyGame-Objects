@@ -11,10 +11,8 @@ The most awesome framework for PyGame you will ever encounter!
 **But** it's not there yet. Right now, it's just a simple abstraction for some
 commmon code patterns I find while using PyGame.
 
-**Built on:** see `.travis.yml` as well as `requirements.txt`. Wonder why, after
-all these years, PyGame is still not reachable via `pip`.
-
-Yep. I'm using Python 2.x because I can't get Python 3 to work with PyGame in Ubuntu.
+**Built on:** see `.travis.yml` as well as `requirements.txt`. Needs Python 3.7+
+as this relies on language features only available from there.
 
 # Development
 Aside from `.travis.yml`, the Dockerfile is provided for development. You can
