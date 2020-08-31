@@ -1,8 +1,8 @@
-FROM ubuntu:16.04
+FROM python:3.7-stretch
 LABEL maintainer "chadestioco@gmail.com"
 
-RUN apt-get update --fix-missing
-RUN apt-get install -y python-pygame python-pip
+RUN apt-get update && \
+    pip install pygame
 
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt

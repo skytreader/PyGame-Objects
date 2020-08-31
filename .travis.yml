@@ -5,7 +5,7 @@ sudo: required
 dist: xenial
 before_install:
     - sudo apt-get install -y xvfb
-    - sudo apt-get install -y mercurial libfreetype6-dev
+    - sudo apt-get install -y libfreetype6-dev
     - sudo apt-get build-dep -y python-pygame
     - pip install pygame
 install: 
