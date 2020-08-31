@@ -138,7 +138,7 @@ class color_blocks_model_tests(unittest.TestCase):
     
     def test_falldown(self):
         limit = len(self.color_game.grid)
-        rlimit = range(limit)
+        rlimit = list(range(limit))
         test_board = [list(self.color_game.grid[i]) for i in rlimit]
         
         untake_list = [6, 7, 8]
@@ -147,7 +147,7 @@ class color_blocks_model_tests(unittest.TestCase):
         self.__col_untake(untake_col, untake_list)
         self.color_game.falldown()
         
-        trans_block = range(6)
+        trans_block = list(range(6))
         trans_block.reverse()
         
         for block in trans_block:

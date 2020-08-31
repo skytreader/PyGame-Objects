@@ -1,7 +1,7 @@
-from core import Colors
+from .core import Colors
 
-from shapes import Point
-from shapes import PointShape
+from .shapes import Point
+from .shapes import PointShape
 
 """
 This module contains some common shapes you may want

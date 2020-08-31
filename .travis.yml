@@ -1,13 +1,13 @@
 language: python
 python:
-    - "2.7"
+    - "3.7"
 sudo: required
-dist: trusty
+dist: xenial
 before_install:
     - sudo apt-get install -y xvfb
-    - sudo apt-get install -y mercurial libfreetype6-dev
+    - sudo apt-get install -y libfreetype6-dev
     - sudo apt-get build-dep -y python-pygame
-    - pip install hg+http://bitbucket.org/pygame/pygame
+    - pip install pygame
 install: 
     - pip install -r requirements.txt
     - pip install -r test-requirements.txt

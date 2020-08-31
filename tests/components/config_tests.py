@@ -1,4 +1,4 @@
-from StringIO import StringIO
+from io import StringIO
 from components.config import ConfigParser, JsonConfigParser
 
 import unittest
@@ -20,6 +20,6 @@ class JsonConfigParserTests(unittest.TestCase):
         self.config_parser = JsonConfigParser()
 
     def test_parse_config(self):
-        self.assertTrue(len(self.config_parser.config_vals.keys()) == 0)
+        self.assertTrue(len(list(self.config_parser.config_vals.keys())) == 0)
         self.config_parser.parse_config(StringIO(self.expected_json_newbies))
-        self.assertTrue(len(self.config_parser.config_vals.keys()) == 3)
+        self.assertTrue(len(list(self.config_parser.config_vals.keys())) == 3)

@@ -4,7 +4,7 @@ from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameMo
 from components.image import Image
 from components.shapes import Point
 
-from sprites import Zombie, Shooter, Bullet
+from .sprites import Zombie, Shooter, Bullet
 
 import os
 

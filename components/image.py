@@ -1,8 +1,8 @@
-from drawable import Drawable
+from .drawable import Drawable
 
-from subscriber_pattern import Publisher as Observable
+from .subscriber_pattern import Publisher as Observable
 
-from shapes import Point
+from .shapes import Point
 
 import pygame
 

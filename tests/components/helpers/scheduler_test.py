@@ -25,10 +25,10 @@ class SchedulerTests(unittest.TestCase):
         for _ in range(SchedulerTests.MOCK_FRAME_RATE):
             self.scheduler.event()
 
-        self.assertEquals(SchedulerTests.MOCK_EVENT_FREQUENCY, self.event.times_called)
+        self.assertEqual(SchedulerTests.MOCK_EVENT_FREQUENCY, self.event.times_called)
 
         for _ in range(SchedulerTests.MOCK_FRAME_RATE):
             self.scheduler.event()
 
-        self.assertEquals(SchedulerTests.MOCK_EVENT_FREQUENCY * 2,
+        self.assertEqual(SchedulerTests.MOCK_EVENT_FREQUENCY * 2,
           self.event.times_called)

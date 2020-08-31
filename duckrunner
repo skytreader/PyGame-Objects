@@ -1,1 +1,1 @@
-docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "$(pwd)":/app -w /app skytreader/pygame-objects sh -c "python -m $1"
+docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "$(pwd)":/app -w /app skytreader/pygame-objects:latest sh -c "python -m $1"

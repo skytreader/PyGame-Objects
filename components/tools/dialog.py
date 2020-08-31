@@ -44,13 +44,13 @@ class BranchingDialog(object):
         if start.reply is not None:
             raise MalformedDialogException("The START section's reply should be None.")
 
-        if sections and ("START" in sections.keys() or "END" in sections.keys()):
+        if sections and ("START" in list(sections.keys()) or "END" in list(sections.keys())):
             raise MalformedDialogException("Special START/END sections must not be specified.")
 
         end_found = "END" in start.cont
 
         if not end_found and sections:
-            for label in sections.keys():
+            for label in list(sections.keys()):
                 if "END" in sections[label].cont:
                     end_found = True
                     break
@@ -69,7 +69,7 @@ class BranchingDialog(object):
         else:
             aggregate.append("[START]\n")
 
-        for section in self.sections.keys():
+        for section in list(self.sections.keys()):
             aggregate.append("[%s]" % section)
             aggregate.append(str(self.sections[section]))
 
