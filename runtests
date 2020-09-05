@@ -11,7 +11,7 @@ $XVFB :99 -ac &
 PID_XVFB="$!"
 export DISPLAY=:99
 
-pytest --cov=components tests
+pytest
 result=$?
 
 kill $PID_XVFB
