@@ -1,4 +1,4 @@
-from mock import MagicMock
+from unittest.mock import MagicMock
 
 def make_mock_clock():
     mock_clock = MagicMock()

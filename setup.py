@@ -12,7 +12,7 @@ def get_font_paths():
 
 setup(
     name="PyGame Objects",
-    version="3.0.1-alpha",
+    version="3.0.2-alpha",
     author="Chad Estioco",
     author_email="chadestioco@gmail.com",
     url="https://github.com/skytreader/PyGame-Objects",

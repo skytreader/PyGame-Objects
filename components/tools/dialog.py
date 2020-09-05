@@ -129,7 +129,7 @@ class BranchingDialogParser(object):
                     eat_empty_lines()
 
                 if BranchingDialogParser.LABEL_LIST.match(lstring[self.__lineno]):
-                    labels = lstring[self.__lineno].split(",\s*")
+                    labels = lstring[self.__lineno].split(r",\s*")
                     labels = re.split(r",\s*", lstring[self.__lineno])
                     self.__lineno += 1
                     return (label, DialogSection(prompt=option_s, reply=reply_s, cont=labels))
