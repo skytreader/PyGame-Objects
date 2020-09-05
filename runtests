@@ -11,7 +11,7 @@ $XVFB :99 -ac &
 PID_XVFB="$!"
 export DISPLAY=:99
 
-coverage run --source=components -m pytest tests/
+coverage run --source=components -m pytest
 result=$?
 
 kill $PID_XVFB
