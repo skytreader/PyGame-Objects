@@ -1,4 +1,5 @@
 from distutils.core import setup
+from components import __version__
 
 import os
 
@@ -12,7 +13,7 @@ def get_font_paths():
 
 setup(
     name="PyGame Objects",
-    version="3.0.1-alpha",
+    version=__version__,
     author="Chad Estioco",
     author_email="chadestioco@gmail.com",
     url="https://github.com/skytreader/PyGame-Objects",
