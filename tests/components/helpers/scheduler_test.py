@@ -1,5 +1,5 @@
 from components.helpers.scheduler import Scheduler
-from mock import MagicMock, Mock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import unittest
 
