@@ -15,8 +15,15 @@ commmon code patterns I find while using PyGame.
 as this relies on language features only available from there.
 
 # Development
-Aside from `.travis.yml`, the Dockerfile is provided for development. You can
-also pull the image via
+
+Aside from `.travis.yml`, the Dockerfile is provided for development. The
+Dockerfile takes an argument `userid` which should be a user id outside the
+container that has access to `/tmp/.X11-unix`. If you are in a graphical desktop
+environment, it would suffice to pass the `$UID` environment variable like so,
+
+    docker build -t pygame-objects --build-arg userid=$UID .
+
+You can also pull the image via
 
     docker run skytreader/pygame-objects:latest
 
