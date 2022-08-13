@@ -1,13 +1,7 @@
-#! usr/bin/env python
+#! usr/bin/env python3
 
-from components.core import Colors
-from components.core import GameConfig
-from components.core import GameLoop
-from components.core import GameLoopEvents
-from components.core import GameScreen
-
-from components.shapes import Point
-from components.shapes import PointShape
+from components.core import Colors, GameConfig, GameLoop, GameLoopEvents, GameModel, GameScreen
+from components.shapes import Point, PointShape
 
 import math
 
@@ -19,8 +13,8 @@ Renders a scene full of fractal trees.
 
 class TreeScreen(GameScreen):
     
-    def __init__(self, screen_size):
-        super(GameScreen, self).__init__(screen_size)
+    def __init__(self, config):
+        super(TreeScreen, self).__init__(config, GameModel())
         self.__line_stack = []
     
     @property
@@ -28,7 +22,7 @@ class TreeScreen(GameScreen):
         return self.__line_stack
     
     def draw_screen(self, window):
-        super(GameScreen, self).draw_screen(window)
+        super(TreeScreen, self).draw_screen(window)
         line_pointshape = self.line_stack.pop()
         line_pointshape.draw(window)
 
@@ -37,9 +31,11 @@ class TreeLoopEvents(GameLoopEvents):
     # The angle at which branches branch off, in radians
     BRANCH_ANGLE = 0.523598776
     
-    def __init__(self, config, screen, initial_length):
-        super(TreeLoopEvents, self).__init__(config, screen)
+    # FIXME I think initial_length should be a config value
+    def __init__(self, screen, initial_length):
+        super(TreeLoopEvents, self).__init__(screen)
         self.__wood_length = initial_length
+        self.configurable_setup()
     
     @property
     def wood_length(self):
@@ -54,15 +50,15 @@ class TreeLoopEvents(GameLoopEvents):
         return len(self.game_screen.line_stack) and parent_invariant
     
     def loop_setup(self):
-        center_x = self.config.window_size[GameConfig.WIDTH_INDEX] / 2
-        bottom_y = self.config.window_size[GameConfig.WIDTH_INDEX]
+        center_x = self.config.get_config_val("window_size")[GameConfig.WIDTH_INDEX] / 2
+        bottom_y = self.config.get_config_val("window_size")[GameConfig.WIDTH_INDEX]
         endpoint_y = bottom_y - self.wood_length
         line_pointshape = PointShape([Point(center_x, bottom_y), Point(center_x, endpoint_y)])
-        self.game_screen.line_stack.push(line_pointshape)
+        self.game_screen.line_stack.append(line_pointshape)
     
     def loop_event(self):
         line_stack_length = len(self.game_screen.line_stack)
-        current_line = self.game_screen.line_stack(line_stack_length - 1)
+        current_line = self.game_screen.line_stack[line_stack_length - 1]
         
         super(TreeLoopEvents, self).loop_event()
         
@@ -78,3 +74,13 @@ class TreeLoopEvents(GameLoopEvents):
         x_branch2 = math.floor(0.66 * y_length)
         
         
+if __name__ == "__main__":
+    config = GameConfig()
+    config.set_config_val("clock_rate", 60)
+    config.set_config_val("window_size", (600, 600))
+    config.set_config_val("window_title", "Trees")
+
+    screen = TreeScreen(config)
+    loop_events = TreeLoopEvents(screen, 300)
+    loop = GameLoop(loop_events)
+    loop.go()

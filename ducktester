@@ -1,3 +1,4 @@
+#!/bin/bash
 if [ "$1" != "" ]; then
     docker run --rm -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v "$(pwd)":/app -w /app skytreader/pygame-objects:experimental sh -c "nosetests $@"
 else
