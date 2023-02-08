@@ -1,8 +1,8 @@
-FROM python:3.7-stretch
+FROM python:3.11-buster
 LABEL maintainer "chadestioco@gmail.com"
 
 RUN apt-get update && \
-    pip install pygame
+    apt-get install -y python3-pygame
 
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
