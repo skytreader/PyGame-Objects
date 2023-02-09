@@ -1,16 +1,14 @@
-FROM python:3.7-stretch
+FROM python:3.11-buster
 LABEL maintainer "chadestioco@gmail.com"
 
-ARG userid=1000
-
 RUN apt-get update && \
-    pip install pygame
+    apt-get install -y python3-pygame
 
 COPY ./requirements.txt /requirements.txt
 RUN pip install -r /requirements.txt
 COPY ./ app/
 RUN cd app/ && python setup.py install
-RUN useradd -m -U -s /bin/bash -u $userid pygame
+RUN useradd -m -U -s /bin/bash pygame
 
 USER pygame
 WORKDIR /home/pygame
